@@ -73,28 +73,50 @@ El trabajo forma parte de un **proyecto subvencionado por la Universidad de Gran
 
 ## 🧾 Estructura del repositorio
 
-UGR-A20M-Voronized/
+UGR-A20M-Voronized/ 
+
 ├── README.md
+
 ├── changelog.md
+
 ├── LICENSE
+
 │
+
 ├── docs/
+
 │ ├── 00_overview.md
+
 │ ├── 01_geetech_base.md
+
 │ ├── 02_voronization_plan.md
+
 │ ├── 03_t250_integration.md
+
 │ └── img/
+
 │
+
 ├── hardware/
+
 │ ├── extrusor-direct-drive/
+
 │ ├── voronization/
+
 │ └── t250-build/
+
 │
+
 ├── firmware/
+
 │ ├── marlin/
+
 │ └── klipper/
+
 │
+
 └── photos/
+
 
 
 ---
