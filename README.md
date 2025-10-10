@@ -131,7 +131,9 @@ Consulta el archivo [`LICENSE`](LICENSE) para más detalles.
 ## 🧩 Contacto
 
 📧 **Autor:** alvarogj1@correo.ugr.es
+
 🌐 **Repositorio:** https://github.com/AlvGJ-UGR/UGR-A20M
+
 🏛️ **Universidad de Granada – 2025**
 
 ---
