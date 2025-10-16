@@ -1,0 +1,28 @@
+StealthBurner + Clockwork2 + BLtouch + motor LDO-36STH17-1004AHG
+
+STL Stealthburner Ender3 + BL touch
+https://www.printables.com/model/257275-stealhburner-adapter-for-ender-33-pro-with-hidden-
+
+Piezas del extrusor
+https://es.aliexpress.com/item/1005003423850142.html?aff_fcid=9767705ff5bc419183e076a672faa124-1760548692292-02045-_Ddc2RIF&tt=CPS_NORMAL&aff_fsk=_Ddc2RIF&aff_platform=shareComponent-detail&sk=_Ddc2RIF&aff_trace_key=9767705ff5bc419183e076a672faa124-1760548692292-02045-_Ddc2RIF&terminal_id=4d1d8a2ba9fe41dab0ba2525358b6966&afSmartRedirect=y
+
+Adaptador para Hotend Bambu 
+https://www.printables.com/model/323196-voron-stealthburner-for-bambu-lab-x1cx1-hotend/comments
+
+Adaptador hotend volcano chc
+https://www.printables.com/model/561529-voron-stealthburner-v6volcano-toolhead-extension-m
+
+Motor extrusor:
+https://s.click.aliexpress.com/e/_opaPESA
+
+Video Toolhead stealthburner + clockwork en ender3
+https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DMwIYEMtPrfE&psig=AOvVaw3OmopX6zktOmP6XX_wAN3x&ust=1760690898003000&source=images&cd=vfe&opi=89978449&ved=0CBgQjhxqFwoTCKDkp-6qqJADFQAAAAAdAAAAABAK
+
+Placa SKR Mini V3.0
+https://es.aliexpress.com/item/1005007912548824.html?src=google&snps=y&src=google&albch=search&acnt=101-653-3842&isdl=y&aff_short_key=_oDc8nzq&albcp=22938726680&albag=186976644840&slnk=281285019123&trgt=dsa-2432585610695&plac=&crea=771202111171&albad=771202111171&netw=g&device=c&mtctp=&memo1=&albbt=Google_7_search&aff_platform=google&albagn=888888&isSmbActive=false&isSmbAutoCall=false&needSmbHouyi=false&gad_source=1&gad_campaignid=22938726680&gclid=CjwKCAjwr8LHBhBKEiwAy47uUhC6cUS3Y6At0tmRXIHsgb4-aLKjPpUKHem7WxoGU_LX_-gmIU4jrRoCyq4QAvD_BwE
+
+Orange Pi Zero 3 1GB (Klipper)
+https://es.aliexpress.com/item/1005006047845950.html?aff_fcid=c2a033ffac784470b62642ac1c0fe24d-1760610987463-03172-_DmLyc7p&tt=CPS_NORMAL&aff_fsk=_DmLyc7p&aff_platform=shareComponent-detail&sk=_DmLyc7p&aff_trace_key=c2a033ffac784470b62642ac1c0fe24d-1760610987463-03172-_DmLyc7p&terminal_id=4d1d8a2ba9fe41dab0ba2525358b6966&afSmartRedirect=y
+
+Tarjeta microsd Sandisk (min 16gb)
+https://www.amazon.es/SanDisk-Tarjeta-microSDXC-Adaptador-Rendimiento/dp/B0B7NXBM6P/ref=pd_sim_d_sccl_3_9/258-6681698-1762057?pd_rd_w=KiIqG&content-id=amzn1.sym.7d8190a3-4976-4a6e-a163-4b93400f9ccc&pf_rd_p=7d8190a3-4976-4a6e-a163-4b93400f9ccc&pf_rd_r=JRP79G6FWR6RFEMFH4TR&pd_rd_wg=dzfZA&pd_rd_r=c4f17fc3-d2c4-438a-8822-24ec80f2ee54&pd_rd_i=B0B7NXBM6P&th=1
