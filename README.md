@@ -7,7 +7,7 @@
 
 ## 🧩 Descripción general
 
-Este proyecto tiene como objetivo **modernizar y documentar en detalle** el proceso de mejora de una impresora 3D **Geeetech A20M**, mediante la incorporación de nuevas tecnologías y el rediseño progresivo hacia un sistema **inspirado en la filosofia voron y el proyecto T250** de MSzturc.
+Este proyecto tiene como objetivo **modernizar y documentar en detalle** el proceso de mejora de una impresora 3D **Geeetech A20M**, mediante la incorporación de nuevas tecnologías y el rediseño progresivo hacia un sistema **inspirado en la filosofia voron**.
 
 El trabajo forma parte de un **proyecto subvencionado por la Universidad de Granada (UGR)**, con fines educativos, divulgativos y de investigación aplicada en el ámbito de la fabricación digital.
 
@@ -17,7 +17,7 @@ El trabajo forma parte de un **proyecto subvencionado por la Universidad de Gran
 
 - 🔧 Mejorar el rendimiento, fiabilidad y velocidad de la impresora Geeetech A20M.  
 - 🧱 Implementar un **sistema de extrusión directa** de alto caudal (Direct Drive).  
-- ⚙️ Adaptar la estructura a un diseño **tipo Voron/T250**, más rígido y modular.  
+- ⚙️ Adaptar la estructura a un diseño **tipo Voron**, más rígido y modular.  
 - 💡 Documentar con detalle cada fase (hardware, firmware y resultados).  
 - 🧠 Crear una **guía reproducible y educativa** para estudiantes y makers UGR.  
 - 🎨 Personalizar la máquina con estética y elementos visuales de la Universidad de Granada.
@@ -31,7 +31,7 @@ El trabajo forma parte de un **proyecto subvencionado por la Universidad de Gran
 | 0 | Creación del repositorio y documentación base | ✅ |
 | 1 | Sustitución del sistema Bowden por extrusor directo (BMG / Hemera) | 🟡 En progreso |
 | 2 | Adaptación estructural con guías lineales y bastidor reforzado | 🔜 |
-| 3 | Voronización completa basada en diseño T250 | 🔜 |
+| 3 | Voronización completa | 🔜 |
 | 4 | Informe final y publicación en GitHub Pages / PDF UGR | 🔜 |
 
 ---
@@ -52,7 +52,7 @@ El trabajo forma parte de un **proyecto subvencionado por la Universidad de Gran
 ## 🔧 Mejoras planificadas
 
 ### 🧰 Fase 1: Extrusor directo
-- Sustitución del sistema Bowden por **Direct Drive BMG o Hemera XS**.  
+- Sustitución del sistema Bowden por **Voron Clockwork 2**.  
 - Instalación de **hotend Volcano / Revo / Mosquito** para mayor caudal.  
 - Actualización de firmware (`E-steps`, retracciones, PID tuning).  
 - Documentación de rendimiento (flow, stringing, velocidad).
@@ -115,7 +115,6 @@ Cada mejora incluirá:
 **Autor principal:** Alvaro Gonzalez Jimenez
 **Proyecto apoyado por:** Universidad de Granada (UGR)  
 **Inspiración técnica:**  
-- Proyecto [T250](https://github.com/MSzturc/T250) de MSzturc  
 - Comunidad Voron Design  
 - Comunidad maker y grupos de impresión 3D UGR  
 
