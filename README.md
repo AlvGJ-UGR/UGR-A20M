@@ -51,17 +51,17 @@ El trabajo forma parte de un **proyecto subvencionado por la Universidad de Gran
 
 ## 🔧 Mejoras planificadas
 
-### 🧰 Fase 1: Extrusor directo
+### 🧰 Fase 1: Electronica
+- Sustitución de la placa de serie GT2560 de 8 bits por una Placa base **SKR Mini E3 V3**  
+- Instalación de placa Orange Pi zero 3 (1GB) con el fin de instalar klipper  
+- Actualización de firmware (`E-steps`, retracciones, PID tuning).  
+- Documentación de rendimiento (sonido, stringing, velocidad).
+
+### 🧱 Fase 1: Extrusor directo
 - Sustitución del sistema Bowden por **Voron Clockwork 2**.  
 - Instalación de **hotend Volcano / Revo / Mosquito** para mayor caudal.  
 - Actualización de firmware (`E-steps`, retracciones, PID tuning).  
 - Documentación de rendimiento (flow, stringing, velocidad).
-
-### 🧱 Fase 2: Voronización ligera
-- Sustitución de carros por **guías lineales MGN12H**.  
-- Refuerzo del bastidor con perfiles 2020 o 3030.  
-- Gestión de cableado tipo Voron.  
-- Implementación de iluminación LED y estética UGR.
 
 ### ⚡ Fase 3: Conversión completa al sistema T250 (CoreXY)
 - Reutilización de componentes de la A20M.  
@@ -82,13 +82,11 @@ UGR-A20M-Voronized/
 │ ├── 00_overview.md  
 │ ├── 01_geetech_base.md  
 │ ├── 02_voronization_plan.md  
-│ ├── 03_t250_integration.md  
 │ └── img/  
 │
 ├── hardware/  
 │ ├── extrusor-direct-drive/  
-│ ├── voronization/  
-│ └── t250-build/  
+│ ├── voronization/    
 │
 ├── firmware/  
 │ ├── marlin/  
