@@ -1,5 +1,3 @@
-StealthBurner + Clockwork2 + BLtouch + motor LDO-36STH17-1004AHG
-
 STL Stealthburner Ender3 + BL touch
 https://www.printables.com/model/257275-stealhburner-adapter-for-ender-33-pro-with-hidden-
 
@@ -26,3 +24,13 @@ https://es.aliexpress.com/item/1005006047845950.html?aff_fcid=c2a033ffac784470b6
 
 Tarjeta microsd Sandisk (min 16gb)
 https://www.amazon.es/SanDisk-Tarjeta-microSDXC-Adaptador-Rendimiento/dp/B0B7NXBM6P/ref=pd_sim_d_sccl_3_9/258-6681698-1762057?pd_rd_w=KiIqG&content-id=amzn1.sym.7d8190a3-4976-4a6e-a163-4b93400f9ccc&pf_rd_p=7d8190a3-4976-4a6e-a163-4b93400f9ccc&pf_rd_r=JRP79G6FWR6RFEMFH4TR&pd_rd_wg=dzfZA&pd_rd_r=c4f17fc3-d2c4-438a-8822-24ec80f2ee54&pd_rd_i=B0B7NXBM6P&th=1
+
+Mini StealthBurner Sharkfin
+https://github.com/VoronDesign/VoronUsers/tree/main/printer_mods/Maverick/MiniSB_Sharkfin
+
+Sharkfin
+https://github.com/KayosMaker/Sharkfin_Extruder
+
+Mini Stealth (Deberia ser compatible con el extrusor mencionado)
+https://github.com/atrushing/Mini_Stealth?tab=readme-ov-file
+
