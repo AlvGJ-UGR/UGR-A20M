@@ -4,18 +4,6 @@ https://www.printables.com/model/257275-stealhburner-adapter-for-ender-33-pro-wi
 Piezas del extrusor
 https://es.aliexpress.com/item/1005003423850142.html?aff_fcid=9767705ff5bc419183e076a672faa124-1760548692292-02045-_Ddc2RIF&tt=CPS_NORMAL&aff_fsk=_Ddc2RIF&aff_platform=shareComponent-detail&sk=_Ddc2RIF&aff_trace_key=9767705ff5bc419183e076a672faa124-1760548692292-02045-_Ddc2RIF&terminal_id=4d1d8a2ba9fe41dab0ba2525358b6966&afSmartRedirect=y
 
-Adaptador para Hotend Bambu 
-https://www.printables.com/model/323196-voron-stealthburner-for-bambu-lab-x1cx1-hotend/comments
-
-Adaptador hotend volcano chc
-https://www.printables.com/model/561529-voron-stealthburner-v6volcano-toolhead-extension-m
-
-Motor extrusor:
-https://s.click.aliexpress.com/e/_opaPESA
-
-Video Toolhead stealthburner + clockwork en ender3
-https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DMwIYEMtPrfE&psig=AOvVaw3OmopX6zktOmP6XX_wAN3x&ust=1760690898003000&source=images&cd=vfe&opi=89978449&ved=0CBgQjhxqFwoTCKDkp-6qqJADFQAAAAAdAAAAABAK
-
 Placa SKR Mini V3.0
 https://es.aliexpress.com/item/1005007912548824.html?src=google&snps=y&src=google&albch=search&acnt=101-653-3842&isdl=y&aff_short_key=_oDc8nzq&albcp=22938726680&albag=186976644840&slnk=281285019123&trgt=dsa-2432585610695&plac=&crea=771202111171&albad=771202111171&netw=g&device=c&mtctp=&memo1=&albbt=Google_7_search&aff_platform=google&albagn=888888&isSmbActive=false&isSmbAutoCall=false&needSmbHouyi=false&gad_source=1&gad_campaignid=22938726680&gclid=CjwKCAjwr8LHBhBKEiwAy47uUhC6cUS3Y6At0tmRXIHsgb4-aLKjPpUKHem7WxoGU_LX_-gmIU4jrRoCyq4QAvD_BwE
 
@@ -25,12 +13,28 @@ https://es.aliexpress.com/item/1005006047845950.html?aff_fcid=c2a033ffac784470b6
 Tarjeta microsd Sandisk (min 16gb)
 https://www.amazon.es/SanDisk-Tarjeta-microSDXC-Adaptador-Rendimiento/dp/B0B7NXBM6P/ref=pd_sim_d_sccl_3_9/258-6681698-1762057?pd_rd_w=KiIqG&content-id=amzn1.sym.7d8190a3-4976-4a6e-a163-4b93400f9ccc&pf_rd_p=7d8190a3-4976-4a6e-a163-4b93400f9ccc&pf_rd_r=JRP79G6FWR6RFEMFH4TR&pd_rd_wg=dzfZA&pd_rd_r=c4f17fc3-d2c4-438a-8822-24ec80f2ee54&pd_rd_i=B0B7NXBM6P&th=1
 
-Mini StealthBurner Sharkfin
-https://github.com/VoronDesign/VoronUsers/tree/main/printer_mods/Maverick/MiniSB_Sharkfin
-
 Sharkfin
 https://github.com/KayosMaker/Sharkfin_Extruder
 
 Mini Stealth (Deberia ser compatible con el extrusor mencionado)
 https://github.com/atrushing/Mini_Stealth?tab=readme-ov-file
 
+Adpatador de bambulab hotend a u V6
+https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size?srsltid=AfmBOooq1nL_G9-nf1XaAcZ9QD72lAIEvcU64vkf4m-ZY-Z5Y1frN-hl
+
+**EXTRUSOR**
+  - FILAMENTO: ABS-ASA
+  - STL: https://github.com/KayosMaker/Sharkfin_Extruder
+  - MOTOR:https://es.aliexpress.com/item/1005005933469472.html?spm=a2g0o.productlist.main.6.65d17f17rHwGQG&algo_pvid=b06f4d7d-e7ab-43ef-a1a7-5debd71788b9&algo_exp_id=b06f4d7d-e7ab-43ef-a1a7-5debd71788b9-5&pdp_ext_f=%7B%22order%22%3A%2231%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21EUR%211.97%210.99%21%21%212.24%211.12%21%40211b65de17610410986704669eb6eb%2112000048868089972%21sea%21ES%210%21ABX%211%210%21n_tag%3A-29910%3Bd%3A7a0a5d33%3Bm03_new_user%3A-29895%3BpisId%3A5000000187636446&curPageLogUid=Am1OcHyOO4AQ&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A1005005933469472%7C_p_origin_prod%3A
+  - BMG CLON: https://es.aliexpress.com/item/1005003423850142.html?aff_fcid=9767705ff5bc419183e076a672faa124-1760548692292-02045-_Ddc2RIF&tt=CPS_NORMAL&aff_fsk=_Ddc2RIF&aff_platform=shareComponent-detail&sk=_Ddc2RIF&aff_trace_key=9767705ff5bc419183e076a672faa124-1760548692292-02045-_Ddc2RIF&terminal_id=4d1d8a2ba9fe41dab0ba2525358b6966&afSmartRedirect=y
+  - TORNILLERIA:
+      1 - Arandela M5 0.5mm
+      5 - Insertos Termofijados: https://es.aliexpress.com/item/1005008285787978.html?spm=a2g0o.productlist.main.2.e74300K500K5ZE&algo_pvid=230cffbf-644c-45c6-9a92-c8827758e0d5&algo_exp_id=230cffbf-644c-45c6-9a92-c8827758e0d5-1&pdp_ext_f=%7B%22order%22%3A%22240%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21EUR%213.59%210.99%21%21%214.08%211.12%21%40211b80d117610413850177434ebce9%2112000044480441806%21sea%21ES%210%21ABX%211%210%21n_tag%3A-29910%3Bd%3A7a0a5d33%3Bm03_new_user%3A-29895%3BpisId%3A5000000187636446&curPageLogUid=QIxJe3AMsJAy&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A1005008285787978%7C_p_origin_prod%3A
+      1 - M3x25: https://es.aliexpress.com/item/4000026671295.html?spm=a2g0o.productlist.main.2.42507153jSHc3w&algo_pvid=c781e414-fe5e-4956-9a37-7d8f5579e57d&algo_exp_id=c781e414-fe5e-4956-9a37-7d8f5579e57d-1&pdp_ext_f=%7B%22order%22%3A%22374%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21EUR%212.74%210.99%21%21%213.12%211.13%21%4021039a5b17610416793291349ecc84%2110000000060275796%21sea%21ES%210%21ABX%211%210%21n_tag%3A-29910%3Bd%3A7a0a5d33%3Bm03_new_user%3A-29895%3BpisId%3A5000000187636447&curPageLogUid=1zCKQ6K9MWET&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A4000026671295%7C_p_origin_prod%3A
+      2 - M3x16 BHCS: https://es.aliexpress.com/item/4000026671295.html?spm=a2g0o.productlist.main.2.42507153jSHc3w&algo_pvid=c781e414-fe5e-4956-9a37-7d8f5579e57d&algo_exp_id=c781e414-fe5e-4956-9a37-7d8f5579e57d-1&pdp_ext_f=%7B%22order%22%3A%22374%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21EUR%212.74%210.99%21%21%213.12%211.13%21%4021039a5b17610416793291349ecc84%2110000000060275796%21sea%21ES%210%21ABX%211%210%21n_tag%3A-29910%3Bd%3A7a0a5d33%3Bm03_new_user%3A-29895%3BpisId%3A5000000187636447&curPageLogUid=1zCKQ6K9MWET&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A4000026671295%7C_p_origin_prod%3A
+      3 - M3x8 BHCS:https://es.aliexpress.com/item/4000026671295.html?spm=a2g0o.productlist.main.2.42507153jSHc3w&algo_pvid=c781e414-fe5e-4956-9a37-7d8f5579e57d&algo_exp_id=c781e414-fe5e-4956-9a37-7d8f5579e57d-1&pdp_ext_f=%7B%22order%22%3A%22374%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21EUR%212.74%210.99%21%21%213.12%211.13%21%4021039a5b17610416793291349ecc84%2110000000060275796%21sea%21ES%210%21ABX%211%210%21n_tag%3A-29910%3Bd%3A7a0a5d33%3Bm03_new_user%3A-29895%3BpisId%3A5000000187636447&curPageLogUid=1zCKQ6K9MWET&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A4000026671295%7C_p_origin_prod%3A
+      2 - M3x10 BHCS:https://es.aliexpress.com/item/4000026671295.html?spm=a2g0o.productlist.main.2.42507153jSHc3w&algo_pvid=c781e414-fe5e-4956-9a37-7d8f5579e57d&algo_exp_id=c781e414-fe5e-4956-9a37-7d8f5579e57d-1&pdp_ext_f=%7B%22order%22%3A%22374%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21EUR%212.74%210.99%21%21%213.12%211.13%21%4021039a5b17610416793291349ecc84%2110000000060275796%21sea%21ES%210%21ABX%211%210%21n_tag%3A-29910%3Bd%3A7a0a5d33%3Bm03_new_user%3A-29895%3BpisId%3A5000000187636447&curPageLogUid=1zCKQ6K9MWET&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A4000026671295%7C_p_origin_prod%3A
+
+**TOOLHEAD**
+    HOTEND: Bambu Lab P1S
+        ADAPTADOR HOTEND: https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size?srsltid=AfmBOooq1nL_G9-nf1XaAcZ9QD72lAIEvcU64vkf4m-ZY-Z5Y1frN-hl
