@@ -1,4 +1,7 @@
+
+
 # 🧠 Proyecto UGR-A20M
+[![Status: Alpha](https://img.shields.io/badge/Status-Alpha-orange)]
 ### Mejora y documentación de una impresora 3D Geeetech A20M
 
 ![Banner del proyecto](docs/img/banner-ugr-a20m.png)
