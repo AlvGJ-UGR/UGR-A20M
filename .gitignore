@@ -1,0 +1,22 @@
+# Klipper generated files
+firmware/klipper/config/printer.cfg.bak
+*.pyc
+__pycache__/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Slicer exports (no commitear GCode)
+*.gcode
