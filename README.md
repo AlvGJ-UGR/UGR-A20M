@@ -166,7 +166,7 @@ UGR-A20M/
 ### Hardware
 - [Sharkfin Extruder — KayosMaker](https://github.com/KayosMaker/Sharkfin_Extruder)
 - [Mini Stealth v2 — atrushing](https://github.com/atrushing/Mini_Stealth)
-- [Adaptador Bambu hotend → V6 (Cults3D)](https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size)
+
 
 ### Firmware
 - [Klipper — klipper3d.org](https://www.klipper3d.org/)
