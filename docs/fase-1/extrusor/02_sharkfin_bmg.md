@@ -1,127 +1,181 @@
-# 🔩 Fase 1 — Extrusor Directo Sharkfin + BMG Clone
+# 🔩 Fase 1b — Extrusor directo Sharkfin + BMG Clone
 
 ---
 
 ## 🎯 Por qué extrusión directa
 
-La Geeetech A20M usa sistema **Bowden** (motor separado del hotend), lo que provoca:
-- Retracciones largas (5-8 mm) → stringing
-- Latencia en la respuesta del flujo → peor calidad
-- Problemas con filamentos flexibles (TPU)
+La Geeetech A20M usa sistema **Bowden**: el motor del extrusor está separado del hotend por un tubo PTFE de ~40 cm. Esto provoca problemas que la extrusión directa resuelve:
 
-Con extrusión directa, el motor está directamente sobre el hotend:
-- Retracciones cortas (0.5-2 mm)
-- Mayor control del flujo
-- Compatible con flexibles
+| Problema Bowden | Causa | Solución con direct drive |
+|----------------|-------|--------------------------|
+| Stringing excesivo | Retracción larga necesaria (5–8 mm) | Retracción corta (0.5–1.5 mm) |
+| Blob en reanudación | Inercia del filamento en el tubo | Respuesta inmediata del extrusor |
+| Incompatibilidad con flexibles | TPU se dobla en el tubo | Motor directamente sobre el hotend |
+| Calidad de puentes baja | Flujo difícil de controlar | Control preciso con direct drive |
 
 ---
 
-## 🔧 Componentes del extrusor
+## 🔧 Componentes
 
-### Extrusor: Sharkfin (KayosMaker)
+### Extrusor Sharkfin (KayosMaker)
 
-El Sharkfin es un extrusor diseñado específicamente para impresoras Voron y compatibles. Usa engranajes BMG con una relación de reducción de ~3.5:1.
+Diseño open-source pensado para impresoras Voron. Usa engranajes BMG con relación de reducción ~3.5:1, lo que da gran fuerza de agarre con un motor pancake ligero.
 
-- **STL:** [https://github.com/KayosMaker/Sharkfin_Extruder](https://github.com/KayosMaker/Sharkfin_Extruder)
-- **Motor:** NEMA 17 pancake (20 mm de profundidad)
+- **STL:** [github.com/KayosMaker/Sharkfin_Extruder](https://github.com/KayosMaker/Sharkfin_Extruder)
+- **Motor:** NEMA 17 pancake (20 mm de profundidad) — más ligero que un NEMA 17 estándar
 - **Engranajes:** BMG Clone (Bondtech-like)
 
-### Lista de piezas
+### Lista de materiales
 
-| Pieza | Cantidad | Referencia |
-|-------|----------|------------|
-| Cuerpo Sharkfin (impreso) | 1 | ABS/ASA, 40% relleno |
-| Latch Sharkfin (impreso) | 1 | ABS/ASA, 40% relleno |
-| Motor NEMA 17 pancake 20mm | 1 | [AliExpress](https://es.aliexpress.com/item/1005005933469472.html) |
-| Kit BMG Clone | 1 | [AliExpress](https://es.aliexpress.com/item/1005003423850142.html) |
-| Insertos M3 calor | 5 | [AliExpress](https://es.aliexpress.com/item/1005008285787978.html) |
-| Arandela M5 × 0.5mm | 1 | — |
-| M3×25 SHCS | 1 | — |
-| M3×16 BHCS | 2 | — |
-| M3×10 BHCS | 2 | — |
-| M3×8 BHCS | 3 | — |
+| Pieza | Cant. | Enlace | Precio |
+|-------|-------|--------|--------|
+| Cuerpo Sharkfin (impreso en ABS/ASA) | 1 | [GitHub](https://github.com/KayosMaker/Sharkfin_Extruder) | Gratis |
+| Latch Sharkfin (impreso en ABS/ASA) | 1 | [GitHub](https://github.com/KayosMaker/Sharkfin_Extruder) | Gratis |
+| Motor NEMA 17 pancake 20 mm | 1 | [AliExpress](https://es.aliexpress.com/item/1005005933469472.html) | ~5 € |
+| Kit BMG Clone | 1 | [AliExpress](https://es.aliexpress.com/item/1005003423850142.html) | ~5 € |
+| Insertos termofijados M3 ×5 | 5 | [AliExpress](https://es.aliexpress.com/item/1005008285787978.html) | ~1 € |
+| Arandela M5 × 0.5 mm | 1 | — | <1 € |
+| M3×25 SHCS | 1 | [AliExpress](https://es.aliexpress.com/item/4000026671295.html) | — |
+| M3×16 BHCS | 2 | [AliExpress](https://es.aliexpress.com/item/4000026671295.html) | — |
+| M3×10 BHCS | 2 | [AliExpress](https://es.aliexpress.com/item/4000026671295.html) | — |
+| M3×8 BHCS | 3 | [AliExpress](https://es.aliexpress.com/item/4000026671295.html) | — |
 
 ---
 
 ## 🖨️ Impresión de las piezas
 
-### Parámetros recomendados
+Las piezas deben imprimirse en **ABS o ASA** obligatoriamente — la proximidad al hotend durante la impresión hace que el PLA se deforme.
 
-| Parámetro | Valor |
-|-----------|-------|
-| Material | ABS o ASA |
-| Temperatura boquilla | 250°C (ABS) / 255°C (ASA) |
-| Temperatura cama | 100°C (ABS) / 90°C (ASA) |
-| Relleno | 40% cúbico |
-| Perímetros | 4 |
-| Capas sólidas sup/inf | 5 |
-| Velocidad | 50 mm/s |
-| Refrigeración | 0% (ABS) / 30% (ASA) |
-| Soporte | No requerido |
+| Parámetro | ABS | ASA |
+|-----------|-----|-----|
+| Temperatura boquilla | 245–250 °C | 250–255 °C |
+| Temperatura cama | 100–105 °C | 90–100 °C |
+| Recinto cerrado | Recomendado | Recomendado |
+| Relleno | 40% gyroid o cúbico | 40% gyroid o cúbico |
+| Perímetros | 4 | 4 |
+| Capas sólidas sup/inf | 5 | 5 |
+| Velocidad | 40–50 mm/s | 40–50 mm/s |
+| Refrigeración de capa | 0% | 15–20% máx. |
+| Soporte | No necesario | No necesario |
 
-> ⚠️ **El ABS/ASA es necesario** por la proximidad al hotend. PLA se deformaría.
-
----
-
-## 🔨 Montaje
-
-### Paso 1: Insertar insertos de calor
-
-Con un soldador a ~200°C, insertar los 5 insertos M3 en los agujeros correspondientes del cuerpo Sharkfin. Dejar enfriar completamente.
-
-### Paso 2: Montar engranajes BMG
-
-Seguir las instrucciones del kit BMG:
-1. Instalar el engranaje conductor en el eje del motor
-2. Instalar el engranaje conducido en su eje con rodamientos
-
-### Paso 3: Instalar motor NEMA 17
-
-Fijar el motor pancake al cuerpo del Sharkfin con tornillos M3×8.
-
-### Paso 4: Instalar arandela M5
-
-La arandela M5 de 0.5mm sirve como espaciador para el eje del filamento. Imprescindible para alineación correcta.
-
-### Paso 5: Ajustar tensión
-
-El Sharkfin tiene un mecanismo de tensión ajustable. Ajustar hasta que el engranaje agarre el filamento firmemente sin doblarlo.
+> Ver tabla completa de parámetros en [`hardware/prints/README.md`](../../../hardware/prints/README.md).
 
 ---
 
-## ⚙️ Calibración del extrusor (E-steps / rotation_distance)
+## 🔨 Montaje paso a paso
+
+### Paso 1 — Insertar insertos de calor
+
+Calentar el soldador a 200–210 °C. Colocar cada inserto M3 en su agujero correspondiente y presionar suavemente con el soldador hasta que quede a ras. **Dejar enfriar completamente antes de continuar.**
+
+Hay 5 insertos en el cuerpo Sharkfin: 2 para fijar el motor, 2 para fijar al toolhead y 1 para el latch.
+
+### Paso 2 — Montar los engranajes BMG
+
+El kit BMG incluye dos engranajes, dos ejes, rodamientos y una tuerca de tensión.
+
+1. Instalar el engranaje **conductor** (el pequeño, con ranura para el filamento) en el eje del motor — usar la llave incluida para fijarlo
+2. Instalar el engranaje **conducido** en su eje con los rodamientos a presión
+3. Verificar que ambos engranajes engranan correctamente antes de continuar
+
+### Paso 3 — Instalar el motor NEMA 17
+
+Fijar el motor pancake al cuerpo del Sharkfin con 2× M3×8 BHCS. El motor debe quedar perfectamente alineado con el cuerpo para que los engranajes encajen sin holgura ni rozamiento excesivo.
+
+### Paso 4 — Instalar la arandela M5
+
+La arandela M5 de 0.5 mm actúa como espaciador en el eje del filamento, garantizando la alineación correcta entre los dos engranajes. **No omitir este paso** — sin la arandela, el filamento no entra recto y el extrusor falla.
+
+### Paso 5 — Ensamblar el latch y ajustar tensión
+
+1. Montar el latch con el tornillo M3×25 SHCS
+2. Ajustar la tensión del latch: el engranaje debe agarrar el filamento firmemente al presionarlo manualmente, pero sin aplastarlo
+3. Comprobar que el filamento entra y sale del extrusor con un tirón suave y uniforme
+
+---
+
+## ⚙️ Calibración del extrusor en Klipper
+
+La `rotation_distance` determina cuánto filamento mueve el extrusor por cada vuelta del motor. Un valor incorrecto causa sub o sobre-extrusión.
+
+> Este proceso también está documentado en [`docs/guia_calibracion.md`](../../guia_calibracion.md) — Paso 2.
 
 ### Procedimiento
 
-1. Calentar el hotend a 200°C
-2. Medir 100 mm de filamento desde la entrada del extrusor y marcar
-3. Ejecutar en Klipper:
+1. Calentar el hotend a 200 °C desde Fluidd
+2. Cargar filamento hasta que salga un hilo continuo por la boquilla
+3. Cortar el filamento a ras de la entrada del extrusor con un cúter
+4. Con un rotulador, **marcar el filamento a exactamente 100 mm** de la entrada
+5. En la consola de Klipper:
    ```
    G91
-   G1 E100 F300
+   G1 E100 F150
+   G92 E0
+   G90
    ```
-4. Medir cuánto filamento se ha movido realmente
-5. Calcular nuevo `rotation_distance`:
+   > Usar F150 (velocidad lenta) para evitar que el extrusor patine durante la medición.
+6. Medir la distancia desde la entrada del extrusor hasta la marca — si el extrusor es preciso, debería haber desaparecido dentro de él
+7. Medir el **filamento sobrante** desde la marca hasta la entrada:
+   - Si quedan 5 mm fuera → se extrujo 95 mm en vez de 100 → sub-extrusión
+   - Si la marca está 5 mm dentro → se extrujo 105 mm → sobre-extrusión
+8. Calcular el nuevo valor:
    ```
-   nuevo_rd = viejo_rd × distancia_real / 100
+   rotation_distance_nuevo = rotation_distance_actual × distancia_real / 100
    ```
-6. Repetir hasta obtener <1% de error
+9. Actualizar en `printer.cfg` y repetir hasta error < 1 %
 
-### Valores de referencia para Sharkfin + BMG
+### Valores de referencia
 
-- `rotation_distance` inicial: **22.67**
-- Relación de reducción: **3.5:1**
-- Motor 200 pasos, 16 micropasos → 3200 pasos/vuelta
+| Parámetro | Valor |
+|-----------|-------|
+| `rotation_distance` inicial | 22.67 |
+| `gear_ratio` | 50:17 |
+| Micropasos | 16 |
+| Relación de reducción efectiva | ~3.5:1 |
+
+### Ejemplo de cálculo
+
+```
+# Situación: pedimos 100 mm, pero solo se mueven 95 mm reales
+rotation_distance_nuevo = 22.67 × 95 / 100 = 21.54
+
+# Actualizar en printer.cfg:
+rotation_distance: 21.54
+```
 
 ---
 
-## 📊 Comparativa esperada (Bowden vs Direct Drive)
+## 🛠️ Solución de problemas
 
-| Parámetro | Bowden original | Direct Drive (Sharkfin) |
-|-----------|----------------|------------------------|
-| Retracción | 5-8 mm | 0.5-1.5 mm |
+| Síntoma | Causa probable | Solución |
+|---------|---------------|----------|
+| Filamento no entra al extrusor | Arandela M5 omitida o mal alineada | Verificar posición de la arandela; realinear |
+| Extrusor patina (click-click) | Tensión del latch insuficiente | Aumentar tensión del tornillo del latch |
+| Extrusor patina al alta velocidad | `run_current` bajo en TMC2209 | Subir `run_current` en `[tmc2209 extruder]` de 0.65 a 0.70–0.75 |
+| Sobre-extrusión constante | `rotation_distance` demasiado bajo | Recalibrar con el procedimiento anterior |
+| Sub-extrusión constante | `rotation_distance` demasiado alto | Recalibrar con el procedimiento anterior |
+| Motor extrusor muy caliente (> 60 °C) | `run_current` demasiado alto | Reducir `run_current` a 0.60 |
+| Engranajes ruidan | Engranajes sucios o mal alineados | Limpiar; verificar alineación del motor |
+
+---
+
+## 📊 Bowden original vs Sharkfin direct drive
+
+| Parámetro | Bowden A20M | Sharkfin direct drive |
+|-----------|-------------|----------------------|
+| Retracción | 5–8 mm | 0.5–1.5 mm |
 | Stringing | Alto | Bajo |
-| Calidad puentes | Media | Alta |
-| Flexibles | No compatible | Compatible |
-| Velocidad max. | ~80 mm/s | ~150 mm/s |
-| Inercia | Baja | Media (más peso toolhead) |
+| Calidad de puentes | Media | Alta |
+| Compatibilidad TPU/flexibles | ✗ | ✓ |
+| Velocidad máx. práctica | ~80 mm/s | ~150 mm/s |
+| Inercia del toolhead | Baja | Media (motor en cabezal) |
+| Complejidad de calibración | Media | Baja (PA más sencillo) |
+
+---
+
+## 🔗 Referencias
+
+- [Sharkfin Extruder — KayosMaker GitHub](https://github.com/KayosMaker/Sharkfin_Extruder)
+- [Klipper — Calibración de rotation_distance](https://www.klipper3d.org/Rotation_Distance.html)
+- [Klipper — Pressure Advance](https://www.klipper3d.org/Pressure_Advance.html)
+- [Comunidad Voron — extrusores recomendados](https://vorondesign.com/)
