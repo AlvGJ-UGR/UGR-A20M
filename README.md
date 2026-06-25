@@ -1,11 +1,10 @@
-
-
 # 🧠 Proyecto UGR-A20M
+
 ![Status](https://img.shields.io/badge/Status-Fase_1_en_progreso-yellow.svg)
 ![License](https://img.shields.io/badge/License-CC_BY--SA_4.0-blue.svg)
 ![UGR](https://img.shields.io/badge/Universidad-Granada-red.svg)
 
-### Mejora y documentación de una impresora 3D Geeetech A20M — Hacia una arquitectura tipo Voron
+### Modernización de una impresora 3D Geeetech A20M con electrónica de 32 bits, extrusión directa y firmware Klipper
 
 ![Banner del proyecto](docs/img/banner-ugr-a20m.png)
 
@@ -13,20 +12,20 @@
 
 ## 🧩 Descripción general
 
-Este proyecto documenta la **modernización progresiva** de una impresora 3D **Geeetech A20M**, incorporando componentes de alto rendimiento y rediseñando la arquitectura hacia un sistema **inspirado en la filosofía Voron**.
+Este proyecto documenta la **modernización progresiva** de una impresora 3D **Geeetech A20M**, incorporando componentes de alto rendimiento: nueva electrónica de 32 bits, extrusor directo tipo Voron (Sharkfin), toolhead Mini Stealth v2 y firmware Klipper.
 
-El proyecto está **subvencionado por la Universidad de Granada (UGR)**, con fines educativos, divulgativos y de investigación aplicada en el ámbito de la fabricación digital.
+El proyecto está **apoyado por la Universidad de Granada (UGR)**, con fines educativos, divulgativos y de investigación aplicada en fabricación digital.
 
 ---
 
 ## 🎯 Objetivos
 
-- 🔧 Mejorar el rendimiento, fiabilidad y velocidad de la Geeetech A20M
+- 🔧 Mejorar el rendimiento, fiabilidad y calidad de impresión de la Geeetech A20M
 - 🖨️ Implementar extrusión directa de alto caudal (Sharkfin + CHC V6 Volcano)
+- 🎨 Instalar toolhead estilo Voron: Mini Stealth v2 con refrigeración dual 4010
 - ⚙️ Migrar la electrónica a SKR Mini E3 V3 + Orange Pi Zero 3 con Klipper
-- 📐 Adaptar la estructura hacia diseño tipo Voron (guías lineales, CoreXY)
-- 📚 Crear una **guía reproducible** para estudiantes y makers de la UGR
-- 🎨 Personalizar la máquina con identidad visual UGR
+- 📐 Reforzar la estructura con guías lineales en X e Y
+- 📚 Generar una guía reproducible para estudiantes y makers de la UGR
 
 ---
 
@@ -34,12 +33,12 @@ El proyecto está **subvencionado por la Universidad de Granada (UGR)**, con fin
 
 | Fase | Descripción | Estado |
 |------|-------------|--------|
-| **0** | Repositorio, documentación base y especificaciones | ✅ Completada |
-| **1a** | Actualización electrónica (SKR Mini E3 V3 + Klipper) | 🟡 En progreso |
-| **1b** | Extrusor directo Sharkfin + hotend CHC V6 Volcano | 🟡 En progreso |
-| **2** | Guías lineales y bastidor reforzado | 🔜 Planificada |
-| **3** | Conversión CoreXY completa (T250 / Voron) | 🔜 Planificada |
-| **4** | Informe final, publicación GitHub Pages y PDF UGR | 🔜 Planificada |
+| **0** | Especificaciones, investigación de componentes y repositorio | ✅ Completada |
+| **1a** | Actualización electrónica: SKR Mini E3 V3 + Orange Pi Zero 3 + Klipper | 🟡 En progreso |
+| **1b** | Extrusor directo: Sharkfin + BMG Clone + NEMA 17 pancake | 🟡 En progreso |
+| **1c** | Toolhead: Mini Stealth v2 + CHC V6 Volcano + CR-Touch | 🟡 En progreso |
+| **2** | Guías lineales MGN12H en X e Y + bastidor reforzado | 🔜 Planificada |
+| **3** | Benchmarks, comparativas, GitHub Pages e informe UGR | 🔜 Planificada |
 
 ---
 
@@ -51,25 +50,24 @@ El proyecto está **subvencionado por la Universidad de Granada (UGR)**, con fin
 |-----------|-------|
 | **Modelo** | Geeetech A20M |
 | **Volumen de impresión** | 255 × 255 × 255 mm |
-| **Cinemática original** | Cartesian Bowden |
-| **Placa base original** | GT2560 v3 (8-bit) |
+| **Cinemática** | Cartesiana (Bowden) |
+| **Placa original** | GT2560 v3 (ATmega2560, 8-bit) |
 | **Firmware original** | Marlin 1.x |
 | **Alimentación** | 24V DC |
-| **Cama caliente** | 220V AC / 24V DC calefactada |
 
-### Objetivo final (tras mejoras)
+### Configuración objetivo (tras Fase 1)
 
-| Parámetro | Valor |
-|-----------|-------|
-| **Placa base** | BTT SKR Mini E3 V3.0 (32-bit) |
-| **SBC (ordenador)** | Orange Pi Zero 3 (1 GB RAM) |
-| **Firmware** | Klipper + Fluidd / Mainsail |
+| Subsistema | Componente |
+|------------|-----------|
+| **Placa** | BTT SKR Mini E3 V3.0 (STM32G0B1, 32-bit) |
+| **SBC** | Orange Pi Zero 3 — 1 GB RAM |
+| **Firmware** | Klipper + Moonraker + Fluidd |
+| **Extrusor** | Sharkfin + BMG Clone (direct drive, ~3.5:1) |
+| **Hotend** | CHC V6 Volcano (alto caudal, 24V) |
 | **Toolhead** | Mini Stealth v2 (shroud estilo Voron) |
-| **Extrusor** | Sharkfin + BMG Clone (direct drive) |
-| **Hotend** | CHC V6 Volcano (alto caudal) |
-| **Refrigeración capa** | 2× ventilador 4010 radial (dual simétrico) |
+| **Refrigeración capa** | 2× ventilador 4010 24V (radial, dual simétrico) |
+| **Refrigeración hotend** | 1× ventilador 2510 24V |
 | **Nivelación** | CR-Touch (autonivelado mesh) |
-| **Cinemática futura** | CoreXY (Fase 3) |
 
 ---
 
@@ -78,119 +76,120 @@ El proyecto está **subvencionado por la Universidad de Granada (UGR)**, con fin
 ```
 UGR-A20M/
 │
-├── README.md                    ← Este archivo
-├── CHANGELOG.md                 ← Historial de cambios
-├── LICENSE                      ← CC BY-SA 4.0
+├── README.md                        ← Este archivo
+├── CHANGELOG.md                     ← Historial de cambios por versión
+├── CONTRIBUTING.md                  ← Cómo contribuir al proyecto
+├── LICENSE                          ← CC BY-SA 4.0
+├── .gitignore
 │
 ├── docs/
+│   ├── guia_calibracion.md          ← Calibración completa paso a paso ⭐
 │   ├── fase-0/
-│   │   └── 00_especificaciones_base.md
+│   │   └── 00_especificaciones_base.md      ← Specs Geeetech A20M original
 │   ├── fase-1/
 │   │   ├── electronica/
-│   │   │   └── 01_skr_klipper.md
+│   │   │   └── 01_skr_klipper.md            ← Instalación SKR + Klipper en OPi
 │   │   ├── extrusor/
-│   │   │   └── 02_sharkfin_bmg.md
+│   │   │   └── 02_sharkfin_bmg.md           ← Montaje y calibración Sharkfin
 │   │   └── toolhead/
-│   │       └── 03_chc_volcano_crtouch.md
+│   │       └── 03_mini_stealth_chc_crtouch.md ← Mini Stealth + Volcano + CR-Touch
 │   ├── fase-2/
-│   │   └── 04_guias_lineales.md
+│   │   └── 04_guias_lineales.md             ← Guías MGN12H en X e Y
 │   ├── fase-3/
-│   │   └── 05_corexy_t250.md
+│   │   └── 05_documentacion_final.md        ← Benchmarks, GitHub Pages e informe
 │   └── img/
 │       └── banner-ugr-a20m.png
 │
 ├── hardware/
 │   ├── bom/
-│   │   └── BOM_fase1.md         ← Lista de materiales con precios y links
-│   ├── prints/                  ← STLs impresos para el proyecto
-│   └── electronica/             ← Esquemas de conexión
+│   │   └── BOM_fase1.md             ← Lista de materiales con precios y links
+│   ├── prints/
+│   │   └── README.md                ← Registro de piezas impresas
+│   └── electronica/
+│       └── esquema_conexiones.md    ← Conexiones SKR Mini E3 V3 completas
 │
 ├── firmware/
 │   ├── klipper/
 │   │   ├── config/
-│   │   │   └── printer.cfg      ← Configuración Klipper para A20M
+│   │   │   └── printer.cfg          ← Configuración Klipper para A20M
 │   │   └── macros/
-│   │       └── macros.cfg       ← Macros personalizadas
-│   └── marlin/                  ← Configuración Marlin (referencia)
+│   │       └── macros.cfg           ← Macros: START_PRINT, LOAD, PID, PA...
+│   └── marlin/                      ← Configuración Marlin (referencia)
 │
 └── photos/
-    ├── estado-inicial/          ← Fotos antes de modificaciones
-    ├── fase-1/                  ← Fotos del proceso fase 1
-    └── fase-2/                  ← Fotos del proceso fase 2
+    ├── README.md                    ← Convención de nombres y checklist
+    ├── estado-inicial/              ← Fotos antes de modificaciones
+    ├── fase-1/                      ← Fotos del proceso fase 1
+    └── fase-2/                      ← Fotos del proceso fase 2
 ```
 
 ---
 
 ## 📦 Bill of Materials — Resumen Fase 1
 
-> Documento completo: [`hardware/bom/BOM_fase1.md`](hardware/bom/BOM_fase1.md)
+> Documento completo con tornillería y STLs: [`hardware/bom/BOM_fase1.md`](hardware/bom/BOM_fase1.md)
 
-| Componente | Referencia | Precio aprox. |
-|------------|------------|--------------|
-| Placa BTT SKR Mini E3 V3.0 | AliExpress | ~25 € |
-| Orange Pi Zero 3 (1 GB) | AliExpress | ~25 € |
-| MicroSD SanDisk 32 GB | Amazon | ~8 € |
-| Extrusor Sharkfin (STL) | KayosMaker GitHub | Gratis |
-| Toolhead Mini Stealth v2 (STL) | atrushing GitHub | Gratis |
-| Motor NEMA 17 pancake | AliExpress | ~5 € |
-| BMG Clone (engranajes) | AliExpress | ~5 € |
-| Hotend CHC V6 Volcano | AliExpress | ~12 € |
-| Ventiladores 4010 24V ×2 (capa) | AliExpress | ~3 € |
-| Ventilador 2510 24V ×1 (hotend) | AliExpress | ~5 € |
-| CR-Touch autonivelador | AliExpress | ~12 € |
-| Insertos M3 ×5 | AliExpress | ~1 € |
-| Tornillería variada | AliExpress | ~3 € |
-| **Total estimado** | | **~104 €** |
+| Componente | Enlace | Precio aprox. |
+|------------|--------|--------------|
+| BTT SKR Mini E3 V3.0 | [AliExpress](https://es.aliexpress.com/item/1005007912548824.html) | ~25 € |
+| Orange Pi Zero 3 (1 GB) | [AliExpress](https://es.aliexpress.com/item/1005006047845950.html) | ~25 € |
+| MicroSD SanDisk 32 GB | [Amazon ES](https://www.amazon.es/SanDisk-Tarjeta-microSDXC-Adaptador-Rendimiento/dp/B0B7NXBM6P) | ~8 € |
+| Motor NEMA 17 pancake 20mm | [AliExpress](https://es.aliexpress.com/item/1005005933469472.html) | ~5 € |
+| BMG Clone (engranajes) | [AliExpress](https://es.aliexpress.com/item/1005003423850142.html) | ~5 € |
+| Hotend CHC V6 Volcano | [AliExpress](https://es.aliexpress.com/item/1005003849153931.html) | ~12 € |
+| Ventiladores 4010 24V ×2 | [AliExpress](https://es.aliexpress.com/item/1005003371996395.html) | ~3 € |
+| Ventilador 2510 24V ×1 | [AliExpress](https://es.aliexpress.com/item/1005006831848917.html) | ~5 € |
+| CR-Touch (autonivelador) | [AliExpress](https://es.aliexpress.com/item/1005009035812836.html) | ~12 € |
+| Insertos M3 ×5 | [AliExpress](https://es.aliexpress.com/item/1005008285787978.html) | ~1 € |
+| Tornillería variada M3/M2.5 | [AliExpress](https://es.aliexpress.com/item/4000026671295.html) | ~3 € |
+| Extensores JST ventiladores | [AliExpress](https://es.aliexpress.com/item/1005005491577017.html) | ~2 € |
+| **Sharkfin Extruder (STL)** | [GitHub KayosMaker](https://github.com/KayosMaker/Sharkfin_Extruder) | Gratis |
+| **Mini Stealth v2 (STL)** | [GitHub atrushing](https://github.com/atrushing/Mini_Stealth) | Gratis |
+| **TOTAL FASE 1** | | **~106 €** |
 
 ---
 
-## 🔗 Recursos y referencias clave
+## 📚 Documentación rápida
+
+| Documento | Descripción |
+|-----------|-------------|
+| [🎯 Guía de calibración](docs/guia_calibracion.md) | Calibración completa paso a paso — empezar aquí tras instalar |
+| [⚡ Esquema de conexiones](hardware/electronica/esquema_conexiones.md) | Conexionado completo SKR Mini E3 V3 |
+| [📦 BOM Fase 1](hardware/bom/BOM_fase1.md) | Lista de materiales con precios y enlaces |
+| [🖨️ Registro de impresiones](hardware/prints/README.md) | Seguimiento de piezas impresas |
+| [🤝 Contribuir](CONTRIBUTING.md) | Cómo proponer mejoras al proyecto |
+
+---
+
+## 🔗 Referencias
 
 ### Hardware
-- [Sharkfin Extruder (KayosMaker)](https://github.com/KayosMaker/Sharkfin_Extruder) — Extrusor direct drive
-- [Mini Stealth v2 (atrushing)](https://github.com/atrushing/Mini_Stealth) — Shroud toolhead estilo Voron Stealthburner
-- [Adaptador Bambu hotend a V6 (Cults3D)](https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size) — Si fuera necesario para el hotend
+- [Sharkfin Extruder — KayosMaker](https://github.com/KayosMaker/Sharkfin_Extruder)
+- [Mini Stealth v2 — atrushing](https://github.com/atrushing/Mini_Stealth)
+- [Adaptador Bambu hotend → V6 (Cults3D)](https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size)
 
 ### Firmware
-- [Klipper (Klipper3d.org)](https://www.klipper3d.org/)
-- [Fluidd (fluidd.xyz)](https://fluidd.xyz/)
-- [Mainsail (docs.mainsail.xyz)](https://docs.mainsail.xyz/)
+- [Klipper — klipper3d.org](https://www.klipper3d.org/)
+- [Moonraker — moonraker.readthedocs.io](https://moonraker.readthedocs.io/)
+- [Fluidd — fluidd.xyz](https://fluidd.xyz/)
 - [KIAUH — instalador Klipper](https://github.com/dw-0/kiauh)
 
-### Comunidad Voron
-- [Voron Design](https://vorondesign.com/)
-- [Voron Discord](https://discord.gg/voron)
-
----
-
-## 📸 Documentación fotográfica
-
-Cada fase incluirá:
-- 📷 Fotografías antes/durante/después
-- 📐 Archivos STL/STEP de piezas impresas
-- 📋 BOM detallada con precios y enlaces
-- ⚙️ Configuraciones de firmware comentadas
-- 📊 Comparativas de rendimiento (velocidad, calidad, ruido)
+### Electrónica
+- [BTT SKR Mini E3 V3 — GitHub BigTreeTech](https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3)
+- [Orange Pi Zero 3 — orangepi.org](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-3.html)
+- [Armbian para Orange Pi Zero 3](https://www.armbian.com/orange-pi-zero3/)
 
 ---
 
 ## 👤 Créditos
 
-**Autor:** Álvaro González Jiménez  
-**Email:** alvarogj1@correo.ugr.es  
-**Proyecto apoyado por:** Universidad de Granada (UGR) — 2025  
+**Autor:** Álvaro González Jiménez — `alvarogj1@correo.ugr.es`  
+**Institución:** Universidad de Granada (UGR) — 2025  
 
-**Inspiración técnica:**
-- Comunidad [Voron Design](https://vorondesign.com/)
-- Comunidad maker y grupos de impresión 3D UGR
+Inspiración técnica: comunidad [Voron Design](https://vorondesign.com/), [KayosMaker](https://github.com/KayosMaker) y [atrushing](https://github.com/atrushing).
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto se distribuye bajo licencia **[CC BY-SA 4.0](LICENSE)** — uso libre con atribución y misma licencia.
-
----
-
-> *"La investigación aplicada es el puente entre la curiosidad y la innovación."*  
-> — Proyecto UGR-A20M, Universidad de Granada
+Distribuido bajo licencia **[CC BY-SA 4.0](LICENSE)** — libre uso con atribución y misma licencia.
