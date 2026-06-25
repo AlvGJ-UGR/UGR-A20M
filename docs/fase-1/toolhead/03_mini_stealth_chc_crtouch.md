@@ -1,172 +1,155 @@
-# 🖨️ Fase 1 — Toolhead: Mini Stealth + CHC V6 Volcano + CR-Touch
+# 🖨️ Fase 1c — Toolhead: Mini Stealth v2 + CHC V6 Volcano + CR-Touch
 
 ---
 
-## 🎯 ¿Qué es el Mini Stealth?
+## ¿Qué es el Mini Stealth v2?
 
-<cite index="2-1">El Mini Stealth v2 es una versión reducida del Voron Stealthburner, aproximadamente 5/8 del tamaño del original y considerablemente más ligero. Monta el extrusor y el hotend en una pieza central (core), y los ventiladores, ventilador de hotend y LEDs en un shroud que desliza sobre el core. Esto facilita mucho el montaje y mantenimiento: el extrusor se puede retirar completamente mientras el core queda instalado en la impresora.</cite>
+El Mini Stealth v2 es una versión reducida del Voron Stealthburner, aproximadamente 5/8 del tamaño del original y considerablemente más ligero. Su arquitectura es modular: el extrusor y el hotend se montan en una pieza central llamada **core**, y el shroud (carcasa exterior con ventiladores y LEDs) desliza sobre él. Esto permite retirar el extrusor completo sin desmontar el toolhead de la impresora.
 
-<cite index="1-1">Usa un par de ventiladores sopladores 4010 para refrigeración de capa y un ventilador 3010/2510 para el hotend. Los sopladores incluyen guías de aire pegadas que aumentan el caudal de aire aproximadamente un 20% respecto al Mini Stealth v1.</cite>
+Usa dos ventiladores sopladores **4010** para refrigeración de capa con guías de aire integradas, y un ventilador **2510** para el hotend. El repo oficial cuenta con más de 90 shrouds diferentes, organizados por tipo de extrusor y con variantes básica, ZeroClick y **probe-mount** (con soporte de sonda izquierdo o derecho) — esta última es la que necesitamos para el CR-Touch.
 
-### ¿Por qué el Mini Stealth para este proyecto?
+### Ventajas para este proyecto
 
-- Diseño inspirado en Voron, coherente con la filosofía del proyecto UGR-A20M
-- Shroud separado del core → mantenimiento sin desmontar todo
-- <cite index="1-1">Hay 90 shrouds diferentes agrupados por tipo de extrusor, cada uno en cuatro variantes: básico, ZeroClick, y versiones con soporte de sonda izquierda/derecha</cite>
-- Compatible con CR-Touch mediante brackets de montaje de sonda (versiones probe-mount)
-- LEDs de estado incorporados
+- Diseño coherente con la filosofía Voron del proyecto UGR-A20M
+- Shroud desmontable → mantenimiento rápido sin desmontar el toolhead
+- Refrigeración de capa dual y simétrica (mejora respecto al stock)
+- Bracket de sonda integrado en el shroud → no requiere adaptadores externos
+- LEDs de estado opcionales
 
 ---
 
-## 🔧 Componentes del toolhead
+## 🔧 Lista de componentes
 
 ### Ventiladores
 
-| Componente | Especificación | Cantidad | Enlace | Precio |
-|------------|---------------|----------|--------|--------|
-| Ventilador soplador capa | 4010 24V radial | 2 | [AliExpress](https://es.aliexpress.com/item/1005003371996395.html) | ~3 € |
+| Componente | Especificación | Cant. | Enlace | Precio |
+|------------|---------------|-------|--------|--------|
+| Ventilador capa | 4010 24V radial soplador | 2 | [AliExpress](https://es.aliexpress.com/item/1005003371996395.html) | ~3 € |
 | Ventilador hotend | 2510 24V axial | 1 | [AliExpress](https://es.aliexpress.com/item/1005006831848917.html) | ~5 € |
-| Extensores de cable JST | Para ventiladores | 1 set | [AliExpress](https://es.aliexpress.com/item/1005005491577017.html) | ~2 € |
+| Extensores JST | Para cables de ventilador | 1 set | [AliExpress](https://es.aliexpress.com/item/1005005491577017.html) | ~2 € |
 
 ### Hotend
 
 | Componente | Especificación | Enlace | Precio |
 |------------|---------------|--------|--------|
-| CHC V6 Volcano | Alto caudal, 24V, NTC 100k | [AliExpress](https://es.aliexpress.com/item/1005003849153931.html) | ~12 € |
+| CHC V6 Volcano | Alto caudal, 24V, NTC 100k, boquilla 0.4 mm | [AliExpress](https://es.aliexpress.com/item/1005003849153931.html) | ~12 € |
 
-> El CHC V6 Volcano es compatible con el Mount estándar tipo E3D V6, que el Mini Stealth soporta en varias de sus configuraciones de core.
+El CHC V6 Volcano usa el mismo patrón de montaje que el E3D V6, compatible con la mayoría de cores del Mini Stealth. Si fuera necesario, existe un [adaptador Bambu → V6](https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size) imprimible.
 
 ### Autonivelado
 
 | Componente | Especificación | Enlace | Precio |
 |------------|---------------|--------|--------|
-| CR-Touch | Original Creality, 5V señal | [AliExpress](https://es.aliexpress.com/item/1005009035812836.html) | ~12 € |
+| CR-Touch | Original Creality, señal 5V | [AliExpress](https://es.aliexpress.com/item/1005009035812836.html) | ~12 € |
 
-> El Mini Stealth incluye variantes de shroud con soporte lateral para sonda (probe-mount left/right). <cite index="1-1">Estas versiones usan tornillos M2.5×6 de cabeza plana para fijar brackets que sujetan seis tipos diferentes de sonda.</cite>
+### Tornillería
 
-### Tornillería toolhead
-
-| Referencia | Cantidad | Tipo | Uso |
-|------------|----------|------|-----|
-| M3×40 BHCS | 2 | Allen cabeza cilíndrica | Fijar toolhead al carro X |
-| M2.5×8 BHCS | 2 | Allen cabeza cilíndrica | Montaje hotend al core |
-| M2.5×6 BHCS | 2 | Allen cabeza cilíndrica | Montaje hotend |
-| M3×8 BHCS | 2 | Allen cabeza cilíndrica | Fijar extrusor Sharkfin al core |
-| M3×6 BHCS | 2 | Allen cabeza cilíndrica | Puerta de cables |
-| M2.5×6 FHCS | 2 | Tornillo avellanado | Bracket sonda CR-Touch |
+| Referencia | Cant. | Tipo | Uso |
+|------------|-------|------|-----|
+| M3×40 BHCS | 2 | Cabeza cilíndrica | Fijar toolhead al carro X |
+| M2.5×8 BHCS | 2 | Cabeza cilíndrica | Montaje hotend al core |
+| M2.5×6 BHCS | 2 | Cabeza cilíndrica | Montaje hotend |
+| M3×8 BHCS | 2 | Cabeza cilíndrica | Fijar extrusor Sharkfin al core |
+| M3×6 BHCS | 2 | Cabeza cilíndrica | Puerta de cables |
+| M2.5×6 FHCS | 2 | Cabeza avellanada | Bracket CR-Touch |
 
 ---
 
 ## 🖨️ Piezas a imprimir
 
-El Mini Stealth v2 tiene una arquitectura modular core + shroud. Hay que elegir las piezas correctas según el extrusor (Sharkfin/BMG) y el hotend (CHC V6 Volcano).
+> Ver parámetros de impresión detallados en [`hardware/prints/README.md`](../../../hardware/prints/README.md)
 
-### Piezas necesarias
+| Pieza | Carpeta en repo | Notas |
+|-------|----------------|-------|
+| Core | Grupo de extrusor compatible | Verificar compatibilidad con Sharkfin; intentar con el grupo BMG/Sherpa Micro |
+| Shroud — versión probe-mount | `shrouds/` | Elegir variante con soporte de sonda (izquierda o derecha según medición) |
+| Motor Bridge | Misma carpeta del core | Gestión de cables del motor |
+| Cable Door | Común | Cierre posterior |
+| Strain Relief | Común | Alivio de tensión de cables |
+| Probe Bracket (CR-Touch) | `probe_mounts/` | Soporte específico para CR-Touch |
 
-| Pieza STL | Carpeta en repo | Notas |
-|-----------|----------------|-------|
-| Core (pieza central) | `Sharkfin/` o extrusor compatible | Elegir el core para el grupo de extrusor correcto |
-| Shroud (carcasa exterior) | Versión probe-mount (CR-Touch) | Elegir versión con soporte de sonda |
-| Motor bridge | Misma carpeta de extrusor | Gestión de cables del motor |
-| Cable door | Común a todos | Cierre posterior |
-| Strain relief | Común a todos | Alivio de tensión de cables |
-| Probe bracket (CR-Touch) | Carpeta probe mounts | Soporte para CR-Touch |
-
-> **⚠️ Nota:** El Sharkfin no es uno de los 13 extrusores listados oficialmente en el Mini Stealth. Verificar en el repo si hay un core/adapter compatible, o usar el core del Sherpa Micro (perfil similar) con el adaptador de placa correspondiente. Alternativamente, el adaptador Bambulab → V6 puede facilitar el montaje del hotend.
-
-### Parámetros de impresión
-
-| Parámetro | Valor |
-|-----------|-------|
-| Material | ABS o ASA |
-| Temperatura boquilla | 250°C (ABS) / 255°C (ASA) |
-| Temperatura cama | 100°C (ABS) / 90°C (ASA) |
-| Relleno | 40% cúbico o gyroid |
-| Perímetros | 4 |
-| Capas sólidas sup/inf | 5 |
-| Soporte | No requerido (diseñado sin soportes) |
-| Refrigeración | 0% (ABS) / 30% máx (ASA) |
+> ⚠️ **Nota de compatibilidad:** El Sharkfin no figura en la lista oficial de extrusores del Mini Stealth v2. Antes de imprimir el core, verificar en el repo qué grupo de extrusor tiene un perfil más cercano al Sharkfin (probablemente el grupo BMG o Sherpa Micro). Si fuera necesario, un adaptador de placa puede resolver la diferencia de mounting pattern.
 
 ---
 
-## 🔨 Montaje — Proceso
+## 🔨 Proceso de montaje
 
-### Paso 1: Preparar el core
+### Paso 1 — Preparar el core
 
-1. Insertar insertos de calor M3 en el core (si los tiene, depende del modelo de core)
-2. Instalar el hotend CHC V6 Volcano con tornillos M2.5×6:
-   - <cite index="3-1">Instalar el cartucho calefactor alejado de los LEDs para evitar sobrecalentarlos. No olvidar el tubo PTFE.</cite>
-3. Montar el bracket del CR-Touch con tornillos M2.5×6 FHCS
+1. Insertar insertos de calor M3 en el core con un soldador a ~200 °C. Dejar enfriar.
+2. Instalar el hotend CHC V6 Volcano con tornillos M2.5×6 BHCS. Colocar el cartucho calefactor en el lado contrario a los LEDs para evitar sobrecalentarlos.
+3. No olvidar el tubo PTFE entre el hotend y la entrada del extrusor.
+4. Montar el bracket del CR-Touch con tornillos M2.5×6 FHCS.
 
-### Paso 2: Montar el extrusor (Sharkfin)
+### Paso 2 — Montar el extrusor Sharkfin
 
-<cite index="3-1">Pre-ensamblar el extrusor antes de instalarlo en el shroud. Usar dos tornillos M3×8 BHCS para instalar el extrusor. Ayuda tener ambos tornillos en el extrusor antes de colocarlo. Empezar por el tornillo del lado del latch y luego alinear el tornillo ciego.</cite>
+Pre-ensamblar el extrusor completamente antes de instalarlo en el core. Usar dos tornillos M3×8 BHCS. Conviene poner ambos tornillos en el extrusor antes de acercarlo al core: empezar por el lado del latch y luego alinear el tornillo ciego del lado contrario.
 
-### Paso 3: Gestión de cables
+### Paso 3 — Gestión de cables
 
-<cite index="3-1">Reunir los cables con un brida junto a la base del latch del extrusor y luego usar otra brida para asegurar los cables al motor bridge. Dejar un poco de holgura en los cables del extrusor.</cite>
+Reunir todos los cables del toolhead con una brida junto a la base del latch del extrusor. Usar una segunda brida para sujetar el conjunto al motor bridge. Dejar un poco de holgura en los cables del motor para permitir el movimiento del eje X.
 
-### Paso 4: Ensamblar el shroud
+### Paso 4 — Ensamblar el shroud
 
-1. Instalar los ventiladores 4010 en el shroud
-2. Deslizar el shroud sobre el core por las ranuras guía
-3. <cite index="1-1">El shroud encaja en el core mediante un par de ranuras deslizantes y puede llevar imanes para mejorar la conexión según sea necesario.</cite>
+1. Instalar los dos ventiladores 4010 en el shroud y conectar sus cables.
+2. Instalar el ventilador 2510 en el hotend.
+3. Deslizar el shroud sobre el core por las ranuras guía hasta que encaje. Se pueden añadir imanes (2×6 mm) en los puntos previstos para mejorar la retención.
 
-### Paso 5: Instalar en el carro X
+### Paso 5 — Instalar en el carro X
 
-<cite index="5-1">Usar dos tornillos M3×40 BHCS para fijar el toolhead al carro X.</cite>
+Fijar el toolhead completo al carro X con dos tornillos M3×40 BHCS. Comprobar que el toolhead queda nivelado y firme antes de continuar.
 
 ---
 
-## ⚙️ Configuración Klipper para el toolhead
+## ⚙️ Configuración Klipper
 
 ### Offsets del CR-Touch
 
-Los offsets dependen de la posición exacta del bracket de sonda en el shroud. Medir físicamente con calibre:
+Medir físicamente con calibre la distancia del pin del CR-Touch al centro del nozzle:
 
 ```ini
 [bltouch]
-x_offset: -44    # ← Medir: distancia horizontal CR-Touch → nozzle
-y_offset: -9     # ← Medir: distancia frontal CR-Touch → nozzle
+x_offset: -44    # Negativo = sonda a la izquierda del nozzle
+y_offset: -9     # Negativo = sonda por detrás del nozzle
 ```
 
-> Valores negativos = la sonda está a la izquierda y detrás del nozzle (posición típica con bracket derecho).
+Actualizar estos valores en `printer.cfg` antes de ejecutar `PROBE_CALIBRATE`.
 
-### Configuración de ventiladores
+### Ventiladores
 
 ```ini
-# Ventilador hotend (2510) — siempre activo cuando hotend > 50°C
+# Ventilador hotend 2510 — activo automáticamente cuando hotend > 50 °C
 [heater_fan hotend_fan]
 pin: PC7
 heater: extruder
 heater_temp: 50.0
 
-# Ventiladores de capa (4010 ×2) — controlados por gcode
+# Ventiladores de capa 4010 ×2 — controlados por el slicer
 [fan]
 pin: PC6
 ```
 
-Si los dos ventiladores de capa van en el mismo pin (en paralelo, que es lo habitual), el `[fan]` anterior los controla a ambos. Si van en pines separados, se necesita un `[fan_generic]` adicional.
+Los dos ventiladores de capa se conectan en paralelo al mismo pin (FAN1 en la SKR Mini E3 V3), por lo que una sola sección `[fan]` los controla ambos.
 
 ---
 
-## 📊 Comparativa de toolheads
+## 📊 Stock vs Mini Stealth v2
 
-| Característica | Toolhead stock A20M | Mini Stealth + Sharkfin |
-|---------------|---------------------|------------------------|
-| Tipo extrusión | Bowden | Directa |
-| Refrigeración capa | 1× 40mm radial | 2× 4010 sopladores |
-| Distribución enfriamiento | Lateral | Dual, simétrica |
+| Característica | Toolhead stock A20M | Mini Stealth v2 + Sharkfin |
+|---------------|---------------------|-----------------------------|
+| Tipo extrusión | Bowden | Directa (~3.5:1) |
+| Refrigeración capa | 1× 40 mm radial | 2× 4010 sopladores (dual simétrico) |
+| Refrigeración hotend | 1× 40 mm axial | 1× 2510 axial |
+| Soporte autonivelado | No | Sí (bracket integrado en shroud) |
 | LEDs de estado | No | Sí (opcional) |
-| Soporte sonda auto-nivel | No | Sí (bracket integrado) |
-| Peso aproximado | ~150 g | ~200-250 g |
-| Mantenimiento | Difícil (todo integrado) | Fácil (shroud desmontable) |
+| Mantenimiento | Desmontaje completo | Shroud deslizable, extrusor separable |
+| Compatibilidad flexibles | No (Bowden) | Sí (extrusión directa) |
 
 ---
 
 ## 🔗 Referencias
 
 - [Mini Stealth v2 — GitHub (atrushing)](https://github.com/atrushing/Mini_Stealth)
-- [Mini Stealth — TeamFDM (documentación v1)](https://www.teamfdm.com/files/file/657-mini-stealth-mini-sherpa/)
 - [CHC V6 Volcano — AliExpress](https://es.aliexpress.com/item/1005003849153931.html)
+- [CR-Touch — AliExpress](https://es.aliexpress.com/item/1005009035812836.html)
 - [Adaptador Bambu hotend → V6 (Cults3D)](https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size)
