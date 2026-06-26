@@ -22,7 +22,7 @@ Versiones siguiendo [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [0.2.0] — 2025-04-15
+## [0.2.0] — 2025-10-17
 
 ### Añadido
 - Investigación y selección de componentes (`hardware/notas`)
@@ -34,7 +34,7 @@ Versiones siguiendo [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [0.1.0] — 2025-04-10
+## [0.1.0] — 2025-10-10
 
 ### Añadido
 - Creación del repositorio en GitHub
