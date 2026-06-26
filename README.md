@@ -154,7 +154,9 @@ UGR-A20M/
 | Documento | Descripción |
 |-----------|-------------|
 | [🎯 Guía de calibración](docs/guia_calibracion.md) | Calibración completa paso a paso — empezar aquí tras instalar |
+| [🖨️ Configuración del slicer](docs/slicer_settings.md) | Perfiles PLA / ABS / PETG / TPU con start G-code |
 | [⚡ Esquema de conexiones](hardware/electronica/esquema_conexiones.md) | Conexionado completo SKR Mini E3 V3 |
+| [⚙️ Firmware — instalación y macros](firmware/README.md) | Cómo instalar printer.cfg y referencia de macros |
 | [📦 BOM Fase 1](hardware/bom/BOM_fase1.md) | Lista de materiales con precios y enlaces |
 | [🖨️ Registro de impresiones](hardware/prints/README.md) | Seguimiento de piezas impresas |
 | [🤝 Contribuir](CONTRIBUTING.md) | Cómo proponer mejoras al proyecto |
@@ -166,7 +168,7 @@ UGR-A20M/
 ### Hardware
 - [Sharkfin Extruder — KayosMaker](https://github.com/KayosMaker/Sharkfin_Extruder)
 - [Mini Stealth v2 — atrushing](https://github.com/atrushing/Mini_Stealth)
-
+- [Adaptador Bambu hotend → V6 (Cults3D)](https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size)
 
 ### Firmware
 - [Klipper — klipper3d.org](https://www.klipper3d.org/)
