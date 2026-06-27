@@ -1,0 +1,3 @@
+# Desactivar el tema Jekyll por defecto para servir el index.html directamente
+theme: null
+plugins: []
