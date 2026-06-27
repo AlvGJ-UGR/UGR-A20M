@@ -6,901 +6,797 @@
 <title>UGR-A20M — Modernización Geeetech A20M</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img,svg{display:block}
 
-:root {
-  --bg:        #0f1117;
-  --bg-1:      #161b22;
-  --bg-2:      #1c2128;
-  --border:    #2d333b;
-  --border-hi: #444c56;
-  --text:      #cdd9e5;
-  --text-2:    #768390;
-  --text-3:    #545d68;
-  --red:       #c8102e;
-  --orange:    #e07820;
-  --teal:      #2ea68a;
-  --green:     #57ab5a;
-  --mono:      'IBM Plex Mono', monospace;
-  --sans:      'IBM Plex Sans', sans-serif;
-  --r:         6px;
-  --pad:       clamp(1.25rem, 4vw, 2.5rem);
-  --max:       960px;
+/* ── TOKENS ── */
+:root{
+  --bg:        #111318;
+  --surf:      #16191f;
+  --raised:    #1c2029;
+  --line:      #252830;
+  --line-hi:   #363c48;
+  --tx:        #d4dae6;
+  --tx2:       #7a8494;
+  --tx3:       #4e5562;
+  --red:       #c0202e;
+  --red-d:     rgba(192,32,46,.12);
+  --green:     #4a9e55;
+  --green-d:   rgba(74,158,85,.10);
+  --amber:     #c47c20;
+  --amber-d:   rgba(196,124,32,.10);
+  --teal:      #2a9d82;
+  --mono:      'JetBrains Mono',monospace;
+  --sans:      'Inter',system-ui,sans-serif;
+  --r:         5px;
+  --top:       48px;        /* topbar height */
+  --sb:        228px;       /* sidebar width */
+  --max:       1120px;
 }
 
-html { scroll-behavior: smooth; }
+/* ── BASE ── */
+html{font-size:15px;/* scroll offset handled in JS */}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--tx);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
 
-body {
-  font-family: var(--sans);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
-  font-size: 15px;
-  overflow-x: hidden;
+/* ── TOPBAR ── */
+.topbar{
+  position:sticky;top:0;z-index:200;
+  height:var(--top);
+  background:rgba(17,19,24,.96);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  max-width:var(--max);margin:0 auto;
+  height:100%;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(.875rem,3vw,2rem);
+  gap:1rem;
+}
+.tb-brand{
+  display:flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:12.5px;color:var(--tx);
+  flex-shrink:0;
+}
+.tb-pill{
+  padding:2px 7px;
+  background:var(--red);border-radius:3px;
+  font-size:10px;font-weight:500;color:#fff;letter-spacing:.05em;
+}
+.tb-nav{
+  display:flex;list-style:none;
+  border-left:1px solid var(--line);
+  border-right:1px solid var(--line);
+  overflow:hidden;
+}
+.tb-nav a{
+  display:block;padding:0 12px;height:var(--top);line-height:var(--top);
+  font-size:12.5px;color:var(--tx2);
+  border-right:1px solid var(--line);
+  transition:color .13s,background .13s;
+  white-space:nowrap;
+}
+.tb-nav a:hover,.tb-nav a.on{color:var(--tx);background:var(--surf)}
+.tb-nav a.on{border-bottom:2px solid var(--red)}
+.tb-right{display:flex;align-items:center;gap:.875rem;flex-shrink:0}
+.tb-gh{
+  display:flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:12px;color:var(--tx2);
+  transition:color .13s;
+}
+.tb-gh:hover{color:var(--tx)}
+.tb-menu-btn{
+  display:none;
+  padding:5px 8px;
+  border:1px solid var(--line-hi);border-radius:var(--r);
+  color:var(--tx2);font-size:13px;
+  transition:color .13s,border-color .13s;
+}
+.tb-menu-btn:hover{color:var(--tx);border-color:var(--tx3)}
+
+/* ── MOBILE NAV DRAWER ── */
+.mob-drawer{
+  display:none;
+  position:fixed;inset:var(--top) 0 0 0;
+  z-index:150;
+  background:var(--bg);
+  border-top:1px solid var(--line);
+  padding:1.25rem 1.5rem;
+  flex-direction:column;
+  gap:.25rem;
+  overflow-y:auto;
+}
+.mob-drawer.open{display:flex}
+.mob-drawer a{
+  display:block;padding:.55rem .75rem;
+  font-size:14px;color:var(--tx2);
+  border-radius:var(--r);
+  transition:color .12s,background .12s;
+}
+.mob-drawer a:hover{color:var(--tx);background:var(--surf)}
+.mob-drawer-label{
+  font-family:var(--mono);font-size:10px;color:var(--tx3);
+  text-transform:uppercase;letter-spacing:.1em;
+  padding:.75rem .75rem .25rem;
 }
 
-/* ── NAV ── */
-nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--pad);
-  height: 52px;
-  background: rgba(15,17,23,0.92);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+/* ── SHELL + LAYOUT ── */
+.shell{max-width:var(--max);margin:0 auto;padding:0 clamp(.875rem,3vw,2rem)}
+.layout{
+  display:grid;
+  grid-template-columns:var(--sb) 1fr;
+  min-height:calc(100vh - var(--top));
 }
 
-.nav-id {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text);
-  text-decoration: none;
+/* ── SIDEBAR ── */
+.sidebar{
+  border-right:1px solid var(--line);
+  position:sticky;top:var(--top);
+  height:calc(100vh - var(--top));
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:var(--line) transparent;
+  display:flex;flex-direction:column;
+}
+.sb-section{padding:1.5rem 0 .5rem}
+.sb-label{
+  font-family:var(--mono);font-size:9.5px;font-weight:500;
+  color:var(--tx3);text-transform:uppercase;letter-spacing:.1em;
+  padding:0 1.25rem;margin-bottom:.375rem;
+}
+.sb-link{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.3rem 1.25rem;
+  font-size:12.5px;color:var(--tx2);
+  border-left:2px solid transparent;
+  transition:color .12s,border-color .12s,background .12s;
+}
+.sb-link:hover{color:var(--tx);background:var(--surf)}
+.sb-link.on{color:var(--tx);border-left-color:var(--red);background:var(--surf)}
+.sb-dot{font-size:8px;flex-shrink:0}
+.sb-meta{
+  margin-top:auto;
+  padding:1rem 1.25rem 1.5rem;
+  border-top:1px solid var(--line);
+  font-size:11.5px;color:var(--tx3);line-height:1.7;
+}
+.sb-meta strong{color:var(--tx2);display:block;margin-bottom:.1rem}
+.sb-meta a{color:var(--tx2);transition:color .12s}
+.sb-meta a:hover{color:var(--tx)}
+
+/* ── MAIN ── */
+.main{
+  padding:2.5rem 2.25rem 5rem;
+  min-width:0; /* prevent grid blowout */
 }
 
-.nav-tag {
-  padding: 2px 8px;
-  background: var(--red);
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 500;
-  color: #fff;
-  letter-spacing: .04em;
+/* ── PAGE HEADER ── */
+.ph{
+  padding-bottom:2rem;
+  border-bottom:1px solid var(--line);
+  margin-bottom:2.5rem;
 }
-
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 0;
+.ph-crumb{
+  display:flex;align-items:center;flex-wrap:wrap;
+  gap:.375rem;
+  font-family:var(--mono);font-size:11px;color:var(--tx3);
+  margin-bottom:1rem;
 }
-
-.nav-links a {
-  display: block;
-  padding: 0 14px;
-  height: 52px;
-  line-height: 52px;
-  font-size: 13px;
-  color: var(--text-2);
-  text-decoration: none;
-  border-right: 1px solid var(--border);
-  transition: color .15s, background .15s;
+.ph-crumb a{color:var(--tx2);transition:color .12s}
+.ph-crumb a:hover{color:var(--tx)}
+.ph-h1{
+  font-size:clamp(1.4rem,3vw,2rem);font-weight:600;
+  letter-spacing:-.025em;line-height:1.2;color:var(--tx);
+  margin-bottom:.7rem;
 }
-
-.nav-links li:first-child a { border-left: 1px solid var(--border); }
-.nav-links a:hover { color: var(--text); background: var(--bg-1); }
-
-.nav-gh {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  color: var(--text-2);
-  text-decoration: none;
-  font-family: var(--mono);
-  transition: color .15s;
+.ph-desc{
+  font-size:.9375rem;color:var(--tx2);
+  max-width:600px;line-height:1.75;
+  margin-bottom:1.125rem;
 }
-
-.nav-gh:hover { color: var(--text); }
-
-/* ── LAYOUT ── */
-.page { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
-
-/* ── HEADER ── */
-.site-header {
-  padding: 3rem 0 2.5rem;
-  border-bottom: 1px solid var(--border);
+.tag-row{display:flex;flex-wrap:wrap;gap:.375rem}
+.tag{
+  font-family:var(--mono);font-size:10.5px;
+  padding:2px 8px;border-radius:3px;
+  border:1px solid var(--line-hi);color:var(--tx3);background:var(--surf);
 }
+.tag.r{border-color:rgba(192,32,46,.35);color:#d05060;background:var(--red-d)}
+.tag.g{border-color:rgba(74,158,85,.35);color:#5ab065;background:var(--green-d)}
+.tag.a{border-color:rgba(196,124,32,.35);color:#c98030;background:var(--amber-d)}
 
-.header-meta {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-3);
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
+/* ── SECTION ── */
+.sec{margin-bottom:3.25rem;scroll-margin-top:calc(var(--top) + 16px)}
+.sec-hd{
+  display:flex;align-items:baseline;justify-content:space-between;
+  flex-wrap:wrap;gap:.75rem;
+  padding-bottom:.625rem;
+  border-bottom:1px solid var(--line);
+  margin-bottom:1.25rem;
 }
-
-.header-meta span { color: var(--text-3); }
-.header-meta a { color: var(--text-2); text-decoration: none; }
-.header-meta a:hover { color: var(--text); }
-
-.site-header h1 {
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-  font-weight: 600;
-  letter-spacing: -.02em;
-  line-height: 1.2;
-  color: var(--text);
-  margin-bottom: .75rem;
+.sec-title{font-size:.9375rem;font-weight:600;color:var(--tx);letter-spacing:-.01em}
+.sec-lnk{
+  font-family:var(--mono);font-size:11px;color:var(--tx3);
+  transition:color .12s;
 }
-
-.header-sub {
-  font-size: 1rem;
-  color: var(--text-2);
-  max-width: 640px;
-  line-height: 1.65;
-  margin-bottom: 1.5rem;
-}
-
-.header-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--mono);
-  font-size: 11px;
-  padding: 3px 10px;
-  border-radius: var(--r);
-  border: 1px solid var(--border);
-  color: var(--text-2);
-  background: var(--bg-1);
-}
-
-.badge.status-done   { border-color: rgba(87,171,90,.4); color: var(--green); background: rgba(87,171,90,.06); }
-.badge.status-active { border-color: rgba(224,120,32,.4); color: var(--orange); background: rgba(224,120,32,.06); }
-.badge.ugr           { border-color: rgba(200,16,46,.4); color: #e05070; background: rgba(200,16,46,.06); }
-
-/* ── SECTION HEADING ── */
-.sec {
-  padding: 2.5rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.sec:last-of-type { border-bottom: none; }
-
-.sec-head {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.sec-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -.01em;
-}
-
-.sec-anchor {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-3);
-  text-decoration: none;
-  transition: color .15s;
-}
-
-.sec-anchor:hover { color: var(--teal); }
+.sec-lnk:hover{color:var(--teal)}
 
 /* ── OVERVIEW GRID ── */
-.overview-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-  margin-bottom: 1.5rem;
+.ov{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(165px,1fr));
+  background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;gap:1px;
+  margin-bottom:1rem;
 }
-
-.ov-cell {
-  background: var(--bg-1);
-  padding: .875rem 1rem;
-  transition: background .15s;
+.ov-cell{background:var(--surf);padding:.75rem .9rem;transition:background .12s}
+.ov-cell:hover{background:var(--raised)}
+.ov-k{
+  font-family:var(--mono);font-size:9.5px;font-weight:500;
+  color:var(--tx3);text-transform:uppercase;letter-spacing:.09em;
+  margin-bottom:.3rem;
 }
+.ov-v{font-family:var(--mono);font-size:12.5px;color:var(--tx);font-weight:500}
 
-.ov-cell:hover { background: var(--bg-2); }
-
-.ov-label {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--text-3);
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  margin-bottom: .3rem;
+/* ── PROGRESS BARS ── */
+.progress-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:.75rem;
+  margin-bottom:1rem;
 }
-
-.ov-value {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
-  font-family: var(--mono);
+.prog-card{
+  background:var(--surf);border:1px solid var(--line);
+  border-radius:var(--r);padding:.875rem 1rem;
 }
-
-/* ── PHASES ── */
-.phases { display: flex; flex-direction: column; gap: 0; }
-
-.phase {
-  display: grid;
-  grid-template-columns: 48px 1fr;
-  gap: 0 1rem;
-  position: relative;
+.prog-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem}
+.prog-name{font-size:12.5px;font-weight:500;color:var(--tx)}
+.prog-pct{font-family:var(--mono);font-size:11.5px;color:var(--tx2)}
+.prog-bar{
+  height:4px;background:var(--raised);
+  border-radius:2px;overflow:hidden;
 }
-
-.phase + .phase::before {
-  content: '';
-  position: absolute;
-  left: 23px; top: 0;
-  width: 1px; height: 20px;
-  background: var(--border);
+.prog-fill{
+  height:100%;border-radius:2px;
+  transition:width 1s cubic-bezier(.22,1,.36,1);
+  width:0; /* animated in JS */
 }
+.prog-fill.done  {background:var(--green)}
+.prog-fill.active{background:var(--amber)}
+.prog-fill.plan  {background:var(--line-hi)}
+.prog-sub{font-size:11px;color:var(--tx3);margin-top:.35rem;font-family:var(--mono)}
 
-.phase-marker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  padding-top: 1rem;
+/* ── COMPARISON TABLE ── */
+.cmp{
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  overflow-x:auto;
 }
-
-.phase-dot {
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  border: 1.5px solid var(--border-hi);
-  background: var(--bg-2);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  font-size: 9px;
-  font-family: var(--mono);
-  color: var(--text-3);
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px;min-width:480px}
+.cmp-table th{
+  padding:.55rem 1rem;text-align:left;
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);
+  background:var(--raised);border-bottom:1px solid var(--line);
 }
-
-.phase-dot.done    { border-color: var(--green); background: rgba(87,171,90,.15); color: var(--green); }
-.phase-dot.active  { border-color: var(--orange); background: rgba(224,120,32,.12); color: var(--orange); }
-.phase-dot.planned { border-color: var(--border); }
-
-.phase-line {
-  width: 1px;
-  flex: 1;
-  background: var(--border);
-  min-height: 20px;
+.cmp-table th:first-child{color:var(--tx2)}
+.cmp-table td{
+  padding:.55rem 1rem;border-bottom:1px solid var(--line);
+  vertical-align:middle;
 }
-
-.phase-content {
-  padding: 1rem 0 1.5rem;
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table tr:hover td{background:var(--surf)}
+.cmp-table td:first-child{color:var(--tx2);font-size:12.5px;font-weight:500}
+.cmp-table td:nth-child(2){
+  font-family:var(--mono);font-size:12px;color:var(--tx3);
 }
-
-.phase-head-row {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  margin-bottom: .4rem;
-  flex-wrap: wrap;
+.cmp-table td:nth-child(3){
+  font-family:var(--mono);font-size:12px;color:var(--tx);
 }
-
-.phase-id {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-3);
-}
-
-.phase-name {
-  font-size: .95rem;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.phase-status {
-  font-family: var(--mono);
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 3px;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-}
-
-.phase-status.done    { background: rgba(87,171,90,.12); color: var(--green); }
-.phase-status.active  { background: rgba(224,120,32,.1);  color: var(--orange); }
-.phase-status.planned { background: var(--bg-2); color: var(--text-3); }
-
-.phase-desc {
-  font-size: 14px;
-  color: var(--text-2);
-  line-height: 1.65;
-  margin-bottom: .75rem;
-  max-width: 620px;
-}
-
-.chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.chip {
-  font-family: var(--mono);
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  color: var(--text-3);
-}
-
-/* ── SPECS TABLES ── */
-.specs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-}
-
-.spec-block {
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.spec-block-head {
-  padding: .6rem 1rem;
-  background: var(--bg-2);
-  border-bottom: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-3);
-  text-transform: uppercase;
-  letter-spacing: .06em;
-}
-
-.spec-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: .55rem 1rem;
-  border-bottom: 1px solid var(--border);
-  font-size: 13.5px;
-  transition: background .12s;
-}
-
-.spec-row:last-child { border-bottom: none; }
-.spec-row:hover { background: var(--bg-1); }
-
-.spec-k { color: var(--text-2); }
-.spec-v { color: var(--text); font-family: var(--mono); font-size: 12.5px; text-align: right; }
+.cmp-table .improved td:nth-child(3){color:#5ab065}
+.cmp-arrow{color:var(--tx3);padding:0 .25rem}
 
 /* ── ARCH ── */
-.arch {
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-  font-family: var(--mono);
-  font-size: 13px;
+.arch{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;gap:1px;
+}
+.arch-cell{background:var(--surf);padding:.875rem 1rem;transition:background .12s}
+.arch-cell:hover{background:var(--raised)}
+.arch-layer{
+  font-family:var(--mono);font-size:9.5px;color:var(--tx3);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;
+}
+.arch-name{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:.25rem}
+.arch-detail{font-size:11.5px;color:var(--tx2);line-height:1.5}
+
+/* ── PHASES ── */
+.phases{display:flex;flex-direction:column}
+.phase{display:grid;grid-template-columns:28px 1fr}
+.ph-track{display:flex;flex-direction:column;align-items:center;padding-top:1.125rem}
+.ph-dot{
+  width:16px;height:16px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;font-family:var(--mono);z-index:1;
+}
+.ph-dot.done  {background:var(--green-d);border:1.5px solid var(--green);color:var(--green)}
+.ph-dot.active{background:var(--amber-d);border:1.5px solid var(--amber);color:var(--amber)}
+.ph-dot.plan  {background:var(--surf);border:1.5px solid var(--line-hi);color:var(--tx3)}
+.ph-line{width:1px;flex:1;background:var(--line);min-height:16px}
+.ph-body{padding:.875rem 0 1.75rem 1rem}
+.ph-top{
+  display:flex;align-items:center;flex-wrap:wrap;
+  gap:.5rem;margin-bottom:.3rem;
+}
+.ph-id{font-family:var(--mono);font-size:11px;color:var(--tx3)}
+.ph-name{font-size:.875rem;font-weight:600;color:var(--tx)}
+.ph-badge{
+  font-family:var(--mono);font-size:9px;padding:2px 7px;
+  border-radius:3px;text-transform:uppercase;letter-spacing:.06em;
+}
+.ph-badge.done  {background:var(--green-d);color:var(--green)}
+.ph-badge.active{background:var(--amber-d);color:var(--amber)}
+.ph-badge.plan  {background:var(--surf);color:var(--tx3);border:1px solid var(--line)}
+.ph-desc{font-size:13.5px;color:var(--tx2);line-height:1.65;margin-bottom:.625rem;max-width:560px}
+.chip-row{display:flex;flex-wrap:wrap;gap:4px}
+.chip{
+  font-family:var(--mono);font-size:10.5px;padding:2px 7px;
+  border-radius:3px;background:var(--raised);
+  border:1px solid var(--line);color:var(--tx3);
 }
 
-.arch-row {
-  display: flex;
-  align-items: stretch;
-  border-bottom: 1px solid var(--border);
+/* ── SPEC BLOCKS ── */
+.spec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.875rem}
+.spec-block{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.spec-head{
+  padding:.5rem .875rem;background:var(--raised);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:9.5px;font-weight:500;
+  color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;
 }
-
-.arch-row:last-child { border-bottom: none; }
-
-.arch-cell {
-  flex: 1;
-  padding: .75rem 1rem;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+.spec-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:.75rem;padding:.5rem .875rem;border-bottom:1px solid var(--line);
+  font-size:13px;transition:background .12s;
 }
-
-.arch-cell:last-child { border-right: none; }
-.arch-cell:hover { background: var(--bg-2); }
-
-.arch-layer {
-  font-size: 10px;
-  color: var(--text-3);
-  text-transform: uppercase;
-  letter-spacing: .06em;
-}
-
-.arch-name {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text);
-}
-
-.arch-detail {
-  font-size: 11px;
-  color: var(--text-2);
-}
-
-.arch-arrow-col {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 .5rem;
-  color: var(--text-3);
-  font-size: 12px;
-  flex-shrink: 0;
-  width: 28px;
-}
+.spec-row:last-child{border-bottom:none}
+.spec-row:hover{background:var(--surf)}
+.sk{color:var(--tx2)}
+.sv{font-family:var(--mono);font-size:11.5px;color:var(--tx);text-align:right;flex-shrink:0}
 
 /* ── BOM ── */
-.bom-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13.5px;
+.bom-controls{
+  display:flex;align-items:center;gap:.625rem;margin-bottom:.75rem;
+}
+.bom-search{
+  flex:1;max-width:280px;
+  padding:.4rem .75rem;
+  background:var(--surf);border:1px solid var(--line-hi);border-radius:var(--r);
+  font-family:var(--mono);font-size:12px;color:var(--tx);
+  outline:none;transition:border-color .13s;
+}
+.bom-search::placeholder{color:var(--tx3)}
+.bom-search:focus{border-color:var(--teal)}
+.bom-count{font-family:var(--mono);font-size:11px;color:var(--tx3)}
+.bom-wrap{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;overflow-x:auto}
+.bom-table{width:100%;border-collapse:collapse;font-size:13px;min-width:460px}
+.bom-table th{
+  padding:.45rem .9rem;text-align:left;
+  font-family:var(--mono);font-size:9.5px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);
+  background:var(--raised);border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+.bom-table td{
+  padding:.55rem .9rem;border-bottom:1px solid var(--line);
+  vertical-align:middle;color:var(--tx);
+}
+.bom-table tr:last-child td{border-bottom:none}
+.bom-table tbody tr:hover td{background:var(--surf)}
+.bom-table a{color:var(--teal);font-family:var(--mono);font-size:11px;transition:color .12s}
+.bom-table a:hover{color:var(--tx)}
+.bom-price{font-family:var(--mono);font-size:12px;color:var(--tx2);white-space:nowrap}
+.bom-total td{background:var(--raised);font-weight:600;border-top:1px solid var(--line-hi)}
+.bom-hidden{display:none}
+.bom-no-results{
+  padding:1.5rem;text-align:center;
+  font-family:var(--mono);font-size:12px;color:var(--tx3);
 }
 
-.bom-table th {
-  text-align: left;
-  padding: .5rem 1rem;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  color: var(--text-3);
-  background: var(--bg-2);
-  border-bottom: 1px solid var(--border);
+/* ── CODE TABS ── */
+.code-block{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.code-tabs{
+  display:flex;align-items:stretch;
+  background:var(--raised);border-bottom:1px solid var(--line);
+  overflow-x:auto;scrollbar-width:none;
 }
-
-.bom-table td {
-  padding: .6rem 1rem;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-  color: var(--text);
+.code-tabs::-webkit-scrollbar{display:none}
+.code-tab{
+  padding:0 13px;height:36px;line-height:36px;
+  font-family:var(--mono);font-size:11px;color:var(--tx3);
+  border-right:1px solid var(--line);white-space:nowrap;
+  transition:color .12s,background .12s;
 }
-
-.bom-table tr:last-child td { border-bottom: none; }
-.bom-table tr:hover td { background: var(--bg-1); }
-
-.bom-table a {
-  color: var(--teal);
-  text-decoration: none;
-  font-family: var(--mono);
-  font-size: 12px;
+.code-tab:hover{color:var(--tx);background:var(--surf)}
+.code-tab.on{
+  color:var(--tx);background:var(--surf);
+  border-bottom:2px solid var(--red);
+  margin-bottom:-1px;
 }
-
-.bom-table a:hover { text-decoration: underline; }
-
-.bom-price {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--text-2);
-  white-space: nowrap;
+.code-actions{
+  margin-left:auto;display:flex;align-items:center;
+  padding:0 10px;gap:6px;flex-shrink:0;
 }
-
-.bom-total td {
-  font-weight: 600;
-  color: var(--text);
-  background: var(--bg-2);
-  border-top: 1px solid var(--border-hi);
+.code-copy{
+  padding:3px 10px;
+  font-family:var(--mono);font-size:10.5px;
+  border:1px solid var(--line-hi);border-radius:3px;
+  color:var(--tx3);transition:color .12s,border-color .12s;
 }
-
-.bom-wrap {
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-  overflow-x: auto;
+.code-copy:hover{color:var(--tx);border-color:var(--tx3)}
+.code-copy.ok{color:var(--green);border-color:var(--green)}
+.code-panel{display:none}
+.code-panel.on{display:block}
+pre{
+  padding:1.125rem;overflow-x:auto;
+  font-family:var(--mono);font-size:12px;
+  line-height:1.75;color:var(--tx);
 }
+.cm{color:var(--tx3)}
+.ck{color:#7aadcc}
+.cv{color:#c49a60}
+.cs{color:#87b87a}
+.cn{color:#c98060}
 
-/* ── DOCS ── */
-.docs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
+/* ── DOCS LIST ── */
+.doc-list{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.doc-item{
+  display:flex;align-items:center;gap:.875rem;
+  padding:.625rem .9rem;border-bottom:1px solid var(--line);
+  transition:background .12s;
 }
-
-.doc-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: .75rem 1rem;
-  border-bottom: 1px solid var(--border);
-  text-decoration: none;
-  color: var(--text);
-  transition: background .12s;
+.doc-item:last-child{border-bottom:none}
+.doc-item:hover{background:var(--surf)}
+.doc-ico{
+  width:26px;height:26px;border-radius:4px;
+  background:var(--raised);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;flex-shrink:0;
 }
-
-.doc-item:last-child { border-bottom: none; }
-.doc-item:hover { background: var(--bg-1); }
-
-.doc-ico {
-  font-size: 15px;
-  flex-shrink: 0;
-  width: 24px;
-  text-align: center;
+.doc-info{flex:1;min-width:0}
+.doc-title{font-size:13.5px;font-weight:500;color:var(--tx);margin-bottom:1px}
+.doc-path{
+  font-family:var(--mono);font-size:10.5px;color:var(--tx3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-
-.doc-body { flex: 1; min-width: 0; }
-
-.doc-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
-  margin-bottom: 1px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.doc-path {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-3);
-}
-
-.doc-arr {
-  font-size: 13px;
-  color: var(--text-3);
-  flex-shrink: 0;
-  transition: color .12s, transform .12s;
-}
-
-.doc-item:hover .doc-arr { color: var(--teal); transform: translateX(3px); }
-
-/* ── REFS ── */
-.ref-group { margin-bottom: 1.5rem; }
-
-.ref-group-title {
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  color: var(--text-3);
-  margin-bottom: .5rem;
-}
-
-.refs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.ref-item {
-  display: flex;
-  align-items: center;
-  gap: .875rem;
-  padding: .65rem 1rem;
-  border-bottom: 1px solid var(--border);
-  text-decoration: none;
-  transition: background .12s;
-}
-
-.ref-item:last-child { border-bottom: none; }
-.ref-item:hover { background: var(--bg-1); }
-
-.ref-name {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--text);
-  flex: 1;
-}
-
-.ref-url {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-3);
-}
-
-/* ── FIRMWARE SNIPPET ── */
-.code-block {
-  background: var(--bg-1);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.code-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: .5rem 1rem;
-  background: var(--bg-2);
-  border-bottom: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-3);
-}
-
-.code-bar button {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: var(--text-3);
-  font-family: var(--mono);
-  font-size: 11px;
-  padding: 2px 8px;
-  cursor: pointer;
-  transition: color .15s, border-color .15s;
-}
-
-.code-bar button:hover { color: var(--text); border-color: var(--border-hi); }
-.code-bar button.copied { color: var(--green); border-color: var(--green); }
-
-pre {
-  padding: 1rem;
-  overflow-x: auto;
-  font-family: var(--mono);
-  font-size: 12.5px;
-  line-height: 1.65;
-  color: var(--text);
-}
-
-.cm  { color: var(--text-3); }
-.ck  { color: #8fb4d9; }
-.cv  { color: #c9a96e; }
-.cs  { color: #95c78e; }
+.doc-arr{font-size:13px;color:var(--tx3);flex-shrink:0;transition:color .12s,transform .12s}
+.doc-item:hover .doc-arr{color:var(--teal);transform:translateX(3px)}
 
 /* ── REPO TREE ── */
-.tree {
-  font-family: var(--mono);
-  font-size: 12.5px;
-  line-height: 1.8;
-  color: var(--text-2);
-  background: var(--bg-1);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 1rem 1.25rem;
-  overflow-x: auto;
+.tree-wrap{margin-top:1.5rem}
+.tree-label{
+  font-family:var(--mono);font-size:10px;color:var(--tx3);
+  text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem;
 }
+.tree{
+  font-family:var(--mono);font-size:12px;line-height:1.85;
+  color:var(--tx2);background:var(--surf);
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:1rem 1.125rem;overflow-x:auto;
+  white-space:pre;
+}
+.t-dir{color:var(--teal)}
+.t-hi {color:var(--amber)}
+.t-dim{color:var(--tx3)}
 
-.tree .dir  { color: var(--teal); }
-.tree .file { color: var(--text-2); }
-.tree .note { color: var(--text-3); }
-.tree .hi   { color: #e07820; }
+/* ── REFS ── */
+.ref-group{margin-bottom:1.375rem}
+.ref-group-label{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  color:var(--tx3);text-transform:uppercase;letter-spacing:.09em;
+  margin-bottom:.4rem;
+}
+.ref-list{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.ref-item{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:.55rem .9rem;border-bottom:1px solid var(--line);
+  transition:background .12s;
+}
+.ref-item:last-child{border-bottom:none}
+.ref-item:hover{background:var(--surf)}
+.ref-name{font-size:13px;font-weight:500;color:var(--tx)}
+.ref-url{font-family:var(--mono);font-size:10.5px;color:var(--tx3);white-space:nowrap;flex-shrink:0}
 
 /* ── FOOTER ── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 1.5rem 0 2rem;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+.footer{
+  border-top:1px solid var(--line);
+  padding:1.5rem 0 2.25rem;
+  display:flex;align-items:flex-start;
+  justify-content:space-between;gap:1.25rem;flex-wrap:wrap;
 }
-
-.footer-info {
-  font-size: 13px;
-  color: var(--text-3);
-  line-height: 1.7;
+.foot-l{font-size:12.5px;color:var(--tx3);line-height:1.7}
+.foot-l strong{color:var(--tx2)}
+.foot-l a{color:var(--tx2);transition:color .12s}
+.foot-l a:hover{color:var(--tx)}
+.foot-links{display:flex;flex-wrap:wrap;gap:.875rem;align-items:center}
+.foot-links a{
+  font-family:var(--mono);font-size:11.5px;color:var(--tx3);
+  transition:color .12s;
 }
+.foot-links a:hover{color:var(--tx)}
 
-.footer-info a { color: var(--text-2); text-decoration: none; }
-.footer-info a:hover { color: var(--text); }
-
-.footer-links {
-  display: flex;
-  gap: 1.25rem;
-  flex-wrap: wrap;
+/* ── REVEAL ── */
+.reveal{
+  opacity:0;transform:translateY(12px);
+  transition:opacity .45s ease,transform .45s ease;
 }
-
-.footer-links a {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-3);
-  text-decoration: none;
-  transition: color .15s;
-}
-
-.footer-links a:hover { color: var(--text); }
-
-/* ── SCROLL REVEAL ── */
-.fade { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
-.fade.in { opacity: 1; transform: none; }
+.reveal.in{opacity:1;transform:none}
 
 /* ── RESPONSIVE ── */
-@media (max-width: 600px) {
-  .nav-links { display: none; }
-  .specs-grid { grid-template-columns: 1fr; }
-  .bom-table th:nth-child(2),
-  .bom-table td:nth-child(2) { display: none; }
-  .arch-row { flex-direction: column; }
-  .arch-arrow-col { display: none; }
-  .arch-cell { border-right: none; border-bottom: 1px solid var(--border); }
-  .arch-cell:last-child { border-bottom: none; }
-  footer { flex-direction: column; }
+@media(max-width:820px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:2rem 0 4rem}
+  .tb-nav{display:none}
+  .tb-menu-btn{display:block}
+  .arch{grid-template-columns:1fr 1fr}
+  .progress-grid{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .arch{grid-template-columns:1fr}
+  .cmp-table th:nth-child(2),.cmp-table td:nth-child(2){display:none}
+  .bom-table th:nth-child(2),.bom-table td:nth-child(2){display:none}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="#" class="nav-id">
-    <span class="nav-tag">UGR</span>
-    AlvGJ-UGR / UGR-A20M
-  </a>
-  <ul class="nav-links">
-    <li><a href="#fases">Fases</a></li>
-    <li><a href="#specs">Specs</a></li>
-    <li><a href="#firmware">Firmware</a></li>
-    <li><a href="#bom">BOM</a></li>
-    <li><a href="#docs">Docs</a></li>
-  </ul>
-  <a href="https://github.com/AlvGJ-UGR/UGR-A20M" target="_blank" class="nav-gh">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.341-3.369-1.341-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
-    GitHub
-  </a>
+<!-- ─── TOPBAR ─── -->
+<nav class="topbar" aria-label="Navegación principal">
+  <div class="topbar-inner">
+    <a href="#top" class="tb-brand">
+      <span class="tb-pill">UGR</span>
+      AlvGJ-UGR / UGR-A20M
+    </a>
+    <ul class="tb-nav" id="tb-nav">
+      <li><a href="#overview" data-sec="overview">Resumen</a></li>
+      <li><a href="#fases"    data-sec="fases">Fases</a></li>
+      <li><a href="#specs"    data-sec="specs">Specs</a></li>
+      <li><a href="#firmware" data-sec="firmware">Firmware</a></li>
+      <li><a href="#bom"      data-sec="bom">BOM</a></li>
+      <li><a href="#docs"     data-sec="docs">Docs</a></li>
+    </ul>
+    <div class="tb-right">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M" target="_blank" rel="noopener" class="tb-gh" aria-label="Ver en GitHub">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.341-3.369-1.341-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub
+      </a>
+      <button class="tb-menu-btn" id="mob-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    </div>
+  </div>
 </nav>
 
-<div class="page">
+<!-- ─── MOBILE DRAWER ─── -->
+<div class="mob-drawer" id="mob-drawer" aria-hidden="true">
+  <div class="mob-drawer-label">Secciones</div>
+  <a href="#overview" class="mob-nav-lnk">Resumen técnico</a>
+  <a href="#fases"    class="mob-nav-lnk">Fases del proyecto</a>
+  <a href="#specs"    class="mob-nav-lnk">Especificaciones</a>
+  <a href="#firmware" class="mob-nav-lnk">Configuración firmware</a>
+  <a href="#bom"      class="mob-nav-lnk">Bill of Materials</a>
+  <a href="#docs"     class="mob-nav-lnk">Documentación</a>
+  <a href="#refs"     class="mob-nav-lnk">Referencias</a>
+  <div class="mob-drawer-label" style="margin-top:.5rem">Estado</div>
+  <a href="#fases" class="mob-nav-lnk"><span style="color:var(--green)">●</span> Fase 0 — completada</a>
+  <a href="#fases" class="mob-nav-lnk"><span style="color:var(--amber)">●</span> Fase 1a/b/c — en progreso</a>
+  <a href="#fases" class="mob-nav-lnk"><span style="color:var(--tx3)">○</span> Fase 2/3 — planificadas</a>
+</div>
 
-  <!-- HEADER -->
-  <header class="site-header fade">
-    <div class="header-meta">
-      <a href="https://www.ugr.es" target="_blank">Universidad de Granada</a>
+<div class="shell">
+<div class="layout">
+
+<!-- ─── SIDEBAR ─── -->
+<aside class="sidebar" aria-label="Navegación lateral">
+  <div class="sb-section">
+    <div class="sb-label">Contenido</div>
+    <a href="#overview" class="sb-link on" data-sec="overview">Resumen técnico</a>
+    <a href="#fases"    class="sb-link"    data-sec="fases">Fases del proyecto</a>
+    <a href="#specs"    class="sb-link"    data-sec="specs">Especificaciones</a>
+    <a href="#firmware" class="sb-link"    data-sec="firmware">Configuración firmware</a>
+    <a href="#bom"      class="sb-link"    data-sec="bom">Bill of Materials</a>
+    <a href="#docs"     class="sb-link"    data-sec="docs">Documentación</a>
+    <a href="#refs"     class="sb-link"    data-sec="refs">Referencias</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Estado fases</div>
+    <a href="#fases" class="sb-link"><span class="sb-dot" style="color:var(--green)">●</span>Fase 0 — completada</a>
+    <a href="#fases" class="sb-link"><span class="sb-dot" style="color:var(--amber)">●</span>Fase 1a — en progreso</a>
+    <a href="#fases" class="sb-link"><span class="sb-dot" style="color:var(--amber)">●</span>Fase 1b — en progreso</a>
+    <a href="#fases" class="sb-link"><span class="sb-dot" style="color:var(--amber)">●</span>Fase 1c — en progreso</a>
+    <a href="#fases" class="sb-link"><span class="sb-dot" style="color:var(--tx3)">○</span>Fase 2 — planificada</a>
+    <a href="#fases" class="sb-link"><span class="sb-dot" style="color:var(--tx3)">○</span>Fase 3 — planificada</a>
+  </div>
+  <div class="sb-meta">
+    <strong>Álvaro González Jiménez</strong>
+    <a href="mailto:alvarogj1@correo.ugr.es">alvarogj1@correo.ugr.es</a><br>
+    Universidad de Granada<br>
+    CC BY-SA 4.0 · 2025
+  </div>
+</aside>
+
+<!-- ─── MAIN ─── -->
+<main class="main">
+
+  <!-- PAGE HEADER -->
+  <header class="ph reveal" id="top">
+    <div class="ph-crumb">
+      <a href="https://www.ugr.es" target="_blank" rel="noopener">ugr.es</a>
       <span>/</span>
-      <span>Ingeniería — Fabricación Digital</span>
+      <a href="https://github.com/AlvGJ-UGR" target="_blank" rel="noopener">AlvGJ-UGR</a>
       <span>/</span>
-      <span>Álvaro González Jiménez</span>
-      <span>·</span>
-      <a href="mailto:alvarogj1@correo.ugr.es">alvarogj1@correo.ugr.es</a>
+      <span>UGR-A20M</span>
     </div>
-
-    <h1>Modernización de la Geeetech A20M</h1>
-
-    <p class="header-sub">
-      Proyecto de mejora progresiva de una impresora 3D cartesiana: migración a electrónica de 32&nbsp;bits
-      (SKR Mini E3&nbsp;V3), extrusión directa tipo Voron (Sharkfin) y firmware Klipper sobre Orange Pi Zero&nbsp;3.
-      Documentado para que sea reproducible por cualquier estudiante o maker.
+    <h1 class="ph-h1">Modernización Geeetech A20M</h1>
+    <p class="ph-desc">
+      Migración progresiva de una impresora 3D cartesiana a electrónica de 32&nbsp;bits
+      (SKR Mini E3&nbsp;V3 + STM32G0B1), extrusión directa estilo Voron (Sharkfin&nbsp;+&nbsp;BMG Clone)
+      y firmware Klipper sobre Orange Pi Zero&nbsp;3. Proyecto educativo de la UGR,
+      documentado para ser reproducible.
     </p>
-
-    <div class="header-badges">
-      <span class="badge ugr">UGR — Proyecto educativo</span>
-      <span class="badge status-active">⬤ Fase 1 en progreso</span>
-      <span class="badge status-done">✓ Fase 0 completada</span>
-      <span class="badge">CC BY-SA 4.0</span>
-      <span class="badge">Klipper</span>
-      <span class="badge">SKR Mini E3 V3</span>
+    <div class="tag-row">
+      <span class="tag r">UGR · Proyecto educativo</span>
+      <span class="tag a">Fase 1 en progreso</span>
+      <span class="tag g">Fase 0 completada</span>
+      <span class="tag">Klipper</span>
+      <span class="tag">SKR Mini E3 V3</span>
+      <span class="tag">CC BY-SA 4.0</span>
     </div>
   </header>
 
-  <!-- OVERVIEW RÁPIDO -->
-  <section class="sec fade" id="overview">
-    <div class="sec-head">
+  <!-- ─── OVERVIEW ─── -->
+  <section class="sec reveal" id="overview">
+    <div class="sec-hd">
       <span class="sec-title">Resumen técnico</span>
     </div>
 
-    <div class="overview-grid">
-      <div class="ov-cell">
-        <div class="ov-label">Máquina base</div>
-        <div class="ov-value">Geeetech A20M</div>
+    <!-- Key params grid -->
+    <div class="ov">
+      <div class="ov-cell"><div class="ov-k">Máquina base</div><div class="ov-v">Geeetech A20M</div></div>
+      <div class="ov-cell"><div class="ov-k">Volumen</div><div class="ov-v">255×255×255 mm</div></div>
+      <div class="ov-cell"><div class="ov-k">Placa original</div><div class="ov-v">GT2560 v3 (8-bit)</div></div>
+      <div class="ov-cell"><div class="ov-k">Placa objetivo</div><div class="ov-v">SKR Mini E3 V3</div></div>
+      <div class="ov-cell"><div class="ov-k">MCU</div><div class="ov-v">STM32G0B1</div></div>
+      <div class="ov-cell"><div class="ov-k">Drivers</div><div class="ov-v">5× TMC2209 UART</div></div>
+      <div class="ov-cell"><div class="ov-k">SBC</div><div class="ov-v">Orange Pi Zero 3</div></div>
+      <div class="ov-cell"><div class="ov-k">Firmware</div><div class="ov-v">Klipper + Moonraker</div></div>
+      <div class="ov-cell"><div class="ov-k">Extrusor</div><div class="ov-v">Sharkfin + BMG 3.5:1</div></div>
+      <div class="ov-cell"><div class="ov-k">Hotend</div><div class="ov-v">CHC V6 Volcano</div></div>
+      <div class="ov-cell"><div class="ov-k">Nivelación</div><div class="ov-v">CR-Touch (mesh 5×5)</div></div>
+      <div class="ov-cell"><div class="ov-k">Coste Fase 1</div><div class="ov-v">~106 €</div></div>
+    </div>
+
+    <!-- Architecture -->
+    <div class="arch reveal">
+      <div class="arch-cell">
+        <div class="arch-layer">Host · SBC</div>
+        <div class="arch-name">Orange Pi Zero 3</div>
+        <div class="arch-detail">Armbian · 1 GB LPDDR4 · WiFi<br>Klipper + Moonraker + Fluidd</div>
       </div>
-      <div class="ov-cell">
-        <div class="ov-label">Volumen impresión</div>
-        <div class="ov-value">255×255×255 mm</div>
+      <div class="arch-cell">
+        <div class="arch-layer">MCU · USB serial</div>
+        <div class="arch-name">SKR Mini E3 V3.0</div>
+        <div class="arch-detail">STM32G0B1 32-bit<br>5× TMC2209 en UART · 24 V</div>
       </div>
-      <div class="ov-cell">
-        <div class="ov-label">Placa objetivo</div>
-        <div class="ov-value">SKR Mini E3 V3</div>
+      <div class="arch-cell">
+        <div class="arch-layer">Extrusión · Direct Drive</div>
+        <div class="arch-name">Sharkfin + BMG Clone</div>
+        <div class="arch-detail">Ratio 3.5:1 · NEMA 17 pancake 20 mm<br>CHC V6 Volcano · Mini Stealth v2</div>
       </div>
-      <div class="ov-cell">
-        <div class="ov-label">MCU</div>
-        <div class="ov-value">STM32G0B1 (32-bit)</div>
-      </div>
-      <div class="ov-cell">
-        <div class="ov-label">SBC</div>
-        <div class="ov-value">Orange Pi Zero 3</div>
-      </div>
-      <div class="ov-cell">
-        <div class="ov-label">Firmware</div>
-        <div class="ov-value">Klipper + Moonraker</div>
-      </div>
-      <div class="ov-cell">
-        <div class="ov-label">Extrusor</div>
-        <div class="ov-value">Sharkfin + BMG Clone</div>
-      </div>
-      <div class="ov-cell">
-        <div class="ov-label">Hotend</div>
-        <div class="ov-value">CHC V6 Volcano</div>
-      </div>
-      <div class="ov-cell">
-        <div class="ov-label">Nivelación</div>
-        <div class="ov-value">CR-Touch (mesh)</div>
-      </div>
-      <div class="ov-cell">
-        <div class="ov-label">Coste Fase 1</div>
-        <div class="ov-value">~106 €</div>
-      </div>
-      <div class="ov-cell">
-        <div class="ov-label">Interfaz web</div>
-        <div class="ov-value">Fluidd</div>
-      </div>
-      <div class="ov-cell">
-        <div class="ov-label">Licencia</div>
-        <div class="ov-value">CC BY-SA 4.0</div>
+      <div class="arch-cell">
+        <div class="arch-layer">Sensores · Refrigeración</div>
+        <div class="arch-name">CR-Touch + ventilación dual</div>
+        <div class="arch-detail">Bed mesh bicúbico 5×5<br>2× 4010 radial · 1× 2510 axial (24 V)</div>
       </div>
     </div>
 
-    <!-- Arquitectura -->
-    <div class="arch fade">
-      <div class="arch-row">
-        <div class="arch-cell">
-          <div class="arch-layer">SBC / Host</div>
-          <div class="arch-name">Orange Pi Zero 3</div>
-          <div class="arch-detail">Armbian + Klipper + Moonraker + Fluidd · 1 GB RAM</div>
+    <!-- Comparison before / after -->
+    <div style="margin-top:1.25rem" class="reveal">
+      <div class="sec-hd" style="margin-bottom:.875rem">
+        <span class="sec-title" style="font-size:.8125rem;font-weight:500;color:var(--tx2)">Comparativa antes / después</span>
+      </div>
+      <div class="cmp">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th>Parámetro</th>
+              <th>Original</th>
+              <th>Objetivo (Fase 1)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="improved"><td>Placa controladora</td><td>GT2560 v3 · ATmega2560 · 8-bit</td><td>SKR Mini E3 V3 · STM32G0B1 · 32-bit</td></tr>
+            <tr class="improved"><td>Firmware</td><td>Marlin 1.x (sin telemetría)</td><td>Klipper + Moonraker + Fluidd</td></tr>
+            <tr class="improved"><td>Drivers de motor</td><td>A4988 (solo step/dir)</td><td>TMC2209 en UART (stealthChop, sensorless)</td></tr>
+            <tr class="improved"><td>Tipo de extrusión</td><td>Bowden dual (tubo PTFE largo)</td><td>Direct Drive (Sharkfin + BMG Clone)</td></tr>
+            <tr class="improved"><td>Retracción recomendada</td><td>~6–8 mm</td><td>~0.5–1 mm</td></tr>
+            <tr class="improved"><td>Nivelación de cama</td><td>Manual (5 puntos)</td><td>CR-Touch + bed mesh automático</td></tr>
+            <tr class="improved"><td>Interfaz de usuario</td><td>Pantalla táctil local</td><td>Fluidd (web, cualquier dispositivo)</td></tr>
+            <tr class="improved"><td>Acceso a configuración</td><td>Recompilar y flashear Marlin</td><td>Editar printer.cfg + FIRMWARE_RESTART</td></tr>
+            <tr><td>Volumen de impresión</td><td>255×255×255 mm</td><td>255×255×255 mm (sin cambios)</td></tr>
+            <tr><td>Alimentación</td><td>24 V DC</td><td>24 V DC (sin cambios)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Progress bars -->
+    <div style="margin-top:1.25rem" class="reveal">
+      <div class="sec-hd" style="margin-bottom:.875rem">
+        <span class="sec-title" style="font-size:.8125rem;font-weight:500;color:var(--tx2)">Progreso del proyecto</span>
+      </div>
+      <div class="progress-grid">
+        <div class="prog-card">
+          <div class="prog-head"><span class="prog-name">Fase 0 — Especificaciones</span><span class="prog-pct">100%</span></div>
+          <div class="prog-bar"><div class="prog-fill done" data-width="100"></div></div>
+          <div class="prog-sub">completada</div>
         </div>
-        <div class="arch-arrow-col">→</div>
-        <div class="arch-cell">
-          <div class="arch-layer">MCU (USB)</div>
-          <div class="arch-name">BTT SKR Mini E3 V3.0</div>
-          <div class="arch-detail">STM32G0B1 32-bit · 5× TMC2209 UART</div>
+        <div class="prog-card">
+          <div class="prog-head"><span class="prog-name">Fase 1a — Electrónica</span><span class="prog-pct">70%</span></div>
+          <div class="prog-bar"><div class="prog-fill active" data-width="70"></div></div>
+          <div class="prog-sub">en progreso</div>
         </div>
-        <div class="arch-arrow-col">→</div>
-        <div class="arch-cell">
-          <div class="arch-layer">Mecánica</div>
-          <div class="arch-name">Sharkfin + CHC V6 Volcano</div>
-          <div class="arch-detail">Direct drive · BMG Clone 3.5:1 · CR-Touch</div>
+        <div class="prog-card">
+          <div class="prog-head"><span class="prog-name">Fase 1b — Extrusor</span><span class="prog-pct">50%</span></div>
+          <div class="prog-bar"><div class="prog-fill active" data-width="50"></div></div>
+          <div class="prog-sub">en progreso</div>
         </div>
-        <div class="arch-arrow-col">→</div>
-        <div class="arch-cell">
-          <div class="arch-layer">Refrigeración</div>
-          <div class="arch-name">2× 4010 + 1× 2510</div>
-          <div class="arch-detail">Radial 24V dual simétrico + hotend axial</div>
+        <div class="prog-card">
+          <div class="prog-head"><span class="prog-name">Fase 1c — Toolhead</span><span class="prog-pct">40%</span></div>
+          <div class="prog-bar"><div class="prog-fill active" data-width="40"></div></div>
+          <div class="prog-sub">en progreso</div>
+        </div>
+        <div class="prog-card">
+          <div class="prog-head"><span class="prog-name">Fase 2 — Guías lineales</span><span class="prog-pct">0%</span></div>
+          <div class="prog-bar"><div class="prog-fill plan" data-width="0"></div></div>
+          <div class="prog-sub">planificada</div>
+        </div>
+        <div class="prog-card">
+          <div class="prog-head"><span class="prog-name">Fase 3 — Benchmarks</span><span class="prog-pct">0%</span></div>
+          <div class="prog-bar"><div class="prog-fill plan" data-width="0"></div></div>
+          <div class="prog-sub">planificada</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FASES -->
-  <section class="sec fade" id="fases">
-    <div class="sec-head">
+  <!-- ─── FASES ─── -->
+  <section class="sec reveal" id="fases">
+    <div class="sec-hd">
       <span class="sec-title">Fases del proyecto</span>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/" target="_blank" class="sec-anchor">ver documentación completa ↗</a>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/tree/main/docs" target="_blank" rel="noopener" class="sec-lnk">docs/ ↗</a>
     </div>
-
     <div class="phases">
 
-      <div class="phase">
-        <div class="phase-marker">
-          <div class="phase-dot done">✓</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-content">
-          <div class="phase-head-row">
-            <span class="phase-id">Fase 0</span>
-            <span class="phase-name">Especificaciones e investigación</span>
-            <span class="phase-status done">completada</span>
+      <div class="phase reveal">
+        <div class="ph-track"><div class="ph-dot done">✓</div><div class="ph-line"></div></div>
+        <div class="ph-body">
+          <div class="ph-top">
+            <span class="ph-id">Fase 0</span>
+            <span class="ph-name">Especificaciones e investigación</span>
+            <span class="ph-badge done">completada</span>
           </div>
-          <p class="phase-desc">
-            Análisis de la máquina original (GT2560&nbsp;v3, Marlin&nbsp;1.x, cinemática Bowden),
-            selección y comparativa de componentes alternativos, creación del repositorio y
-            estructura de la documentación.
-          </p>
+          <p class="ph-desc">Análisis de la máquina original (GT2560 v3, Marlin 1.x, Bowden dual), comparativa de alternativas electrónicas, selección de componentes y creación de la estructura documental del repositorio.</p>
           <div class="chip-row">
             <span class="chip">docs/fase-0/</span>
             <span class="chip">00_especificaciones_base.md</span>
@@ -909,22 +805,15 @@ footer {
         </div>
       </div>
 
-      <div class="phase">
-        <div class="phase-marker">
-          <div class="phase-dot active">●</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-content">
-          <div class="phase-head-row">
-            <span class="phase-id">Fase 1a</span>
-            <span class="phase-name">Actualización electrónica</span>
-            <span class="phase-status active">en progreso</span>
+      <div class="phase reveal">
+        <div class="ph-track"><div class="ph-dot active">●</div><div class="ph-line"></div></div>
+        <div class="ph-body">
+          <div class="ph-top">
+            <span class="ph-id">Fase 1a</span>
+            <span class="ph-name">Actualización electrónica</span>
+            <span class="ph-badge active">en progreso</span>
           </div>
-          <p class="phase-desc">
-            Sustitución de la GT2560 por la BTT SKR Mini E3&nbsp;V3.0. Instalación de la Orange Pi Zero&nbsp;3
-            con Armbian como SBC ejecutando Klipper, Moonraker y Fluidd. Drivers TMC2209 en UART,
-            configuración de pasos, corrientes y microstepping.
-          </p>
+          <p class="ph-desc">Sustitución de la GT2560 por la BTT SKR Mini E3 V3.0 con STM32G0B1 de 32 bits. Instalación de Orange Pi Zero 3 con Armbian ejecutando Klipper, Moonraker y Fluidd. Configuración de los cinco drivers TMC2209 en modo UART con stealthChop.</p>
           <div class="chip-row">
             <span class="chip">docs/fase-1/electronica/</span>
             <span class="chip">01_skr_klipper.md</span>
@@ -933,21 +822,15 @@ footer {
         </div>
       </div>
 
-      <div class="phase">
-        <div class="phase-marker">
-          <div class="phase-dot active">●</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-content">
-          <div class="phase-head-row">
-            <span class="phase-id">Fase 1b</span>
-            <span class="phase-name">Extrusor directo Sharkfin + BMG Clone</span>
-            <span class="phase-status active">en progreso</span>
+      <div class="phase reveal">
+        <div class="ph-track"><div class="ph-dot active">●</div><div class="ph-line"></div></div>
+        <div class="ph-body">
+          <div class="ph-top">
+            <span class="ph-id">Fase 1b</span>
+            <span class="ph-name">Extrusor directo Sharkfin + BMG Clone</span>
+            <span class="ph-badge active">en progreso</span>
           </div>
-          <p class="phase-desc">
-            Conversión de Bowden a direct drive con el extrusor Sharkfin (KayosMaker) + engranajes BMG Clone
-            a ~3.5:1 y motor NEMA&nbsp;17 pancake de 20&nbsp;mm. Calibración de E-steps, presión advance y retracción.
-          </p>
+          <p class="ph-desc">Conversión de Bowden a direct drive con extrusor Sharkfin (KayosMaker) y engranajes BMG Clone a ~3.5:1. Motor NEMA 17 pancake de 20 mm. Calibración de rotation_distance, Pressure Advance y retracción mínima (~0.5 mm).</p>
           <div class="chip-row">
             <span class="chip">docs/fase-1/extrusor/</span>
             <span class="chip">02_sharkfin_bmg.md</span>
@@ -956,22 +839,15 @@ footer {
         </div>
       </div>
 
-      <div class="phase">
-        <div class="phase-marker">
-          <div class="phase-dot active">●</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-content">
-          <div class="phase-head-row">
-            <span class="phase-id">Fase 1c</span>
-            <span class="phase-name">Toolhead Mini Stealth v2 + CHC V6 Volcano</span>
-            <span class="phase-status active">en progreso</span>
+      <div class="phase reveal">
+        <div class="ph-track"><div class="ph-dot active">●</div><div class="ph-line"></div></div>
+        <div class="ph-body">
+          <div class="ph-top">
+            <span class="ph-id">Fase 1c</span>
+            <span class="ph-name">Toolhead Mini Stealth v2 + CHC Volcano</span>
+            <span class="ph-badge active">en progreso</span>
           </div>
-          <p class="phase-desc">
-            Shroud Mini Stealth&nbsp;v2 (atrushing) con hotend CHC V6 Volcano de alto caudal a 24&nbsp;V,
-            refrigeración de capa dual simétrica con dos ventiladores radiales 4010&nbsp;24V
-            y nivelación automática con CR-Touch + bed mesh en Klipper.
-          </p>
+          <p class="ph-desc">Shroud Mini Stealth v2 (atrushing) con hotend CHC V6 Volcano de alto caudal a 24 V. Refrigeración de capa dual simétrica con dos ventiladores radiales 4010 24 V. Autonivelación con CR-Touch y bed mesh bicúbico en Klipper.</p>
           <div class="chip-row">
             <span class="chip">docs/fase-1/toolhead/</span>
             <span class="chip">03_mini_stealth_chc_crtouch.md</span>
@@ -979,21 +855,15 @@ footer {
         </div>
       </div>
 
-      <div class="phase">
-        <div class="phase-marker">
-          <div class="phase-dot planned">○</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-content">
-          <div class="phase-head-row">
-            <span class="phase-id">Fase 2</span>
-            <span class="phase-name">Guías lineales MGN12H en X e Y</span>
-            <span class="phase-status planned">planificada</span>
+      <div class="phase reveal">
+        <div class="ph-track"><div class="ph-dot plan"></div><div class="ph-line"></div></div>
+        <div class="ph-body">
+          <div class="ph-top">
+            <span class="ph-id">Fase 2</span>
+            <span class="ph-name">Guías lineales MGN12H en X e Y</span>
+            <span class="ph-badge plan">planificada</span>
           </div>
-          <p class="phase-desc">
-            Sustitución de las varillas lisas por guías lineales MGN12H en los ejes X e Y.
-            Refuerzo del bastidor y rediseño de los brackets de montaje.
-          </p>
+          <p class="ph-desc">Sustitución de las varillas lisas originales por guías lineales MGN12H en los ejes X e Y. Refuerzo del bastidor y rediseño de brackets de montaje para los carros.</p>
           <div class="chip-row">
             <span class="chip">docs/fase-2/</span>
             <span class="chip">04_guias_lineales.md</span>
@@ -1001,20 +871,15 @@ footer {
         </div>
       </div>
 
-      <div class="phase">
-        <div class="phase-marker">
-          <div class="phase-dot planned">○</div>
-        </div>
-        <div class="phase-content">
-          <div class="phase-head-row">
-            <span class="phase-id">Fase 3</span>
-            <span class="phase-name">Benchmarks, GitHub Pages e informe UGR</span>
-            <span class="phase-status planned">planificada</span>
+      <div class="phase reveal">
+        <div class="ph-track"><div class="ph-dot plan"></div></div>
+        <div class="ph-body">
+          <div class="ph-top">
+            <span class="ph-id">Fase 3</span>
+            <span class="ph-name">Benchmarks e informe UGR</span>
+            <span class="ph-badge plan">planificada</span>
           </div>
-          <p class="phase-desc">
-            Pruebas de rendimiento comparativas antes/después en PLA, PETG y TPU.
-            Publicación de GitHub Pages y entrega del informe técnico a la UGR.
-          </p>
+          <p class="ph-desc">Pruebas de rendimiento comparativas antes/después en PLA, PETG y TPU. Publicación de GitHub Pages y entrega del informe técnico final a la UGR.</p>
           <div class="chip-row">
             <span class="chip">docs/fase-3/</span>
             <span class="chip">05_documentacion_final.md</span>
@@ -1025,75 +890,80 @@ footer {
     </div>
   </section>
 
-  <!-- SPECS -->
-  <section class="sec fade" id="specs">
-    <div class="sec-head">
+  <!-- ─── SPECS ─── -->
+  <section class="sec reveal" id="specs">
+    <div class="sec-hd">
       <span class="sec-title">Especificaciones técnicas</span>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/fase-0/00_especificaciones_base.md" target="_blank" class="sec-anchor">especificaciones base ↗</a>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/fase-0/00_especificaciones_base.md" target="_blank" rel="noopener" class="sec-lnk">especificaciones base ↗</a>
     </div>
-
-    <div class="specs-grid">
-
-      <div class="spec-block fade">
-        <div class="spec-block-head">Máquina original</div>
-        <div class="spec-row"><span class="spec-k">Modelo</span><span class="spec-v">Geeetech A20M</span></div>
-        <div class="spec-row"><span class="spec-k">Placa</span><span class="spec-v">GT2560 v3</span></div>
-        <div class="spec-row"><span class="spec-k">CPU</span><span class="spec-v">ATmega2560 (8-bit)</span></div>
-        <div class="spec-row"><span class="spec-k">Firmware</span><span class="spec-v">Marlin 1.x</span></div>
-        <div class="spec-row"><span class="spec-k">Extrusión</span><span class="spec-v">Bowden (dual)</span></div>
-        <div class="spec-row"><span class="spec-k">Alimentación</span><span class="spec-v">24V DC</span></div>
-        <div class="spec-row"><span class="spec-k">Kinematics</span><span class="spec-v">Cartesiana</span></div>
+    <div class="spec-grid">
+      <div class="spec-block reveal">
+        <div class="spec-head">Máquina original</div>
+        <div class="spec-row"><span class="sk">Modelo</span><span class="sv">Geeetech A20M</span></div>
+        <div class="spec-row"><span class="sk">Placa</span><span class="sv">GT2560 v3</span></div>
+        <div class="spec-row"><span class="sk">CPU</span><span class="sv">ATmega2560 (8-bit)</span></div>
+        <div class="spec-row"><span class="sk">Firmware</span><span class="sv">Marlin 1.x</span></div>
+        <div class="spec-row"><span class="sk">Extrusión</span><span class="sv">Bowden dual</span></div>
+        <div class="spec-row"><span class="sk">Alimentación</span><span class="sv">24 V DC</span></div>
+        <div class="spec-row"><span class="sk">Cinemática</span><span class="sv">Cartesiana</span></div>
       </div>
-
-      <div class="spec-block fade">
-        <div class="spec-block-head">Electrónica objetivo (Fase 1)</div>
-        <div class="spec-row"><span class="spec-k">Placa</span><span class="spec-v">BTT SKR Mini E3 V3.0</span></div>
-        <div class="spec-row"><span class="spec-k">CPU</span><span class="spec-v">STM32G0B1 (32-bit)</span></div>
-        <div class="spec-row"><span class="spec-k">Drivers</span><span class="spec-v">5× TMC2209 UART</span></div>
-        <div class="spec-row"><span class="spec-k">SBC</span><span class="spec-v">Orange Pi Zero 3</span></div>
-        <div class="spec-row"><span class="spec-k">RAM</span><span class="spec-v">1 GB LPDDR4</span></div>
-        <div class="spec-row"><span class="spec-k">OS</span><span class="spec-v">Armbian (Debian)</span></div>
-        <div class="spec-row"><span class="spec-k">Interfaz</span><span class="spec-v">Fluidd (web)</span></div>
+      <div class="spec-block reveal">
+        <div class="spec-head">Electrónica objetivo</div>
+        <div class="spec-row"><span class="sk">Placa</span><span class="sv">SKR Mini E3 V3.0</span></div>
+        <div class="spec-row"><span class="sk">CPU</span><span class="sv">STM32G0B1 (32-bit)</span></div>
+        <div class="spec-row"><span class="sk">Drivers</span><span class="sv">5× TMC2209 UART</span></div>
+        <div class="spec-row"><span class="sk">SBC</span><span class="sv">Orange Pi Zero 3</span></div>
+        <div class="spec-row"><span class="sk">RAM</span><span class="sv">1 GB LPDDR4</span></div>
+        <div class="spec-row"><span class="sk">OS</span><span class="sv">Armbian (Debian)</span></div>
+        <div class="spec-row"><span class="sk">Interfaz</span><span class="sv">Fluidd (web)</span></div>
       </div>
-
-      <div class="spec-block fade">
-        <div class="spec-block-head">Sistema de extrusión</div>
-        <div class="spec-row"><span class="spec-k">Tipo</span><span class="spec-v">Direct Drive</span></div>
-        <div class="spec-row"><span class="spec-k">Extrusor</span><span class="spec-v">Sharkfin (KayosMaker)</span></div>
-        <div class="spec-row"><span class="spec-k">Engranajes</span><span class="spec-v">BMG Clone</span></div>
-        <div class="spec-row"><span class="spec-k">Ratio</span><span class="spec-v">~3.5:1</span></div>
-        <div class="spec-row"><span class="spec-k">Motor</span><span class="spec-v">NEMA 17 pancake 20mm</span></div>
-        <div class="spec-row"><span class="spec-k">Hotend</span><span class="spec-v">CHC V6 Volcano</span></div>
-        <div class="spec-row"><span class="spec-k">Toolhead</span><span class="spec-v">Mini Stealth v2</span></div>
+      <div class="spec-block reveal">
+        <div class="spec-head">Sistema de extrusión</div>
+        <div class="spec-row"><span class="sk">Tipo</span><span class="sv">Direct Drive</span></div>
+        <div class="spec-row"><span class="sk">Extrusor</span><span class="sv">Sharkfin (KayosMaker)</span></div>
+        <div class="spec-row"><span class="sk">Engranajes</span><span class="sv">BMG Clone</span></div>
+        <div class="spec-row"><span class="sk">Ratio</span><span class="sv">~3.5:1</span></div>
+        <div class="spec-row"><span class="sk">Motor</span><span class="sv">NEMA 17 pancake 20 mm</span></div>
+        <div class="spec-row"><span class="sk">Hotend</span><span class="sv">CHC V6 Volcano</span></div>
+        <div class="spec-row"><span class="sk">Toolhead</span><span class="sv">Mini Stealth v2</span></div>
       </div>
-
-      <div class="spec-block fade">
-        <div class="spec-block-head">Refrigeración y sensores</div>
-        <div class="spec-row"><span class="spec-k">Ventiladores capa</span><span class="spec-v">2× 4010 24V radial</span></div>
-        <div class="spec-row"><span class="spec-k">Configuración</span><span class="spec-v">Dual simétrico</span></div>
-        <div class="spec-row"><span class="spec-k">Ventilador hotend</span><span class="spec-v">1× 2510 24V axial</span></div>
-        <div class="spec-row"><span class="spec-k">Termistor</span><span class="spec-v">NTC 100k</span></div>
-        <div class="spec-row"><span class="spec-k">Autonivelación</span><span class="spec-v">CR-Touch</span></div>
-        <div class="spec-row"><span class="spec-k">Bed mesh</span><span class="spec-v">Klipper (5×5 o 7×7)</span></div>
+      <div class="spec-block reveal">
+        <div class="spec-head">Sensores y refrigeración</div>
+        <div class="spec-row"><span class="sk">Autonivelación</span><span class="sv">CR-Touch</span></div>
+        <div class="spec-row"><span class="sk">Bed mesh</span><span class="sv">5×5 bicúbico</span></div>
+        <div class="spec-row"><span class="sk">Termistor</span><span class="sv">NTC 100 k</span></div>
+        <div class="spec-row"><span class="sk">Ventil. capa</span><span class="sv">2× 4010 24 V radial</span></div>
+        <div class="spec-row"><span class="sk">Configuración</span><span class="sv">Dual simétrico</span></div>
+        <div class="spec-row"><span class="sk">Ventil. hotend</span><span class="sv">1× 2510 24 V axial</span></div>
       </div>
-
     </div>
   </section>
 
-  <!-- FIRMWARE SNIPPET -->
-  <section class="sec fade" id="firmware">
-    <div class="sec-head">
-      <span class="sec-title">Fragmento de configuración Klipper</span>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/firmware/klipper/config/printer.cfg" target="_blank" class="sec-anchor">printer.cfg completo ↗</a>
+  <!-- ─── FIRMWARE ─── -->
+  <section class="sec reveal" id="firmware">
+    <div class="sec-hd">
+      <span class="sec-title">Configuración firmware</span>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/tree/main/firmware/klipper" target="_blank" rel="noopener" class="sec-lnk">firmware/klipper/ ↗</a>
     </div>
 
-    <div class="code-block fade">
-      <div class="code-bar">
-        <span>firmware/klipper/config/printer.cfg</span>
-        <button id="copy-btn" onclick="copyCode()">copiar</button>
+    <div class="code-block reveal">
+      <div class="code-tabs" role="tablist" aria-label="Ficheros de configuración">
+        <button class="code-tab on"  role="tab" data-panel="p0" aria-selected="true" >printer.cfg</button>
+        <button class="code-tab"     role="tab" data-panel="p1" aria-selected="false">extruder + bltouch</button>
+        <button class="code-tab"     role="tab" data-panel="p2" aria-selected="false">macros.cfg</button>
+        <div class="code-actions">
+          <button class="code-copy" id="copy-btn" aria-label="Copiar código">copiar</button>
+        </div>
       </div>
-      <pre id="code-snippet"><span class="cm"># UGR-A20M — Klipper config (SKR Mini E3 V3 + Orange Pi Zero 3)</span>
-<span class="cm"># Autor: Álvaro González Jiménez — alvarogj1@correo.ugr.es</span>
+
+      <div class="code-panel on" id="p0" role="tabpanel">
+<pre><span class="cm"># UGR-A20M — printer.cfg principal</span>
+<span class="cm"># Autor: Álvaro González Jiménez · alvarogj1@correo.ugr.es</span>
+<span class="cm"># Placa: BTT SKR Mini E3 V3.0 · SBC: Orange Pi Zero 3 (Armbian)</span>
+
+<span class="ck">[mcu]</span>
+<span class="cv">serial</span>: <span class="cs">/dev/serial/by-id/usb-Klipper_stm32g0b1xx_&lt;ID&gt;-if00</span>
+<span class="cv">restart_method</span>: command
 
 <span class="ck">[printer]</span>
 <span class="cv">kinematics</span>: cartesian
@@ -1101,51 +971,129 @@ footer {
 <span class="cv">max_accel</span>: <span class="cs">3000</span>
 <span class="cv">max_z_velocity</span>: <span class="cs">5</span>
 <span class="cv">max_z_accel</span>: <span class="cs">100</span>
+<span class="cv">square_corner_velocity</span>: <span class="cs">5.0</span>
 
-<span class="ck">[extruder]</span>
+<span class="ck">[stepper_x]</span>
+<span class="cv">step_pin</span>: PB13
+<span class="cv">dir_pin</span>: !PB12
+<span class="cv">enable_pin</span>: !PB14
+<span class="cv">microsteps</span>: <span class="cs">16</span>
+<span class="cv">rotation_distance</span>: <span class="cs">40</span>
+<span class="cv">endstop_pin</span>: ^PC0
+<span class="cv">position_endstop</span>: <span class="cs">0</span>
+<span class="cv">position_max</span>: <span class="cs">255</span>
+<span class="cv">homing_speed</span>: <span class="cs">50</span>
+
+<span class="ck">[tmc2209 stepper_x]</span>
+<span class="cv">uart_pin</span>: PC11
+<span class="cv">tx_pin</span>: PC10
+<span class="cv">uart_address</span>: <span class="cs">0</span>
+<span class="cv">run_current</span>: <span class="cs">0.800</span>
+<span class="cv">stealthchop_threshold</span>: <span class="cs">999999</span>
+
+<span class="cm"># stepper_y, stepper_z, heater_bed → ver repositorio completo</span></pre>
+      </div>
+
+      <div class="code-panel" id="p1" role="tabpanel">
+<pre><span class="ck">[extruder]</span>
 <span class="cv">step_pin</span>: PB3
 <span class="cv">dir_pin</span>: !PB4
 <span class="cv">enable_pin</span>: !PD2
 <span class="cv">microsteps</span>: <span class="cs">16</span>
-<span class="cv">rotation_distance</span>: <span class="cs">22.6789511</span>  <span class="cm"># Calibrar con BMG Clone</span>
-<span class="cv">gear_ratio</span>: <span class="cs">50:17</span>
+<span class="cv">rotation_distance</span>: <span class="cs">22.6789511</span>  <span class="cm"># BMG Clone — calibrar con método de marca</span>
+<span class="cv">gear_ratio</span>: <span class="cs">50:17</span>               <span class="cm"># ratio efectivo Sharkfin + BMG ≈ 3.5:1</span>
 <span class="cv">nozzle_diameter</span>: <span class="cs">0.400</span>
 <span class="cv">filament_diameter</span>: <span class="cs">1.750</span>
 <span class="cv">heater_pin</span>: PC8
 <span class="cv">sensor_type</span>: ATC Semitec 104GT-2
+<span class="cv">sensor_pin</span>: PA0
+<span class="cv">min_temp</span>: <span class="cs">0</span>
+<span class="cv">max_temp</span>: <span class="cs">285</span>
+<span class="cv">pressure_advance</span>: <span class="cs">0.035</span>         <span class="cm"># ajustar con test de torre PA</span>
 <span class="cv">max_extrude_only_distance</span>: <span class="cs">100.0</span>
 
-<span class="ck">[bltouch]</span>  <span class="cm"># CR-Touch compatible</span>
+<span class="ck">[tmc2209 extruder]</span>
+<span class="cv">uart_pin</span>: PC11
+<span class="cv">tx_pin</span>: PC10
+<span class="cv">uart_address</span>: <span class="cs">3</span>
+<span class="cv">run_current</span>: <span class="cs">0.650</span>
+<span class="cv">stealthchop_threshold</span>: <span class="cs">0</span>         <span class="cm"># spreadCycle para extrusor</span>
+
+<span class="ck">[bltouch]</span>  <span class="cm"># CR-Touch es compatible con la sección bltouch</span>
 <span class="cv">sensor_pin</span>: ^PC14
 <span class="cv">control_pin</span>: PA1
 <span class="cv">x_offset</span>: <span class="cs">-44</span>
 <span class="cv">y_offset</span>: <span class="cs">-6</span>
-<span class="cv">z_offset</span>: <span class="cs">0</span>  <span class="cm"># Ajustar en primera calibración</span>
+<span class="cv">z_offset</span>: <span class="cs">0</span>    <span class="cm"># ajustar con PROBE_CALIBRATE en primera puesta en marcha</span>
 
 <span class="ck">[bed_mesh]</span>
 <span class="cv">speed</span>: <span class="cs">120</span>
+<span class="cv">horizontal_move_z</span>: <span class="cs">5</span>
 <span class="cv">mesh_min</span>: <span class="cs">15, 15</span>
 <span class="cv">mesh_max</span>: <span class="cs">200, 200</span>
 <span class="cv">probe_count</span>: <span class="cs">5, 5</span>
 <span class="cv">algorithm</span>: bicubic</pre>
+      </div>
+
+      <div class="code-panel" id="p2" role="tabpanel">
+<pre><span class="cm"># firmware/klipper/macros/macros.cfg</span>
+
+<span class="ck">[gcode_macro START_PRINT]</span>
+<span class="cv">gcode</span>:
+    <span class="cn">{% set BED_TEMP = params.BED_TEMP|default(60)|float %}</span>
+    <span class="cn">{% set EXT_TEMP = params.EXTRUDER_TEMP|default(200)|float %}</span>
+    M140 S<span class="cn">{BED_TEMP}</span>           <span class="cm"># Calentar cama (no espera)</span>
+    G28                          <span class="cm"># Home all</span>
+    BED_MESH_CALIBRATE           <span class="cm"># Bed mesh automático</span>
+    M190 S<span class="cn">{BED_TEMP}</span>           <span class="cm"># Esperar temperatura cama</span>
+    M109 S<span class="cn">{EXT_TEMP}</span>           <span class="cm"># Esperar temperatura extrusor</span>
+    G92 E0
+    G1 Z2.0 F3000
+    G1 X5 Y20 Z0.3 F5000        <span class="cm"># Línea de purga</span>
+    G1 X5 Y200 E15 F1500
+    G92 E0
+
+<span class="ck">[gcode_macro END_PRINT]</span>
+<span class="cv">gcode</span>:
+    G91
+    G1 E-4 F2700                 <span class="cm"># Retracción final</span>
+    G1 Z10 F3000
+    G90
+    G1 X10 Y230 F3000            <span class="cm"># Aparcar cabezal</span>
+    M104 S0
+    M140 S0
+    M84
+
+<span class="ck">[gcode_macro PID_HOTEND]</span>
+<span class="cv">gcode</span>: PID_CALIBRATE HEATER=extruder TARGET=220
+
+<span class="ck">[gcode_macro PID_BED]</span>
+<span class="cv">gcode</span>: PID_CALIBRATE HEATER=heater_bed TARGET=60</pre>
+      </div>
     </div>
 
-    <p style="font-size:13px;color:var(--text-3);margin-top:.75rem;">
-      El fichero completo incluye configuración de motores X/Y/Z, TMC2209 en modo UART,
-      macros START_PRINT / END_PRINT, calibración PID y Pressure Advance.
-      Ver <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/firmware/klipper/macros/macros.cfg" target="_blank" style="color:var(--teal);text-decoration:none;">macros.cfg ↗</a>
+    <p style="font-size:12px;color:var(--tx3);margin-top:.625rem;line-height:1.6">
+      Configuración completa (X/Y/Z, cama, ventiladores, resonance compensation) en
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/firmware/klipper/config/printer.cfg" target="_blank" rel="noopener" style="color:var(--teal)">printer.cfg ↗</a>
+      y <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/firmware/klipper/macros/macros.cfg" target="_blank" rel="noopener" style="color:var(--teal)">macros.cfg ↗</a>.
     </p>
   </section>
 
-  <!-- BOM -->
-  <section class="sec fade" id="bom">
-    <div class="sec-head">
+  <!-- ─── BOM ─── -->
+  <section class="sec reveal" id="bom">
+    <div class="sec-hd">
       <span class="sec-title">Bill of Materials — Fase 1</span>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/hardware/bom/BOM_fase1.md" target="_blank" class="sec-anchor">BOM completa con tornillería ↗</a>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/hardware/bom/BOM_fase1.md" target="_blank" rel="noopener" class="sec-lnk">BOM completa ↗</a>
     </div>
 
-    <div class="bom-wrap fade">
-      <table class="bom-table">
+    <div class="bom-controls">
+      <input type="search" class="bom-search" id="bom-search"
+        placeholder="Filtrar componentes…" aria-label="Filtrar BOM">
+      <span class="bom-count" id="bom-count">14 componentes</span>
+    </div>
+
+    <div class="bom-wrap reveal">
+      <table class="bom-table" id="bom-table">
         <thead>
           <tr>
             <th>Componente</th>
@@ -1153,246 +1101,333 @@ footer {
             <th>Precio</th>
           </tr>
         </thead>
-        <tbody>
-          <tr><td>BTT SKR Mini E3 V3.0</td><td><a href="https://es.aliexpress.com/item/1005007912548824.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~25 €</td></tr>
-          <tr><td>Orange Pi Zero 3 (1 GB)</td><td><a href="https://es.aliexpress.com/item/1005006047845950.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~25 €</td></tr>
-          <tr><td>MicroSD SanDisk 32 GB</td><td><a href="https://www.amazon.es/SanDisk-Tarjeta-microSDXC-Adaptador-Rendimiento/dp/B0B7NXBM6P" target="_blank">Amazon ES ↗</a></td><td class="bom-price">~8 €</td></tr>
-          <tr><td>Motor NEMA 17 pancake 20 mm</td><td><a href="https://es.aliexpress.com/item/1005005933469472.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~5 €</td></tr>
-          <tr><td>BMG Clone (engranajes extrusor)</td><td><a href="https://es.aliexpress.com/item/1005003423850142.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~5 €</td></tr>
-          <tr><td>Hotend CHC V6 Volcano 24V</td><td><a href="https://es.aliexpress.com/item/1005003849153931.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~12 €</td></tr>
-          <tr><td>Ventiladores 4010 24V × 2</td><td><a href="https://es.aliexpress.com/item/1005003371996395.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~3 €</td></tr>
-          <tr><td>Ventilador 2510 24V × 1</td><td><a href="https://es.aliexpress.com/item/1005006831848917.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~5 €</td></tr>
-          <tr><td>CR-Touch (autonivelador)</td><td><a href="https://es.aliexpress.com/item/1005009035812836.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~12 €</td></tr>
-          <tr><td>Insertos M3 × 5 (heat-set)</td><td><a href="https://es.aliexpress.com/item/1005008285787978.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~1 €</td></tr>
-          <tr><td>Tornillería M3/M2.5 surtida</td><td><a href="https://es.aliexpress.com/item/4000026671295.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~3 €</td></tr>
-          <tr><td>Extensores JST ventiladores</td><td><a href="https://es.aliexpress.com/item/1005005491577017.html" target="_blank">AliExpress ↗</a></td><td class="bom-price">~2 €</td></tr>
-          <tr><td>Sharkfin Extruder (STL, impreso)</td><td><a href="https://github.com/KayosMaker/Sharkfin_Extruder" target="_blank">GitHub / KayosMaker ↗</a></td><td class="bom-price">gratis</td></tr>
-          <tr><td>Mini Stealth v2 (STL, impreso)</td><td><a href="https://github.com/atrushing/Mini_Stealth" target="_blank">GitHub / atrushing ↗</a></td><td class="bom-price">gratis</td></tr>
-          <tr class="bom-total"><td colspan="2">Total Fase 1</td><td class="bom-price">~106 €</td></tr>
+        <tbody id="bom-body">
+          <tr data-name="btt skr mini e3 v3 placa controladora"><td>BTT SKR Mini E3 V3.0</td><td><a href="https://es.aliexpress.com/item/1005007912548824.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~25 €</td></tr>
+          <tr data-name="orange pi zero 3 sbc ordenador"><td>Orange Pi Zero 3 (1 GB)</td><td><a href="https://es.aliexpress.com/item/1005006047845950.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~25 €</td></tr>
+          <tr data-name="microsd sandisk 32gb tarjeta"><td>MicroSD SanDisk 32 GB</td><td><a href="https://www.amazon.es/dp/B0B7NXBM6P" target="_blank" rel="noopener">Amazon ES ↗</a></td><td class="bom-price">~8 €</td></tr>
+          <tr data-name="nema 17 motor pancake extrusor"><td>Motor NEMA 17 pancake 20 mm</td><td><a href="https://es.aliexpress.com/item/1005005933469472.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~5 €</td></tr>
+          <tr data-name="bmg clone engranajes extrusor"><td>BMG Clone (engranajes extrusor)</td><td><a href="https://es.aliexpress.com/item/1005003423850142.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~5 €</td></tr>
+          <tr data-name="hotend chc v6 volcano 24v"><td>Hotend CHC V6 Volcano 24 V</td><td><a href="https://es.aliexpress.com/item/1005003849153931.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~12 €</td></tr>
+          <tr data-name="ventilador 4010 24v radial capa"><td>Ventiladores 4010 24 V × 2</td><td><a href="https://es.aliexpress.com/item/1005003371996395.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~3 €</td></tr>
+          <tr data-name="ventilador 2510 24v axial hotend"><td>Ventilador 2510 24 V × 1</td><td><a href="https://es.aliexpress.com/item/1005006831848917.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~5 €</td></tr>
+          <tr data-name="cr-touch autonivelador cama"><td>CR-Touch (autonivelador)</td><td><a href="https://es.aliexpress.com/item/1005009035812836.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~12 €</td></tr>
+          <tr data-name="insertos m3 heat set tornillos"><td>Insertos M3 heat-set × 5</td><td><a href="https://es.aliexpress.com/item/1005008285787978.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~1 €</td></tr>
+          <tr data-name="tornilleria m3 m2.5 surtida"><td>Tornillería M3/M2.5 surtida</td><td><a href="https://es.aliexpress.com/item/4000026671295.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~3 €</td></tr>
+          <tr data-name="extensores jst ventiladores cables"><td>Extensores JST ventiladores</td><td><a href="https://es.aliexpress.com/item/1005005491577017.html" target="_blank" rel="noopener">AliExpress ↗</a></td><td class="bom-price">~2 €</td></tr>
+          <tr data-name="sharkfin extruder stl impreso gratis"><td>Sharkfin Extruder (STL impreso)</td><td><a href="https://github.com/KayosMaker/Sharkfin_Extruder" target="_blank" rel="noopener">GitHub / KayosMaker ↗</a></td><td class="bom-price">gratis</td></tr>
+          <tr data-name="mini stealth v2 stl impreso gratis"><td>Mini Stealth v2 (STL impreso)</td><td><a href="https://github.com/atrushing/Mini_Stealth" target="_blank" rel="noopener">GitHub / atrushing ↗</a></td><td class="bom-price">gratis</td></tr>
+          <tr class="bom-total" id="bom-total-row"><td colspan="2"><strong>Total Fase 1</strong></td><td class="bom-price"><strong>~106 €</strong></td></tr>
         </tbody>
       </table>
+      <div class="bom-no-results" id="bom-no-results" style="display:none">
+        Sin resultados para ese término.
+      </div>
     </div>
   </section>
 
-  <!-- DOCS -->
-  <section class="sec fade" id="docs">
-    <div class="sec-head">
+  <!-- ─── DOCS ─── -->
+  <section class="sec reveal" id="docs">
+    <div class="sec-hd">
       <span class="sec-title">Documentación</span>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/tree/main/docs" target="_blank" class="sec-anchor">ver /docs en GitHub ↗</a>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/tree/main/docs" target="_blank" rel="noopener" class="sec-lnk">ver /docs ↗</a>
     </div>
 
-    <div class="docs-list fade">
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/guia_calibracion.md" target="_blank" class="doc-item">
+    <div class="doc-list reveal">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/guia_calibracion.md" target="_blank" rel="noopener" class="doc-item">
         <span class="doc-ico">📐</span>
-        <div class="doc-body">
+        <div class="doc-info">
           <div class="doc-title">Guía de calibración completa</div>
           <div class="doc-path">docs/guia_calibracion.md — punto de entrada tras instalar</div>
         </div>
         <span class="doc-arr">→</span>
       </a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/hardware/electronica/esquema_conexiones.md" target="_blank" class="doc-item">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/hardware/electronica/esquema_conexiones.md" target="_blank" rel="noopener" class="doc-item">
         <span class="doc-ico">🔌</span>
-        <div class="doc-body">
+        <div class="doc-info">
           <div class="doc-title">Esquema de conexiones SKR Mini E3 V3</div>
           <div class="doc-path">hardware/electronica/esquema_conexiones.md — pines, drivers, alimentación</div>
         </div>
         <span class="doc-arr">→</span>
       </a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/firmware/README.md" target="_blank" class="doc-item">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/firmware/README.md" target="_blank" rel="noopener" class="doc-item">
         <span class="doc-ico">⚙️</span>
-        <div class="doc-body">
+        <div class="doc-info">
           <div class="doc-title">Instalación de firmware y referencia de macros</div>
-          <div class="doc-path">firmware/README.md — cómo flashear Klipper y descripción de macros</div>
+          <div class="doc-path">firmware/README.md — flashear Klipper, macros START/END, PID, PA</div>
         </div>
         <span class="doc-arr">→</span>
       </a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/fase-1/extrusor/02_sharkfin_bmg.md" target="_blank" class="doc-item">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/fase-1/extrusor/02_sharkfin_bmg.md" target="_blank" rel="noopener" class="doc-item">
         <span class="doc-ico">🔩</span>
-        <div class="doc-body">
+        <div class="doc-info">
           <div class="doc-title">Montaje y calibración del extrusor Sharkfin</div>
-          <div class="doc-path">docs/fase-1/extrusor/02_sharkfin_bmg.md — E-steps, retracción, PA</div>
+          <div class="doc-path">docs/fase-1/extrusor/02_sharkfin_bmg.md — rotation_distance, retracción, Pressure Advance</div>
         </div>
         <span class="doc-arr">→</span>
       </a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/fase-1/toolhead/03_mini_stealth_chc_crtouch.md" target="_blank" class="doc-item">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/fase-1/toolhead/03_mini_stealth_chc_crtouch.md" target="_blank" rel="noopener" class="doc-item">
         <span class="doc-ico">🖨️</span>
-        <div class="doc-body">
+        <div class="doc-info">
           <div class="doc-title">Mini Stealth v2 + CHC Volcano + CR-Touch</div>
           <div class="doc-path">docs/fase-1/toolhead/03_mini_stealth_chc_crtouch.md</div>
         </div>
         <span class="doc-arr">→</span>
       </a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/hardware/bom/BOM_fase1.md" target="_blank" class="doc-item">
-        <span class="doc-ico">📦</span>
-        <div class="doc-body">
-          <div class="doc-title">BOM completa Fase 1 (con tornillería y STLs)</div>
-          <div class="doc-path">hardware/bom/BOM_fase1.md</div>
-        </div>
-        <span class="doc-arr">→</span>
-      </a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/slicer_settings.md" target="_blank" class="doc-item">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/docs/slicer_settings.md" target="_blank" rel="noopener" class="doc-item">
         <span class="doc-ico">🗂️</span>
-        <div class="doc-body">
+        <div class="doc-info">
           <div class="doc-title">Perfiles de slicer (PLA / PETG / ABS / TPU)</div>
-          <div class="doc-path">docs/slicer_settings.md — perfiles con start G-code</div>
+          <div class="doc-path">docs/slicer_settings.md — start G-code incluido</div>
         </div>
         <span class="doc-arr">→</span>
       </a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/CONTRIBUTING.md" target="_blank" class="doc-item">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener" class="doc-item">
         <span class="doc-ico">🤝</span>
-        <div class="doc-body">
-          <div class="doc-title">Cómo contribuir</div>
-          <div class="doc-path">CONTRIBUTING.md — guía para proponer cambios o mejoras</div>
+        <div class="doc-info">
+          <div class="doc-title">Cómo contribuir al proyecto</div>
+          <div class="doc-path">CONTRIBUTING.md — proponer cambios, abrir issues, añadir documentación</div>
+        </div>
+        <span class="doc-arr">→</span>
+      </a>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/CHANGELOG.md" target="_blank" rel="noopener" class="doc-item">
+        <span class="doc-ico">📋</span>
+        <div class="doc-info">
+          <div class="doc-title">Registro de cambios</div>
+          <div class="doc-path">CHANGELOG.md</div>
         </div>
         <span class="doc-arr">→</span>
       </a>
     </div>
 
-    <!-- Árbol del repositorio -->
-    <div style="margin-top:1.5rem;">
-      <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Estructura del repositorio</div>
-      <div class="tree fade">
-UGR-A20M/
-├── <span class="hi">README.md</span>           ← Este archivo
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── LICENSE                (CC BY-SA 4.0)
-├── <span class="dir">docs/</span>
-│   ├── <span class="hi">guia_calibracion.md</span>  ← Empezar aquí
-│   ├── <span class="dir">fase-0/</span>  · · · · · ·  especificaciones base
-│   ├── <span class="dir">fase-1/</span>
-│   │   ├── <span class="dir">electronica/</span>   · · ·  SKR + Klipper en OPi
-│   │   ├── <span class="dir">extrusor/</span>  · · · · ·  Sharkfin + BMG
-│   │   └── <span class="dir">toolhead/</span>  · · · · ·  Mini Stealth + Volcano
-│   ├── <span class="dir">fase-2/</span>  · · · · · ·  guías lineales MGN12H
-│   ├── <span class="dir">fase-3/</span>  · · · · · ·  benchmarks e informe UGR
-│   └── <span class="dir">img/</span>
-├── <span class="dir">hardware/</span>
-│   ├── <span class="dir">bom/</span>       · · · · · ·  BOM_fase1.md
-│   ├── <span class="dir">electronica/</span>   · · · ·  esquema_conexiones.md
-│   └── <span class="dir">prints/</span>    · · · · · ·  registro de piezas impresas
-├── <span class="dir">firmware/</span>
-│   ├── <span class="dir">klipper/</span>
-│   │   ├── <span class="dir">config/</span>    · · · · · ·  <span class="hi">printer.cfg</span>
-│   │   └── <span class="dir">macros/</span>    · · · · · ·  macros.cfg
-│   └── <span class="dir">marlin/</span>    · · · · · ·  configuración original (referencia)
-└── <span class="dir">photos/</span>
-    ├── <span class="dir">estado-inicial/</span>
-    ├── <span class="dir">fase-1/</span>
-    └── <span class="dir">fase-2/</span></div>
+    <div class="tree-wrap reveal">
+      <div class="tree-label">Estructura del repositorio</div>
+      <div class="tree">UGR-A20M/
+├── <span class="t-hi">README.md</span>
+├── CHANGELOG.md · CONTRIBUTING.md · LICENSE (CC BY-SA 4.0)
+├── <span class="t-dir">docs/</span>
+│   ├── <span class="t-hi">guia_calibracion.md</span>   <span class="t-dim">← empezar aquí</span>
+│   ├── <span class="t-dir">fase-0/</span>               <span class="t-dim">· especificaciones base</span>
+│   ├── <span class="t-dir">fase-1/</span>
+│   │   ├── <span class="t-dir">electronica/</span>       <span class="t-dim">· SKR + Klipper en Orange Pi</span>
+│   │   ├── <span class="t-dir">extrusor/</span>          <span class="t-dim">· Sharkfin + BMG Clone</span>
+│   │   └── <span class="t-dir">toolhead/</span>          <span class="t-dim">· Mini Stealth + Volcano + CR-Touch</span>
+│   ├── <span class="t-dir">fase-2/</span>               <span class="t-dim">· guías lineales MGN12H</span>
+│   └── <span class="t-dir">fase-3/</span>               <span class="t-dim">· benchmarks e informe UGR</span>
+├── <span class="t-dir">hardware/</span>
+│   ├── <span class="t-dir">bom/</span>                  <span class="t-dim">· BOM_fase1.md</span>
+│   ├── <span class="t-dir">electronica/</span>          <span class="t-dim">· esquema_conexiones.md</span>
+│   └── <span class="t-dir">prints/</span>               <span class="t-dim">· registro de piezas impresas</span>
+├── <span class="t-dir">firmware/</span>
+│   ├── <span class="t-dir">klipper/config/</span>       <span class="t-dim">·</span> <span class="t-hi">printer.cfg</span>
+│   ├── <span class="t-dir">klipper/macros/</span>       <span class="t-dim">· macros.cfg</span>
+│   └── <span class="t-dir">marlin/</span>               <span class="t-dim">· configuración original (referencia)</span>
+└── <span class="t-dir">photos/</span>               <span class="t-dim">· estado-inicial/ · fase-1/ · fase-2/</span></div>
     </div>
   </section>
 
-  <!-- REFERENCIAS -->
-  <section class="sec fade" id="refs">
-    <div class="sec-head">
-      <span class="sec-title">Referencias</span>
-    </div>
+  <!-- ─── REFS ─── -->
+  <section class="sec reveal" id="refs">
+    <div class="sec-hd"><span class="sec-title">Referencias</span></div>
 
-    <div class="ref-group fade">
-      <div class="ref-group-title">Hardware impreso (STLs)</div>
-      <div class="refs-list">
-        <a href="https://github.com/KayosMaker/Sharkfin_Extruder" target="_blank" class="ref-item">
+    <div class="ref-group reveal">
+      <div class="ref-group-label">Hardware impreso (STLs)</div>
+      <div class="ref-list">
+        <a href="https://github.com/KayosMaker/Sharkfin_Extruder" target="_blank" rel="noopener" class="ref-item">
           <span class="ref-name">Sharkfin Extruder — KayosMaker</span>
-          <span class="ref-url">github.com/KayosMaker/Sharkfin_Extruder</span>
+          <span class="ref-url">github.com/KayosMaker</span>
         </a>
-        <a href="https://github.com/atrushing/Mini_Stealth" target="_blank" class="ref-item">
+        <a href="https://github.com/atrushing/Mini_Stealth" target="_blank" rel="noopener" class="ref-item">
           <span class="ref-name">Mini Stealth v2 — atrushing</span>
-          <span class="ref-url">github.com/atrushing/Mini_Stealth</span>
+          <span class="ref-url">github.com/atrushing</span>
         </a>
-        <a href="https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size" target="_blank" class="ref-item">
-          <span class="ref-name">Adaptador Bambu hotend → V6 — Cults3D</span>
+        <a href="https://cults3d.com/es/modelo-3d/herramientas/bambu-lab-s-hotend-adapter-to-v6-size" target="_blank" rel="noopener" class="ref-item">
+          <span class="ref-name">Adaptador Bambu hotend → V6 (Cults3D)</span>
           <span class="ref-url">cults3d.com</span>
         </a>
       </div>
     </div>
 
-    <div class="ref-group fade">
-      <div class="ref-group-title">Firmware</div>
-      <div class="refs-list">
-        <a href="https://www.klipper3d.org/" target="_blank" class="ref-item">
-          <span class="ref-name">Klipper — firmware de impresora 3D</span>
-          <span class="ref-url">klipper3d.org</span>
-        </a>
-        <a href="https://moonraker.readthedocs.io/" target="_blank" class="ref-item">
-          <span class="ref-name">Moonraker — API para Klipper</span>
-          <span class="ref-url">moonraker.readthedocs.io</span>
-        </a>
-        <a href="https://fluidd.xyz/" target="_blank" class="ref-item">
-          <span class="ref-name">Fluidd — interfaz web para Klipper</span>
-          <span class="ref-url">fluidd.xyz</span>
-        </a>
-        <a href="https://github.com/dw-0/kiauh" target="_blank" class="ref-item">
-          <span class="ref-name">KIAUH — instalador de Klipper</span>
-          <span class="ref-url">github.com/dw-0/kiauh</span>
-        </a>
+    <div class="ref-group reveal">
+      <div class="ref-group-label">Firmware y software</div>
+      <div class="ref-list">
+        <a href="https://www.klipper3d.org/"          target="_blank" rel="noopener" class="ref-item"><span class="ref-name">Klipper</span><span class="ref-url">klipper3d.org</span></a>
+        <a href="https://moonraker.readthedocs.io/"   target="_blank" rel="noopener" class="ref-item"><span class="ref-name">Moonraker — API REST para Klipper</span><span class="ref-url">moonraker.readthedocs.io</span></a>
+        <a href="https://fluidd.xyz/"                 target="_blank" rel="noopener" class="ref-item"><span class="ref-name">Fluidd — interfaz web para Klipper</span><span class="ref-url">fluidd.xyz</span></a>
+        <a href="https://github.com/dw-0/kiauh"       target="_blank" rel="noopener" class="ref-item"><span class="ref-name">KIAUH — instalador Klipper/Moonraker/Fluidd</span><span class="ref-url">github.com/dw-0/kiauh</span></a>
       </div>
     </div>
 
-    <div class="ref-group fade">
-      <div class="ref-group-title">Electrónica</div>
-      <div class="refs-list">
-        <a href="https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3" target="_blank" class="ref-item">
-          <span class="ref-name">BTT SKR Mini E3 — repositorio oficial</span>
-          <span class="ref-url">github.com/bigtreetech/BIGTREETECH-SKR-mini-E3</span>
-        </a>
-        <a href="http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-3.html" target="_blank" class="ref-item">
-          <span class="ref-name">Orange Pi Zero 3 — ficha técnica</span>
-          <span class="ref-url">orangepi.org</span>
-        </a>
-        <a href="https://www.armbian.com/orange-pi-zero3/" target="_blank" class="ref-item">
-          <span class="ref-name">Armbian para Orange Pi Zero 3</span>
-          <span class="ref-url">armbian.com/orange-pi-zero3</span>
-        </a>
+    <div class="ref-group reveal">
+      <div class="ref-group-label">Electrónica</div>
+      <div class="ref-list">
+        <a href="https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3" target="_blank" rel="noopener" class="ref-item"><span class="ref-name">BTT SKR Mini E3 — repositorio oficial</span><span class="ref-url">github.com/bigtreetech</span></a>
+        <a href="http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-Zero-3.html" target="_blank" rel="noopener" class="ref-item"><span class="ref-name">Orange Pi Zero 3 — ficha técnica</span><span class="ref-url">orangepi.org</span></a>
+        <a href="https://www.armbian.com/orange-pi-zero3/" target="_blank" rel="noopener" class="ref-item"><span class="ref-name">Armbian para Orange Pi Zero 3</span><span class="ref-url">armbian.com</span></a>
       </div>
     </div>
 
-    <div class="ref-group fade">
-      <div class="ref-group-title">Inspiración técnica</div>
-      <div class="refs-list">
-        <a href="https://vorondesign.com/" target="_blank" class="ref-item">
-          <span class="ref-name">Voron Design — comunidad de impresoras CoreXY</span>
-          <span class="ref-url">vorondesign.com</span>
-        </a>
+    <div class="ref-group reveal">
+      <div class="ref-group-label">Comunidad</div>
+      <div class="ref-list">
+        <a href="https://vorondesign.com/" target="_blank" rel="noopener" class="ref-item"><span class="ref-name">Voron Design</span><span class="ref-url">vorondesign.com</span></a>
       </div>
     </div>
   </section>
 
-  <footer class="fade">
-    <div class="footer-info">
-      <strong style="color:var(--text-2);">Álvaro González Jiménez</strong> ·
+  <!-- FOOTER -->
+  <footer class="footer reveal">
+    <div class="foot-l">
+      <strong>Álvaro González Jiménez</strong> ·
       <a href="mailto:alvarogj1@correo.ugr.es">alvarogj1@correo.ugr.es</a><br>
-      Universidad de Granada · 2025 · <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/LICENSE" target="_blank">CC BY-SA 4.0</a>
+      Universidad de Granada · 2025 ·
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/LICENSE" target="_blank" rel="noopener">CC BY-SA 4.0</a>
     </div>
-    <div class="footer-links">
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M" target="_blank">GitHub</a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/CONTRIBUTING.md" target="_blank">Contribuir</a>
-      <a href="https://www.ugr.es" target="_blank">ugr.es</a>
+    <div class="foot-links">
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contribuir</a>
+      <a href="https://www.ugr.es" target="_blank" rel="noopener">ugr.es ↗</a>
     </div>
   </footer>
 
-</div><!-- /page -->
+</main>
+</div><!-- /layout -->
+</div><!-- /shell -->
 
 <script>
-/* Scroll reveal */
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  });
-}, { threshold: 0.08 });
-document.querySelectorAll('.fade').forEach(el => io.observe(el));
+(function () {
+  'use strict';
 
-/* Copy code */
-function copyCode() {
-  const raw = document.getElementById('code-snippet').innerText;
-  navigator.clipboard.writeText(raw).then(() => {
-    const btn = document.getElementById('copy-btn');
-    btn.textContent = '✓ copiado';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'copiar'; btn.classList.remove('copied'); }, 2000);
+  /* ── Scroll-margin polyfill: offset all anchors by topbar height ── */
+  document.querySelectorAll('.sec[id]').forEach(function (el) {
+    el.style.scrollMarginTop = 'calc(48px + 16px)';
   });
-}
+
+  /* ── Scroll reveal with rootMargin so elements near top animate too ── */
+  var revEls = document.querySelectorAll('.reveal');
+  var revObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  revEls.forEach(function (el) { revObs.observe(el); });
+
+  /* ── Animate progress bars on first intersection ── */
+  var fills = document.querySelectorAll('.prog-fill[data-width]');
+  var fillObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.getAttribute('data-width') + '%';
+        fillObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fills.forEach(function (el) { fillObs.observe(el); });
+
+  /* ── Code tabs ── */
+  var allTabs   = document.querySelectorAll('.code-tab[data-panel]');
+  var allPanels = document.querySelectorAll('.code-panel');
+  allTabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var panelId = tab.getAttribute('data-panel');
+      allTabs.forEach(function (t) { t.classList.remove('on'); t.setAttribute('aria-selected','false'); });
+      allPanels.forEach(function (p) { p.classList.remove('on'); });
+      tab.classList.add('on');
+      tab.setAttribute('aria-selected', 'true');
+      var panel = document.getElementById(panelId);
+      if (panel) panel.classList.add('on');
+    });
+  });
+
+  /* ── Copy visible code panel ── */
+  window.copyVisible = function () {
+    var active = document.querySelector('.code-panel.on pre');
+    if (!active) return;
+    var btn = document.getElementById('copy-btn');
+    navigator.clipboard.writeText(active.innerText).then(function () {
+      btn.textContent = '✓ copiado'; btn.classList.add('ok');
+      setTimeout(function () { btn.textContent = 'copiar'; btn.classList.remove('ok'); }, 2000);
+    }).catch(function () {
+      btn.textContent = 'error';
+      setTimeout(function () { btn.textContent = 'copiar'; }, 2000);
+    });
+  };
+  document.getElementById('copy-btn').addEventListener('click', window.copyVisible);
+
+  /* ── Active nav / sidebar on scroll ── */
+  var sections    = document.querySelectorAll('section[id]');
+  var sbLinks     = document.querySelectorAll('.sb-link[data-sec]');
+  var tbLinks     = document.querySelectorAll('.tb-nav a[data-sec]');
+
+  function setActive(secId) {
+    sbLinks.forEach(function (l) { l.classList.toggle('on', l.getAttribute('data-sec') === secId); });
+    tbLinks.forEach(function (l) { l.classList.toggle('on', l.getAttribute('data-sec') === secId); });
+  }
+
+  var scrollRaf = null;
+  window.addEventListener('scroll', function () {
+    if (scrollRaf) return;
+    scrollRaf = requestAnimationFrame(function () {
+      scrollRaf = null;
+      var y = window.scrollY + 72;
+      var cur = '';
+      sections.forEach(function (s) { if (s.offsetTop <= y) cur = s.id; });
+      setActive(cur || 'overview');
+    });
+  }, { passive: true });
+  setActive('overview');
+
+  /* ── Mobile menu toggle ── */
+  var menuBtn = document.getElementById('mob-toggle');
+  var drawer  = document.getElementById('mob-drawer');
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = '☰';
+  }
+
+  menuBtn.addEventListener('click', function () {
+    var isOpen = drawer.classList.contains('open');
+    if (isOpen) {
+      closeDrawer();
+    } else {
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuBtn.textContent = '✕';
+    }
+  });
+
+  /* Close drawer when clicking any link inside */
+  drawer.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeDrawer);
+  });
+
+  /* ── BOM filter ── */
+  var bomSearch  = document.getElementById('bom-search');
+  var bomRows    = document.querySelectorAll('#bom-body tr:not(.bom-total)');
+  var bomTotal   = document.getElementById('bom-total-row');
+  var bomCount   = document.getElementById('bom-count');
+  var bomNoRes   = document.getElementById('bom-no-results');
+  var TOTAL_ROWS = bomRows.length;
+
+  bomSearch.addEventListener('input', function () {
+    var q = bomSearch.value.trim().toLowerCase();
+    var visible = 0;
+    bomRows.forEach(function (row) {
+      var name = row.getAttribute('data-name') || '';
+      var match = !q || name.indexOf(q) !== -1;
+      row.classList.toggle('bom-hidden', !match);
+      if (match) visible++;
+    });
+    bomCount.textContent = visible + ' componente' + (visible !== 1 ? 's' : '');
+    bomTotal.classList.toggle('bom-hidden', q.length > 0);
+    bomNoRes.style.display = (visible === 0) ? 'block' : 'none';
+  });
+
+})();
 </script>
 </body>
 </html>
