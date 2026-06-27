@@ -1,127 +1,202 @@
 # 📊 Fase 3 — Documentación final y publicación
 
-**Estado:** 🔜 Planificada (pendiente de completar Fases 1 y 2)
+**Estado:** 🔜 Planificada — iniciar tras completar y validar la Fase 2
 
 ---
 
 ## Objetivo
 
-Cerrar el proyecto con una documentación de calidad que permita a cualquier persona reproducir la build, publicar los resultados en GitHub Pages y generar un informe PDF para la Universidad de Granada.
+Cerrar el proyecto con una documentación de calidad que permita a cualquier persona reproducir la build, comparar resultados reales antes/después y generar un informe formal para la Universidad de Granada.
 
 ---
 
-## Contenidos a generar
+## 3.1 Comparativas de rendimiento
 
-### 3.1 Comparativas de rendimiento
+Benchmarks antes/después de cada fase con metodología reproducible. El objetivo es medir las mismas métricas siempre en las mismas condiciones.
 
-Benchmarks antes/después de cada fase, con metodología reproducible.
+### Métricas a registrar
 
-#### Métricas a medir
+| Métrica | Herramienta | Unidad | Condiciones |
+|---------|-------------|--------|-------------|
+| Velocidad máxima estable | OrcaSlicer — Speed Benchy | mm/s | PLA, 0.2 mm capa |
+| Calidad de esquinas (ringing) | Cubo de ringing | Subjetivo 1–10 | PLA, 100 mm/s |
+| Stringing | Torre de stringing | Hilos contados | PLA, 200 °C |
+| Adhesión primera capa | Visual + % de despegue | % | PLA, z_offset calibrado |
+| Ruido en operación | App de decibelios (móvil a 30 cm) | dB(A) | 60 mm/s, sin ventilador capa |
+| Tiempo calentamiento hotend | Cronómetro | segundos | De 25 °C a 200 °C |
+| Precisión dimensional X | Calibre sobre cubo 20×20×20 | mm | PLA, 0.2 mm, 20% |
+| Precisión dimensional Y | Calibre sobre cubo 20×20×20 | mm | PLA, 0.2 mm, 20% |
+| Precisión dimensional Z | Calibre sobre cubo 20×20×20 | mm | PLA, 0.2 mm, 20% |
 
-| Métrica | Herramienta | Unidad |
-|---------|-------------|--------|
-| Velocidad máxima de impresión | OrcaSlicer speed test | mm/s |
-| Calidad de esquinas (ringing) | Test de resonancia visual | Subjetivo 1–10 |
-| Stringing | Torre de stringing | Hilos visibles |
-| Adhesión primera capa | Visual + % de adhesión | % |
-| Retracción óptima | Torre de retracción | mm |
-| Ruido en operación | Aplicación móvil de decibelios | dB |
-| Tiempo de calentamiento | Cronómetro | s |
-| Precisión dimensional | Calibre sobre cubo 20×20×20 | mm |
+### Tabla de resultados (rellenar al completar cada fase)
 
-#### Modelos de test recomendados
+| Métrica | Stock (Fase 0) | Fase 1 | Fase 2 | Mejora total |
+|---------|---------------|--------|--------|-------------|
+| Velocidad máx. estable | ~60 mm/s | — | — | — |
+| Ruido operación | — dB(A) | — dB(A) | — dB(A) | — |
+| Tiempo calentamiento | — s | — s | — s | — |
+| Dim. X (objetivo 20.00) | — mm | — mm | — mm | — |
+| Dim. Y (objetivo 20.00) | — mm | — mm | — mm | — |
+| Dim. Z (objetivo 20.00) | — mm | — mm | — mm | — |
 
-| Modelo | Propósito | Fuente |
-|--------|-----------|--------|
-| Cubo 20×20×20 mm | Precisión dimensional | [Printables](https://www.printables.com/model/5765) |
-| Torre de temperatura | Temperatura óptima por material | [Printables](https://www.printables.com/model/4166) |
-| Torre de stringing | Retracción óptima | [Printables](https://www.printables.com/model/45769) |
-| Benchy | Benchmark general | [3DBenchy.com](https://www.3dbenchy.com/) |
-| Overhang test | Ángulos máximos sin soporte | [Printables](https://www.printables.com/model/4548) |
+### Modelos de test a imprimir
+
+| Modelo | Propósito | Fuente | Imprimir en |
+|--------|-----------|--------|-------------|
+| Cubo 20×20×20 mm | Precisión dimensional | [Printables #5765](https://www.printables.com/model/5765) | Todas las fases |
+| Benchy | Benchmark general | [3DBenchy.com](https://www.3dbenchy.com/) | Todas las fases |
+| Torre de temperatura | Temperatura óptima por material | [Printables #4166](https://www.printables.com/model/4166) | Fase 1 |
+| Torre de stringing | Retracción y PA | [Printables #45769](https://www.printables.com/model/45769) | Fase 1 |
+| Overhang test | Ángulos máximos sin soporte | [Printables #4548](https://www.printables.com/model/4548) | Fase 1 |
+| Ringing tower | Verificar Input Shaping | [Printables #4301](https://www.printables.com/model/4301) | Tras calibrar IS |
 
 ---
 
-### 3.2 Galería fotográfica completa
+## 3.2 Galería fotográfica completa
 
-Completar el registro de `photos/` con:
+Ver checklist detallado en [`photos/README.md`](../../photos/README.md).
+
+**Resumen de fotos clave** para la comparativa final:
 
 ```
 photos/
 ├── estado-inicial/
-│   ├── 2025-04-XX_vista-frontal.jpg
-│   ├── 2025-04-XX_placa-gt2560.jpg
-│   ├── 2025-04-XX_extrusor-bowden.jpg
-│   └── 2025-04-XX_benchy-stock.jpg       ← Benchy impreso con config original
+│   ├── YYYY-MM-DD_vista-frontal-original.jpg
+│   ├── YYYY-MM-DD_placa-gt2560.jpg
+│   ├── YYYY-MM-DD_extrusor-bowden-original.jpg
+│   └── YYYY-MM-DD_benchy-stock.jpg
 ├── fase-1/
-│   ├── 2025-05-XX_skr-mini-instalada.jpg
-│   ├── 2025-05-XX_sharkfin-montado.jpg
-│   ├── 2025-05-XX_mini-stealth-completo.jpg
-│   ├── 2025-05-XX_crtouch-instalado.jpg
-│   └── 2025-05-XX_primera-impresion-fase1.jpg
+│   ├── YYYY-MM-DD_electronica-skr-instalada.jpg
+│   ├── YYYY-MM-DD_sharkfin-montado.jpg
+│   ├── YYYY-MM-DD_mini-stealth-completo.jpg
+│   ├── YYYY-MM-DD_crtouch-instalado.jpg
+│   └── YYYY-MM-DD_benchy-fase1.jpg
 └── fase-2/
-    ├── 2025-XX-XX_guias-mgn12h-x.jpg
-    └── 2025-XX-XX_guias-mgn12h-y.jpg
+    ├── YYYY-MM-DD_guias-mgn12h-eje-x.jpg
+    ├── YYYY-MM-DD_guias-mgn12h-eje-y.jpg
+    └── YYYY-MM-DD_benchy-fase2.jpg
 ```
 
 ---
 
-### 3.3 GitHub Pages
+## 3.3 GitHub Pages
 
-Activar GitHub Pages para convertir el repositorio en una web de documentación navegable.
+La web del proyecto ya está creada y operativa en:
 
-#### Activación
+**→ [https://alvgj-ugr.github.io/UGR-A20M/](https://alvgj-ugr.github.io/UGR-A20M/)**
 
-1. GitHub → Settings → Pages
+Para activarla en el repositorio de GitHub:
+
+1. Ir a **Settings → Pages**
 2. Source: `Deploy from a branch`
-3. Branch: `main`, carpeta: `/docs`
-4. Guardar — la web estará en `https://alvgj-ugr.github.io/UGR-A20M/`
+3. Branch: `main` · Folder: `/docs`
+4. Guardar
 
-#### Archivo índice necesario
-
-Crear `docs/index.md` con la portada del proyecto (a generar al completar Fase 2).
+La página `docs/index.html` ya está lista y todos sus links apuntan al repositorio de GitHub.
 
 ---
 
-### 3.4 Informe PDF para la UGR
+## 3.4 Informe PDF para la UGR
 
-Generar un documento PDF formal con:
+Documento formal para entregar a la Universidad de Granada. Estructura propuesta:
 
-- Portada con logo UGR y datos del proyecto
-- Resumen ejecutivo (1 página)
-- Introducción y motivación
-- Descripción de cada fase con resultados
-- BOM consolidada con costes totales
-- Comparativas antes/después
-- Conclusiones y trabajo futuro
-- Referencias bibliográficas
+### Contenido del informe
 
-**Herramientas sugeridas:**
-- Pandoc: `pandoc docs/**/*.md -o informe-ugr-a20m.pdf` (requiere LaTeX)
-- Overleaf con plantilla UGR
+| Sección | Contenido | Páginas aprox. |
+|---------|-----------|---------------|
+| Portada | Logo UGR, título, autor, fecha | 1 |
+| Resumen ejecutivo | Objetivos, metodología, resultados clave | 1 |
+| Introducción | Motivación, estado del arte en impresión 3D maker | 2–3 |
+| Fase 0 — Análisis inicial | Specs A20M, problemas identificados | 2 |
+| Fase 1 — Modernización | Electrónica, extrusor, toolhead, calibración | 6–8 |
+| Fase 2 — Estructura | Guías lineales MGN12H | 3–4 |
+| Resultados y comparativas | Tablas y fotos antes/después | 3–4 |
+| Conclusiones | Logros, limitaciones, trabajo futuro | 1–2 |
+| Presupuesto total | BOM consolidada Fase 1 + Fase 2 | 1 |
+| Referencias | Repositorios, documentación, comunidades | 1 |
+
+**Total estimado: 20–25 páginas**
+
+### Generación del PDF
+
+**Opción A — Pandoc (automático desde Markdown):**
+```bash
+# Instalar dependencias
+sudo apt install pandoc texlive-xetex texlive-lang-spanish
+
+# Generar PDF desde todos los documentos
+pandoc \
+  docs/fase-0/00_especificaciones_base.md \
+  docs/fase-1/electronica/01_skr_klipper.md \
+  docs/fase-1/extrusor/02_sharkfin_bmg.md \
+  docs/fase-1/toolhead/03_mini_stealth_chc_crtouch.md \
+  docs/fase-2/04_guias_lineales.md \
+  -o informe-ugr-a20m.pdf \
+  --pdf-engine=xelatex \
+  --toc \
+  --toc-depth=2 \
+  -V lang=es \
+  -V geometry:margin=2.5cm \
+  -V fontsize=11pt
+```
+
+**Opción B — Overleaf con plantilla UGR:**
+- Usar la [plantilla LaTeX oficial de la UGR](https://www.ugr.es/universidad/servicios/comunicacion-informacion/imagen-corporativa)
+- Copiar el contenido de los `.md` y formatear manualmente
 
 ---
 
-### 3.5 Release final en GitHub
+## 3.5 Release final en GitHub
 
-Al completar el proyecto, crear el Release `v2.0.0` en GitHub con:
+Al completar el proyecto, publicar el Release `v2.0.0`:
 
-- Tag: `v2.0.0`
-- Título: `Proyecto UGR-A20M — Build completa`
-- Adjuntar: `printer.cfg` final, `macros.cfg` final, e informe PDF
-- Descripción con resumen de logros y métricas clave
+1. GitHub → **Releases → Draft a new release**
+2. Tag: `v2.0.0`
+3. Título: `UGR-A20M v2.0.0 — Build completa (Fase 1 + Fase 2)`
+4. Adjuntar como assets:
+   - `printer.cfg` con valores reales calibrados
+   - `macros.cfg` final
+   - `informe-ugr-a20m.pdf`
+5. Descripción con:
+   - Resumen de lo conseguido
+   - Tabla de métricas clave (velocidad, ruido, precisión)
+   - Fotos del antes/después
 
 ---
 
 ## Checklist Fase 3
 
-| Tarea | Estado |
-|-------|--------|
-| Benchmarks fase 1 completados (velocidad, calidad, ruido) | ⬜ |
-| Benchmarks fase 2 completados (guías lineales) | ⬜ |
-| Galería fotográfica completa (todas las fases) | ⬜ |
-| `docs/index.md` creado para GitHub Pages | ⬜ |
-| GitHub Pages activado | ⬜ |
-| `printer.cfg` con valores reales de calibración | ⬜ |
-| Informe PDF generado | ⬜ |
-| Release v2.0.0 publicado en GitHub | ⬜ |
-| Topics del repo actualizados en GitHub | ⬜ |
+### Benchmarks
+- [ ] Métricas stock (Fase 0) registradas con metodología documentada
+- [ ] Métricas Fase 1 registradas con misma metodología
+- [ ] Métricas Fase 2 registradas con misma metodología
+- [ ] Tabla comparativa completa actualizada en este documento
+
+### Fotografías
+- [ ] Checklist de `photos/README.md` completado para estado inicial
+- [ ] Checklist de `photos/README.md` completado para Fase 1
+- [ ] Checklist de `photos/README.md` completado para Fase 2
+
+### Web
+- [ ] GitHub Pages activado (Settings → Pages → `/docs`)
+- [ ] Web accesible en `https://alvgj-ugr.github.io/UGR-A20M/`
+- [ ] Todos los links del `index.html` verificados
+
+### Firmware
+- [ ] `printer.cfg` actualizado con valores reales de calibración (no placeholders)
+- [ ] `rotation_distance` calibrado y verificado (< 1% error)
+- [ ] PID hotend y cama calibrados y guardados en SAVE_CONFIG
+- [ ] `z_offset` calibrado y guardado
+- [ ] `x_offset` / `y_offset` CR-Touch medidos y actualizados
+- [ ] `pressure_advance` calibrado
+- [ ] Input Shaping calibrado (opcional, requiere ADXL345)
+
+### Documentación
+- [ ] Tabla de resultados de benchmarks rellenada en este documento
+- [ ] `CHANGELOG.md` cerrado con versión `v2.0.0`
+- [ ] Informe PDF generado y revisado
+- [ ] Topics del repositorio GitHub actualizados: `3d-printing`, `klipper`, `voron`, `ugr`, `geeetech`, `maker`
+
+### Publicación
+- [ ] Release `v2.0.0` publicado en GitHub con PDF adjunto
+- [ ] Repositorio anunciado en foros/grupos relevantes (opcional)
