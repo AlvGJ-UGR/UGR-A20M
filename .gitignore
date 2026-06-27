@@ -1,22 +1,68 @@
-# Klipper generated files
+# ── Klipper ──────────────────────────────────────────────────
+# Archivos generados por SAVE_CONFIG — no versionar valores
+# personalizados de calibración (son específicos de cada máquina)
 firmware/klipper/config/printer.cfg.bak
-*.pyc
-__pycache__/
+*.cfg.bak
 
-# Sistema operativo
+# Logs de Klipper
+klippy.log
+moonraker.log
+
+# ── Slicer ───────────────────────────────────────────────────
+# No versionar G-code — son archivos grandes y específicos de cada impresión
+*.gcode
+*.gco
+*.g
+
+# Proyectos de slicer (pueden contener paths locales)
+*.3mf
+*.factory
+*.prusa
+
+# ── CAD / diseño ─────────────────────────────────────────────
+# Archivos de trabajo de FreeCAD
+*.FCStd1
+*.FCBak
+# Archivos de trabajo de Fusion 360
+*.f3d
+# STEP y STL binarios grandes — referenciar en su lugar desde Printables/GitHub
+# (comentar si se quiere versionar los STL del proyecto)
+# *.stl
+# *.step
+# *.stp
+
+# ── Sistema operativo ────────────────────────────────────────
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# Editores
+# ── Editores ─────────────────────────────────────────────────
 *.swp
 *.swo
+*~
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 
-# Archivos temporales
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+
+# ── Temporales ───────────────────────────────────────────────
 *.tmp
-*.log
+*.temp
+*.bak
+*.orig
 
-# Slicer exports (no commitear GCode)
-*.gcode
+# ── Documentación generada ───────────────────────────────────
+# Informe PDF generado — versionar solo el fuente .md
+# informe-ugr-a20m.pdf   # Descomentar si NO se quiere versionar el PDF final
