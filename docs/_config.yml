@@ -1,3 +1,27 @@
-# Desactivar el tema Jekyll por defecto para servir el index.html directamente
+# GitHub Pages — configuración Jekyll para UGR-A20M
+# Sirve docs/index.html directamente sin procesamiento Jekyll
+
+title: "UGR-A20M"
+description: "Modernización de una impresora 3D Geeetech A20M — Universidad de Granada"
+url: "https://alvgj-ugr.github.io"
+baseurl: "/UGR-A20M"
+lang: "es"
+
+# Desactivar el tema por defecto para que se sirva index.html tal cual
 theme: null
+remote_theme: null
+
+# No procesar estos archivos con Liquid/Jekyll
+include:
+  - "index.html"
+
+# Excluir archivos innecesarios del build de GitHub Pages
+exclude:
+  - "*.md"
+  - "Gemfile"
+  - "Gemfile.lock"
+  - "node_modules"
+  - "vendor"
+
+# Plugins mínimos
 plugins: []
