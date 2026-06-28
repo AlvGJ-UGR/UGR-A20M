@@ -13,7 +13,9 @@ Proyecto de investigación aplicada de la **Universidad de Granada**, documentad
 
 ## ¿Qué es este proyecto?
 
-Una Geeetech A20M con placa de 8 bits, sistema Bowden y drivers A4988 ruidosos se transforma progresivamente en una máquina moderna: 32 bits con TMC2209 silenciosos, extrusor directo Sharkfin, toolhead Mini Stealth v2 estilo Voron y firmware Klipper con interfaz web. Cada fase está documentada de forma que cualquier persona pueda reproducirla.
+Una Geeetech A20M con placa de 8 bits, sistema Bowden y drivers A4988 se transforma en una máquina moderna: 32 bits con TMC2209 silenciosos, extrusor directo Sharkfin, toolhead Mini Stealth v2 estilo Voron y firmware Klipper con interfaz web. Cada fase está documentada para ser completamente reproducible por ~150 €.
+
+¿Nuevo en impresión 3D avanzada? El [📖 Glosario técnico](docs/glosario.md) explica todos los términos usados en el proyecto.
 
 ---
 
@@ -66,9 +68,13 @@ Si ya tienes el hardware instalado y quieres poner la impresora en marcha:
 | Documento | Descripción |
 |-----------|-------------|
 | [🎯 Guía de calibración](docs/guia_calibracion.md) | 10 pasos ordenados — **empezar aquí** tras instalar |
-| [🖨️ Configuración del slicer](docs/slicer_settings.md) | Perfiles PLA / ABS / PETG / TPU con start G-code |
-| [⚙️ Firmware — instalación y macros](firmware/README.md) | Instalar printer.cfg y referencia de las 20 macros |
+| [🖨️ Configuración del slicer](docs/slicer_settings.md) | Perfiles PLA / ABS / PETG / TPU + boquilla 0.6 mm + Bambu Studio |
+| [🧵 Guía de materiales](docs/materiales.md) | Compatibilidad, temperaturas, adhesión y secado |
+| [🔧 Guía de mantenimiento](docs/mantenimiento.md) | Calendario preventivo, consumibles y log de horas |
+| [📖 Glosario técnico](docs/glosario.md) | Definiciones de todos los términos técnicos del proyecto |
+| [⚙️ Firmware — instalación y macros](firmware/README.md) | Instalar printer.cfg y referencia de las 29 macros |
 | [⚡ Esquema de conexiones](hardware/electronica/esquema_conexiones.md) | Pin a pin: SKR Mini E3 V3 completo |
+| [📌 Pinout SKR Mini E3 V3](hardware/electronica/pinout_skr_mini_e3_v3.md) | Pines usados, disponibles y configuración de expansión |
 | [📋 Especificaciones base](docs/fase-0/00_especificaciones_base.md) | La A20M original y decisiones de diseño |
 | [⚡ SKR Mini E3 V3 + Klipper](docs/fase-1/electronica/01_skr_klipper.md) | Armbian, KIAUH, compilar, flashear |
 | [🔩 Sharkfin + BMG Clone](docs/fase-1/extrusor/02_sharkfin_bmg.md) | Montaje y calibración del extrusor directo |
@@ -100,11 +106,14 @@ UGR-A20M/
 │   └── pull_request_template.md
 │
 ├── docs/                     ← Documentación (GitHub Pages desde aquí)
-│   ├── index.html            ← Web del proyecto
+│   ├── index.html            ← Web del proyecto (GitHub Pages)
 │   ├── _config.yml           ← Configuración Jekyll/GitHub Pages
 │   ├── guia_calibracion.md   ← Calibración completa paso a paso ⭐
-│   ├── slicer_settings.md    ← Perfiles por material para el slicer
-│   ├── troubleshooting.md    ← Problemas frecuentes centralizados ⭐
+│   ├── slicer_settings.md    ← Perfiles por material + boquilla 0.6 mm
+│   ├── materiales.md         ← Guía de materiales compatibles
+│   ├── mantenimiento.md      ← Calendario de mantenimiento preventivo
+│   ├── troubleshooting.md    ← Problemas frecuentes centralizados
+│   ├── glosario.md           ← 40+ definiciones de términos técnicos ⭐
 │   ├── fase-0/
 │   │   └── 00_especificaciones_base.md
 │   ├── fase-1/
@@ -117,6 +126,16 @@ UGR-A20M/
 │   │   └── 05_documentacion_final.md
 │   └── img/
 │       └── banner-ugr-a20m.png
+│
+├── hardware/
+│   ├── bom/
+│   │   ├── BOM_fase1.md      ← ~106 € — electrónica, extrusor, toolhead
+│   │   └── BOM_fase2.md      ← ~35–47 € — guías lineales MGN12H
+│   ├── prints/
+│   │   └── README.md         ← Registro de piezas impresas con parámetros
+│   └── electronica/
+│       ├── esquema_conexiones.md   ← Conexionado completo pin a pin
+│       └── pinout_skr_mini_e3_v3.md ← Todos los pines usados y disponibles
 │
 ├── hardware/
 │   ├── bom/
