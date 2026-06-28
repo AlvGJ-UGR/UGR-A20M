@@ -44,21 +44,11 @@ Diseño open-source pensado para impresoras Voron. Usa engranajes BMG con relaci
 
 ## 🖨️ Impresión de las piezas
 
-Las piezas deben imprimirse en **ABS o ASA** obligatoriamente — la proximidad al hotend durante la impresión hace que el PLA se deforme.
+Las piezas deben imprimirse en **ASA** (primera opción) o **ABS** — la proximidad al hotend durante la operación hace que el PLA se deforme por encima de 55 °C.
 
-| Parámetro | ABS | ASA |
-|-----------|-----|-----|
-| Temperatura boquilla | 245–250 °C | 250–255 °C |
-| Temperatura cama | 100–105 °C | 90–100 °C |
-| Recinto cerrado | Recomendado | Recomendado |
-| Relleno | 40% gyroid o cúbico | 40% gyroid o cúbico |
-| Perímetros | 4 | 4 |
-| Capas sólidas sup/inf | 5 | 5 |
-| Velocidad | 40–50 mm/s | 40–50 mm/s |
-| Refrigeración de capa | 0% | 15–20% máx. |
-| Soporte | No necesario | No necesario |
+Parámetros recomendados: **ASA 255 °C / cama 95 °C / 40% gyroid / 4 perímetros / sin refrigeración**. Ver parámetros completos en [`hardware/prints/README.md`](../../../hardware/prints/README.md) y perfiles de slicer en [`docs/slicer_settings.md`](../../slicer_settings.md).
 
-> Ver tabla completa de parámetros en [`hardware/prints/README.md`](../../../hardware/prints/README.md).
+> Imprimir en recinto cerrado. Sin recinto el warping en las piezas largas (body del Sharkfin) es casi inevitable con ABS.
 
 ---
 
@@ -155,7 +145,7 @@ rotation_distance: 21.54
 | Sobre-extrusión constante | `rotation_distance` demasiado bajo | Recalibrar con el procedimiento anterior |
 | Sub-extrusión constante | `rotation_distance` demasiado alto | Recalibrar con el procedimiento anterior |
 | Motor extrusor muy caliente (> 60 °C) | `run_current` demasiado alto | Reducir `run_current` a 0.60 |
-| Engranajes ruidan | Engranajes sucios o mal alineados | Limpiar; verificar alineación del motor |
+| Engranajes ruidan | Engranaje conductor mal fijado al eje del motor, sucio o mal alineado | Verificar que el tornillo de fijación del engranaje conductor está apretado contra el plano del eje (flat); limpiar con aire comprimido; verificar alineación motor-cuerpo |
 
 ---
 
