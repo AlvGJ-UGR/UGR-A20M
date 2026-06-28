@@ -96,15 +96,7 @@ Klipper cancela el calentamiento si la temperatura no sube al ritmo esperado. Ca
 
 ### Motor X/Y/Z se mueve en dirección contraria
 
-En Klipper, nunca invertir el conector físico. Editar `printer.cfg`:
-
-```ini
-# Antes (dirección incorrecta):
-dir_pin: PB12
-
-# Después (añadir o quitar el ! para invertir):
-dir_pin: !PB12
-```
+Añadir o quitar el `!` en el `dir_pin` del motor afectado en `printer.cfg`. Ver procedimiento completo en [`docs/guia_calibracion.md`](guia_calibracion.md) — Paso 1.
 
 ---
 
@@ -216,11 +208,11 @@ Si la extrusión está calibrada y sigue habiendo sobre-extrusión: bajar el mul
 ### Sub-extrusión (relleno con huecos, capas débiles)
 
 Verificar en orden:
-1. `rotation_distance` calibrado correctamente
-2. Temperatura del hotend suficiente (subir 5 °C)
-3. Boquilla no obstruida (hacer cold pull)
-4. El extrusor no patina (`run_current` adecuado)
-5. El tubo PTFE no tiene dobleces (en direct drive debe ser muy corto y recto)
+1. `rotation_distance` calibrado — ver [`docs/guia_calibracion.md`](guia_calibracion.md) Paso 2
+2. Temperatura del hotend suficiente — subir 5 °C y volver a probar
+3. Boquilla no obstruida — hacer cold pull (procedimiento en [`docs/mantenimiento.md`](mantenimiento.md))
+4. El extrusor no patina — ver troubleshooting de patinado más arriba
+5. Tubo PTFE recto y sin dobleces — en direct drive debe ser ~10 mm y perfectamente recto
 
 ---
 
@@ -235,6 +227,7 @@ Verificar en orden:
 | Sin brim | Añadir brim de 5–8 mm en el slicer |
 | Corrientes de aire | Cerrar ventanas y puertas de la habitación |
 | Primera capa demasiado fría | Subir temperatura de primera capa 5 °C |
+| Apertura del recinto durante la impresión | Con hotends de alto caudal (CHC V6 Volcano) la masa térmica es mayor y el enfriamiento brusco al abrir el recinto provoca microwarping en capas intermedias; no abrir el recinto durante la impresión de ABS/ASA |
 
 ---
 
