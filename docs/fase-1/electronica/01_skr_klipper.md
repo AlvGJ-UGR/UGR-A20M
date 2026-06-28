@@ -56,7 +56,14 @@ ssh root@<IP_de_la_opi>
 
 > Encontrar la IP en el router o con `nmap -sn 192.168.1.0/24 | grep -i orange`.
 
-Seguir el asistente de primer arranque: establecer contraseña root, crear usuario normal y configurar zona horaria.
+El asistente de primer arranque hace lo siguiente — responder a cada prompt:
+1. **Nueva contraseña root** — elegir una contraseña segura (se usará para SSH)
+2. **Shell para root** — dejar bash (opción por defecto)
+3. **Crear usuario normal** — crear un usuario con nombre propio (p. ej. `alvaro`); este usuario se usará para Klipper
+4. **Contraseña del usuario** — diferente a la de root
+5. **Zona horaria** — seleccionar `Europe/Madrid` o la correspondiente
+
+Al terminar el asistente, la sesión SSH continuará como root.
 
 #### 1.3 Configuración de red WiFi (opcional)
 
@@ -171,7 +178,11 @@ Copiar esta ruta completa — se necesita para `printer.cfg`.
 
 #### 4.2 Montar la SKR Mini E3 V3
 
-La SKR Mini E3 V3 tiene el mismo factor de forma que muchas placas Creality — verificar que los orificios de montaje coinciden con los soportes del chasis de la A20M. Si no coinciden, imprimir un soporte adaptador.
+La SKR Mini E3 V3 tiene el mismo factor de forma que muchas placas Creality (32×100 mm, 4 orificios M3 a 85×25 mm). Verificar que los soportes del chasis de la A20M coinciden antes de instalar.
+
+Si los orificios no coinciden exactamente, hay dos opciones:
+- Usar bridas de nylon para sujetar temporalmente la placa mientras se verifica que funciona
+- Imprimir un soporte adaptador: buscar en [Printables — SKR Mini E3 mount](https://www.printables.com/search/models?q=skr+mini+e3+mount) o diseñar uno con las medidas del chasis original
 
 #### 4.3 Conectar todos los periféricos
 
@@ -240,6 +251,7 @@ Completar en orden antes de hacer el primer homing:
 - [ ] Mover X +10 mm desde Fluidd → el carro se aleja del endstop
 - [ ] Mover X −10 mm → el carro se acerca al endstop
 - [ ] Repetir la verificación de dirección para Y y Z
+  > Si un eje va al revés: **no invertir el conector físicamente**. En `printer.cfg`, añadir o quitar el `!` en el `dir_pin` del eje afectado (p. ej. `dir_pin: !PB12` → `dir_pin: PB12`) y hacer `FIRMWARE_RESTART`
 - [ ] CR-Touch despliega y recoge la sonda (`BLTOUCH_DEBUG COMMAND=pin_down`)
 - [ ] `G28` completo sin errores
 - [ ] Ventilador hotend se activa al calentar el hotend por encima de 50 °C
