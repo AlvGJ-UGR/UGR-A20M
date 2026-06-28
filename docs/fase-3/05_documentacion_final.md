@@ -122,23 +122,35 @@ Documento formal para entregar a la Universidad de Granada. Estructura propuesta
 **Opción A — Pandoc (automático desde Markdown):**
 ```bash
 # Instalar dependencias
-sudo apt install pandoc texlive-xetex texlive-lang-spanish
+sudo apt install pandoc texlive-xetex texlive-lang-spanish fonts-liberation
 
-# Generar PDF desde todos los documentos
+# Generar PDF desde todos los documentos en orden
 pandoc \
   docs/fase-0/00_especificaciones_base.md \
   docs/fase-1/electronica/01_skr_klipper.md \
   docs/fase-1/extrusor/02_sharkfin_bmg.md \
   docs/fase-1/toolhead/03_mini_stealth_chc_crtouch.md \
+  docs/guia_calibracion.md \
   docs/fase-2/04_guias_lineales.md \
-  -o informe-ugr-a20m.pdf \
+  docs/slicer_settings.md \
+  docs/mantenimiento.md \
+  --output informe-ugr-a20m.pdf \
   --pdf-engine=xelatex \
   --toc \
   --toc-depth=2 \
-  -V lang=es \
+  --metadata title="Proyecto UGR-A20M: Modernización de impresora 3D Geeetech A20M" \
+  --metadata author="Álvaro González Jiménez — Universidad de Granada" \
+  --metadata date="2025" \
+  --metadata lang=es \
   -V geometry:margin=2.5cm \
-  -V fontsize=11pt
+  -V fontsize=11pt \
+  -V mainfont="Liberation Serif" \
+  -V monofont="Liberation Mono" \
+  -V colorlinks=true \
+  -V linkcolor=NavyBlue
 ```
+
+> Si hay imágenes en los documentos, ejecutar el comando desde la raíz del repositorio para que las rutas relativas se resuelvan correctamente.
 
 **Opción B — Overleaf con plantilla UGR:**
 - Usar la [plantilla LaTeX oficial de la UGR](https://www.ugr.es/universidad/servicios/comunicacion-informacion/imagen-corporativa)
