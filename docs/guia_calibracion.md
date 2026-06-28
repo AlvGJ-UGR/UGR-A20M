@@ -72,13 +72,21 @@ El control PID mantiene la temperatura estable durante la impresión. Sin calibr
 CALIBRATE_PID_HOTEND TEMP=220
 ```
 
-Esperar a que el proceso termine (10–15 minutos). Al finalizar:
+Klipper calentará y enfriará el hotend varias veces de forma automática. En la consola de Fluidd se verán líneas como:
+```
+// PID Autotune: Try 1
+// PID Autotune: Try 2
+...
+// PID parameters: pid_Kp=XX.XX pid_Ki=X.XX pid_Kd=XXX.XX
+```
+
+El proceso **ha terminado** cuando aparece la línea con `pid_Kp`, `pid_Ki` y `pid_Kd`. Dura entre 8 y 15 minutos según la masa térmica del hotend. Al finalizar, guardar:
 
 ```
 SAVE_CONFIG
 ```
 
-> La impresora se reiniciará. Los valores se guardan automáticamente al final de `printer.cfg`.
+> Klipper se reiniciará automáticamente y escribirá los valores de PID al final del `printer.cfg` en el bloque `#*# SAVE_CONFIG`.
 
 ### Temperatura de calibración por material
 
@@ -108,26 +116,64 @@ SAVE_CONFIG
 
 ## Paso 5 — Medir offsets del CR-Touch
 
-Los offsets definen la distancia física entre el pin del CR-Touch y el centro del nozzle.
+Los offsets definen la posición del CR-Touch relativa al nozzle. Un valor incorrecto desplaza el mesh respecto a la zona real de impresión, provocando que los bordes de la cama queden sin medir.
 
-### Método con calibre
+### Medición con calibre
 
-1. Con la impresora apagada, medir con calibre:
-   - **x_offset**: distancia horizontal (eje X) entre el pin del CR-Touch y el nozzle. Negativo si la sonda está a la izquierda del nozzle.
-   - **y_offset**: distancia en profundidad (eje Y). Negativo si la sonda está por detrás.
+Con el toolhead instalado en el carro X y la impresora **apagada**, llevar el carro manualmente al centro del eje X para tener acceso cómodo:
 
-2. Actualizar en `printer.cfg`:
+```
+Vista desde arriba del toolhead:
+
+  [CR-Touch]          [Nozzle]
+       │                  │
+       ←── x_offset (─) ──→
+       │                  │
+       └──── y_offset ────┘
+              (─ si sonda
+              detrás del nozzle)
+```
+
+1. **x_offset** — distancia horizontal entre el centro del pin del CR-Touch y el centro del nozzle.
+   - CR-Touch a la **izquierda** del nozzle → valor **negativo** (caso habitual con Mini Stealth probe-mount left)
+   - CR-Touch a la **derecha** → valor positivo
+
+2. **y_offset** — distancia en profundidad entre el pin y el nozzle.
+   - CR-Touch **por detrás** del nozzle → valor **negativo**
+
+3. Actualizar en `printer.cfg`:
    ```ini
    [bltouch]
-   x_offset: -44    # ← tu valor medido
-   y_offset: -9     # ← tu valor medido
+   x_offset: -44    # ← reemplazar con tu medición real
+   y_offset: -9     # ← reemplazar con tu medición real
    ```
 
-3. Verificar que `mesh_min` y `mesh_max` en `[bed_mesh]` compensan estos offsets para que la sonda no salga de la cama durante el mesh.
+4. Actualizar `mesh_min` y `mesh_max` en `[bed_mesh]` para que la sonda nunca salga de la cama:
+   ```ini
+   [bed_mesh]
+   mesh_min: 15, 15      # mínimo: |x_offset| + 5 mm de margen en X
+   mesh_max: 210, 245    # máximo: 255 - |y_offset| - 5 mm en Y
+   ```
+
+> Los valores del proyecto (`x_offset: -44`, `y_offset: -9`) son estimaciones para el Mini Stealth v2 con probe-mount izquierdo. Siempre medir físicamente — varían según la variante de shroud impresa.
 
 ---
 
-## Paso 6 — Calibrar z_offset (altura de primera capa)
+## Paso 6 — Nivelar tornillos de cama
+
+Antes de calibrar el z_offset, la cama debe estar lo más plana posible físicamente. Klipper mide los cuatro tornillos y calcula cuánto girar cada uno.
+
+```
+LEVEL_BED_SCREWS
+```
+
+Klipper ejecuta `G28` y luego `SCREWS_TILT_CALCULATE`. Para cada tornillo mostrará en pantalla cuánto girarlo y en qué dirección (por ejemplo, `00:20 en sentido horario`). Repetir hasta que todos los tornillos muestren una diferencia **< 0.1 mm** entre sí.
+
+> **¿Por qué antes del z_offset?** El z_offset se mide en el centro de la cama. Si la cama está inclinada, el z_offset medido no será representativo de toda la superficie. Nivelar primero garantiza un z_offset más estable.
+
+---
+
+## Paso 7 — Calibrar z_offset (altura de primera capa)
 
 El z_offset determina a qué altura queda el nozzle cuando el CR-Touch indica que ha tocado la cama. Un valor incorrecto arruina la primera capa.
 
@@ -137,30 +183,21 @@ CALIBRATE_Z_OFFSET
 
 Esto ejecuta `G28` y luego `PROBE_CALIBRATE`. Usar el método del papel:
 
-1. Colocar un folio de papel entre el nozzle y la cama
-2. Ajustar con los comandos `TESTZ Z=-0.1` (bajar) o `TESTZ Z=+0.1` (subir)
-3. Cuando el papel tenga resistencia leve al deslizar: `ACCEPT`
-4. Guardar: `SAVE_CONFIG`
+1. Colocar un folio de papel estándar (80 g/m²) entre el nozzle y la cama en el centro
+2. Bajar con `TESTZ Z=-0.1` hasta notar resistencia leve al mover el papel
+3. El papel debe moverse con algo de fricción pero sin rasgarse
+4. Cuando la resistencia sea correcta: `ACCEPT`
+5. Guardar: `SAVE_CONFIG`
 
 ### Referencia visual de primera capa
 
-| Aspecto | Diagnóstico | Corrección |
-|---------|-------------|-----------|
-| Líneas separadas, no se pegan | Demasiado alto | `TESTZ Z=-0.05` (más negativo) |
-| Líneas bien adheridas y brillantes | ✅ Correcto | — |
-| Líneas aplastadas, boquilla rasca | Demasiado bajo | `TESTZ Z=+0.05` (más positivo) |
+| Aspecto al imprimir | Diagnóstico | Corrección |
+|---------------------|-------------|-----------|
+| Líneas separadas, no se pegan entre sí | Demasiado alto | `TESTZ Z=-0.05` → `ACCEPT` → `SAVE_CONFIG` |
+| Líneas bien adheridas, brillantes, sin espacios | ✅ Correcto | — |
+| Líneas aplastadas, boquilla rasca la cama | Demasiado bajo | `TESTZ Z=+0.05` → `ACCEPT` → `SAVE_CONFIG` |
 
----
-
-## Paso 7 — Nivelar tornillos de cama
-
-Aunque el CR-Touch compensa la inclinación de la cama, es mejor empezar con la cama lo más plana posible.
-
-```
-LEVEL_BED_SCREWS
-```
-
-Klipper medirá los cuatro tornillos y mostrará cuánto girar cada uno (en horas de reloj). Repetir hasta que todos los tornillos muestren una diferencia < 0.1 mm.
+> Si se cambia la temperatura de la cama o el cristal, recalibrar el z_offset — la expansión térmica modifica la altura.
 
 ---
 
@@ -229,23 +266,14 @@ Tras calibrar, la velocidad máxima puede aumentarse hasta 250–300 mm/s depend
 | 3 | PID hotend calibrado y guardado | ⬜ |
 | 4 | PID cama calibrado y guardado | ⬜ |
 | 5 | Offsets CR-Touch medidos y actualizados | ⬜ |
-| 6 | z_offset calibrado y guardado | ⬜ |
-| 7 | Tornillos de cama nivelados (< 0.1 mm diferencia) | ⬜ |
+| 6 | Tornillos de cama nivelados (diferencia < 0.1 mm) | ⬜ |
+| 7 | z_offset calibrado y guardado | ⬜ |
 | 8 | Mesh de nivelación generado y guardado | ⬜ |
 | 9 | Pressure Advance calibrado | ⬜ |
-| 10 | Input Shaping calibrado (opcional) | ⬜ |
+| 10 | Input Shaping calibrado (opcional — requiere ADXL345) | ⬜ |
 
 ---
 
-## Solución de problemas frecuentes
+---
 
-| Síntoma | Causa probable | Solución |
-|---------|---------------|----------|
-| Error `MCU unable to connect` | Serial incorrecto | `ls /dev/serial/by-id/` y actualizar `printer.cfg` |
-| Temperatura del hotend oscila ±5 °C | PID sin calibrar | Ejecutar `CALIBRATE_PID_HOTEND` |
-| Primera capa no se adhiere | z_offset muy alto | `CALIBRATE_Z_OFFSET` y ajustar más abajo |
-| CR-Touch error `probe triggered prior to movement` | z_offset muy bajo o sonda defectuosa | Ajustar z_offset; verificar conexión sonda |
-| Motor X/Y va en dirección contraria | dir_pin incorrecto | Añadir/quitar `!` en `dir_pin` del motor afectado |
-| Extrusor pierde pasos | run_current bajo o velocidad alta | Subir `run_current` en el TMC2209 del extrusor |
-| Stringing excesivo | PA bajo o retracción insuficiente | Subir `pressure_advance`; ajustar retracción en slicer |
-| Ondas en las paredes (ringing) | Vibraciones del chasis | Calibrar Input Shaping |
+> Para una guía completa de diagnóstico y solución de problemas ver [`docs/troubleshooting.md`](troubleshooting.md).
