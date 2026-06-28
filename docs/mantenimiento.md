@@ -31,10 +31,16 @@ Calendario de mantenimiento preventivo para mantener la impresora en óptimas co
 ### Boquilla
 - [ ] **Inspeccionar la boquilla** — buscar signos de desgaste o residuos carbonizados en la punta
 - [ ] **Hacer un cold pull** para limpiar el interior del hotend:
-  1. Calentar el hotend a 200 °C y purgar 5 mm de filamento
-  2. Enfriar a 90 °C (PLA) sin mover el filamento
-  3. Tirar del filamento hacia arriba con un movimiento firme y continuo
-  4. El filamento saldrá con la forma del interior del hotend — repetir hasta que salga limpio
+
+  **Procedimiento de cold pull:**
+  1. Calentar el hotend a **200 °C** (PLA) o **230 °C** (PETG/ABS)
+  2. Purgar manualmente ~20 mm de filamento desde Fluidd
+  3. Bajar la temperatura a **90 °C** (PLA) o **110 °C** (PETG/ABS) **sin mover el filamento**
+  4. Cuando alcance la temperatura, tirar del filamento hacia arriba con un movimiento **firme, continuo y recto** — sin girar
+  5. El filamento saldrá con la forma exacta del interior del hotend, arrastrando los residuos
+  6. Si la punta sale limpia y con forma cónica → hotend limpio
+  7. Si sale con restos oscuros o irregularidades → repetir desde el paso 1 con filamento de PLA blanco o transparente (se ven mejor los residuos)
+  8. Repetir hasta que salga limpio
 
 ### Calibración
 - [ ] **Ejecutar `SCREWS_TILT_CALCULATE`** — la cama puede haberse movido por las vibraciones
