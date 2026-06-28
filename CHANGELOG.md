@@ -7,6 +7,14 @@ Versiones siguiendo [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased] — Fase 1 en progreso
 
+### Mejorado
+- `docs/fase-3/05_documentacion_final.md` — Reescrito: eliminadas las secciones de PDF para la UGR, informe formal y guía de GitHub Pages. El documento se centra en lo que es el proyecto: benchmarks con metodología reproducible, galería fotográfica y release final en GitHub
+- `docs/fase-1/toolhead/03_mini_stealth_chc_crtouch.md` — Reescrito: resuelto el conflicto de compatibilidad Sharkfin/Mini Stealth (core del grupo Orbiter/BMG, no Sherpa Micro); procedimiento real de selección de shroud izquierdo vs derecho; medición de offsets con diagrama ASCII; nota de perpendicularity al instalar en el carro X; PTFE corto (~10 mm) documentado explícitamente
+- `docs/guia_calibracion.md` — Paso 5 expandido con diagrama ASCII de offsets x/y, distinción negativo/positivo explicada, cálculo de `mesh_min`/`mesh_max` en función de los offsets, nota sobre variabilidad según shroud impreso
+- `docs/mantenimiento.md` — Cold pull detallado en 8 pasos numerados: temperatura por material, temperatura de extracción, técnica de tiro recto, cómo interpretar el resultado, uso de PLA blanco para ver residuos
+- `firmware/klipper/config/printer.cfg` — Corregido el bloque SAVE_CONFIG: eliminado el `z_offset = 0.0` hardcodeado que era incorrecto; Klipper escribe ese bloque automáticamente, no debe estar precargado
+- `docs/index.html` — Menú hamburguesa real para móvil: botón ☰ visible solo en pantallas < 640px, menú desplegable que se cierra automáticamente al pulsar un link; el CSS anterior ocultaba todos los links del nav en móvil excepto el último
+
 ### Añadido
 - `docs/glosario.md` — Glosario técnico con 40+ definiciones orientado a estudiantes UGR sin experiencia previa en impresión 3D avanzada
 - `docs/materiales.md` — Guía de materiales: cuándo usar cada uno, preparación, adhesión, secado y boquillas; sin duplicar los parámetros del slicer
