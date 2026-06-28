@@ -44,6 +44,9 @@ Hotend de alto caudal compatible con el patrón de montaje E3D V6. El bloque cal
 **Cold pull**  
 Técnica de limpieza del interior del hotend: se calienta el hotend, se carga filamento, se enfría hasta ~90 °C y se extrae el filamento con un tirón firme. El filamento sale con la forma del interior del hotend, arrastrando los residuos carbonizados.
 
+**Conventional Commits**  
+Especificación estándar para mensajes de commit de Git: `tipo(ámbito): descripción`. Tipos usados en este proyecto: `feat` (nueva funcionalidad), `fix` (corrección), `docs` (documentación), `chore` (mantenimiento). Ver [conventionalcommits.org](https://www.conventionalcommits.org/). Usados en el flujo descrito en `CONTRIBUTING.md`.
+
 **CR-Touch**  
 Sensor de autonivelado fabricado por Creality. Funciona mediante un pin metálico retráctil servo-accionado que toca la cama en múltiples puntos para generar el bed mesh. Compatible con el protocolo BLTouch.
 
@@ -60,6 +63,9 @@ Sistema donde el motor del extrusor está montado directamente sobre el hotend, 
 ---
 
 ## E
+
+**E-steps**  
+En Marlin, el número de pasos del motor necesarios para extruir 1 mm de filamento. En Klipper el concepto equivalente es `rotation_distance` — la distancia recorrida por vuelta completa del motor. Los E-steps originales de la A20M (96 steps/mm para el extrusor Bowden) no se trasladan directamente a Klipper; hay que calibrar `rotation_distance` desde cero siguiendo el procedimiento del Paso 2 de `guia_calibracion.md`.
 
 **Extrusor**  
 Conjunto mecánico que empuja el filamento hacia el hotend. En este proyecto: extrusor Sharkfin con engranajes BMG Clone, motor NEMA 17 pancake y relación de reducción ~3.5:1.
