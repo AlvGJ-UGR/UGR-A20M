@@ -29,7 +29,7 @@ Este repositorio contiene configuraciones de Klipper y scripts bash. Si detectas
 2. Enviar un correo directamente al autor: **alvarogj1@correo.ugr.es**
 3. Incluir: descripción del problema, pasos para reproducirlo y impacto potencial.
 
-Se responderá en un plazo de **7 días hábiles**.
+Se responderá lo antes posible — este es un proyecto personal sin SLA formal.
 
 ---
 
@@ -47,12 +47,12 @@ Fluidd/Mainsail expone la impresora en la red local sin autenticación por defec
 
 ---
 
-## Versiones soportadas
+## Configuración de software probada
 
-| Componente | Versión probada | Soporte |
-|------------|----------------|---------|
-| Klipper | ≥ 0.11 | ✅ |
-| Moonraker | ≥ 0.8 | ✅ |
-| Fluidd | ≥ 1.28 | ✅ |
-| Armbian (Orange Pi Zero 3) | Bookworm 24.x | ✅ |
-| BTT SKR Mini E3 V3 firmware | Klipper compilado | ✅ |
+| Componente | Versión probada |
+|------------|----------------|
+| Klipper | ≥ 0.11 |
+| Moonraker | ≥ 0.8 |
+| Fluidd | ≥ 1.28 |
+| Armbian (Orange Pi Zero 3) | Bookworm 24.x |
+| BTT SKR Mini E3 V3 | Klipper compilado |
