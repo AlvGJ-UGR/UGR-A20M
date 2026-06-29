@@ -77,16 +77,18 @@ El hotend original llega a 250 °C, suficiente para PLA y ABS pero insuficiente 
 
 > Completar con fotografías en `photos/estado-inicial/` antes de iniciar las modificaciones.
 
-### Checklist de documentación inicial
+### Documentación inicial
 
-- [ ] Foto frontal de la máquina (ángulo 3/4)
-- [ ] Foto de la placa GT2560 y conexionado
-- [ ] Foto del hotend mixing y extrusores Bowden originales
-- [ ] Foto de la pantalla LCD y controles
-- [ ] Impresión de referencia: Benchy con configuración de fábrica
-- [ ] Registro de temperatura de hotend durante impresión (oscilaciones)
-- [ ] Medición de ruido en operación (dB con app de móvil)
-- [ ] Medición dimensional de cubo 20×20×20 impreso en stock
+Registrar el estado base de la máquina **antes de modificar nada**. El checklist completo de fotografías está en [`photos/README.md`](../../photos/README.md).
+
+Mediciones de referencia a tomar con la configuración stock:
+
+| Medición | Herramienta | Cuándo |
+|----------|-------------|--------|
+| Benchy impreso | Slicer stock de Geeetech | Antes de Fase 1 |
+| Dimensiones cubo 20×20×20 mm | Calibre | Antes de Fase 1 |
+| Ruido en operación | App de decibelios (micrófono a 30 cm) | Antes de Fase 1 |
+| Oscilación de temperatura del hotend | Fluidd (tras instalar Klipper) | Antes de calibrar PID |
 
 ### Parámetros de referencia del slicer original (Marlin stock)
 
@@ -130,3 +132,15 @@ La escasez y el precio elevado de las Raspberry Pi 4 en 2024–2025 hizo de la O
 - Rendimiento suficiente para Klipper + Moonraker + Fluidd (Cortex-A53 @1.5 GHz, 1 GB RAM)
 - Armbian ofrece soporte estable para Debian/Ubuntu
 - USB OTG disponible para la conexión con la SKR
+
+### Por qué la Zero 3 y no otras Orange Pi
+
+La gama Orange Pi tiene modelos más potentes (Orange Pi 5, Orange Pi 5 Plus), pero para este proyecto son innecesarios:
+
+| Modelo | CPU | RAM | Precio | ¿Para Klipper? |
+|--------|-----|-----|--------|---------------|
+| Orange Pi Zero 3 | Cortex-A53 @1.5 GHz | 1 GB | ~25 € | ✅ Suficiente |
+| Orange Pi 3B | Cortex-A55 @1.8 GHz | 2–4 GB | ~35–50 € | ✅ Excesivo |
+| Orange Pi 5 | Cortex-A76+A55 @2.4 GHz | 4–16 GB | ~60–80 € | ✅ Muy excesivo |
+
+Klipper con Moonraker y Fluidd consume ~300 MB de RAM en operación normal. La Zero 3 con 1 GB tiene margen suficiente. El factor decisivo es el **precio y el factor de forma compacto** de la Zero 3, que facilita el cableado dentro del chasis de la A20M.
