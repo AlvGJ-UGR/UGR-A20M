@@ -8,12 +8,13 @@ Versiones siguiendo [Semantic Versioning](https://semver.org/).
 ## [Unreleased] — Fase 1 en progreso
 
 ### Mejorado
-- `docs/fase-3/05_documentacion_final.md` — Reescrito: eliminadas las secciones de PDF para la UGR, informe formal y guía de GitHub Pages. El documento se centra en lo que es el proyecto: benchmarks con metodología reproducible, galería fotográfica y release final en GitHub
-- `docs/fase-1/toolhead/03_mini_stealth_chc_crtouch.md` — Reescrito: resuelto el conflicto de compatibilidad Sharkfin/Mini Stealth (core del grupo Orbiter/BMG, no Sherpa Micro); procedimiento real de selección de shroud izquierdo vs derecho; medición de offsets con diagrama ASCII; nota de perpendicularity al instalar en el carro X; PTFE corto (~10 mm) documentado explícitamente
-- `docs/guia_calibracion.md` — Paso 5 expandido con diagrama ASCII de offsets x/y, distinción negativo/positivo explicada, cálculo de `mesh_min`/`mesh_max` en función de los offsets, nota sobre variabilidad según shroud impreso
-- `docs/mantenimiento.md` — Cold pull detallado en 8 pasos numerados: temperatura por material, temperatura de extracción, técnica de tiro recto, cómo interpretar el resultado, uso de PLA blanco para ver residuos
-- `firmware/klipper/config/printer.cfg` — Corregido el bloque SAVE_CONFIG: eliminado el `z_offset = 0.0` hardcodeado que era incorrecto; Klipper escribe ese bloque automáticamente, no debe estar precargado
-- `docs/index.html` — Menú hamburguesa real para móvil: botón ☰ visible solo en pantallas < 640px, menú desplegable que se cierra automáticamente al pulsar un link; el CSS anterior ocultaba todos los links del nav en móvil excepto el último
+- `docs/fase-2/04_guias_lineales.md` — Inconsistencia de coste corregida (€35–50 → €35–47, alineado con BOM_fase2); procedimiento concreto de alineación en Y con tres puntos de medición y tolerancia < 0.3 mm; referencia de tensión de correas en Hz (objetivo ~50 Hz); alineación en X cambiada a método práctico (deslizar carro y buscar punto duro)
+- `docs/fase-0/00_especificaciones_base.md` — Checklist de fotos duplicado eliminado (referencia a `photos/README.md`); tabla comparativa de modelos Orange Pi añadida explicando por qué la Zero 3 específicamente vs Orange Pi 3B y 5 (consumo RAM de Klipper, precio, factor de forma)
+- `firmware/klipper/config/printer.cfg` — Sección `[screws_tilt_adjust]` documentada con la fórmula para calcular coordenadas a partir de la posición física de los tornillos y los offsets del CR-Touch; posiciones físicas estimadas de los 4 tornillos de la A20M
+- `firmware/marlin/README.md` — E-steps de 96 steps/mm aclarados como específicos del extrusor Bowden original — no trasladables al Sharkfin
+- `CONTRIBUTING.md` — Política de revisión ajustada para reflejar la realidad de proyecto personal: sin SLA formal, sin "mergeado automático", instrucción de mencionar al autor si hay silencio > 2 semanas
+- `docs/mantenimiento.md` — Tabla de consumibles ampliada con columna de precio orientativo y fila de total (~26 €)
+- `CHANGELOG.md` — Consolidado y actualizado
 
 ### Añadido
 - `docs/glosario.md` — Glosario técnico con 40+ definiciones orientado a estudiantes UGR sin experiencia previa en impresión 3D avanzada
