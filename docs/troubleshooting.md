@@ -106,7 +106,7 @@ Añadir o quitar el `!` en el `dir_pin` del motor afectado en `printer.cfg`. Ver
 |---------------|----------------|----------|
 | Velocidad demasiado alta | Solo ocurre a alta velocidad | Reducir `max_velocity` en `[printer]` |
 | `run_current` demasiado bajo | Motor caliente + pérdidas | Subir `run_current` en `[tmc2209]` (máx. ~0.85A para NEMA 17 estándar) |
-| Correa GT2 floja | Sonido flojo, holgura visible | Tensar la correa hasta ~40–50 Hz con app de tensión de correas |
+| Correa GT2 floja | Sonido flojo, holgura visible | Tensar la correa hasta ~50 Hz midiendo con app de afinador de guitarra o Gates Carbon Drive |
 | Obstrucción mecánica | El eje roza o tiene fricción | Verificar que las guías o barras están limpias y lubricadas |
 
 ---
@@ -145,6 +145,17 @@ BLTOUCH_DEBUG COMMAND=self_test
 ```
 
 Si no responde: verificar el pin de control (`PA1` en la SKR Mini E3 V3) y que el conector BLTouch está en el orden correcto: GND · 5V · SENSOR · SERVO.
+
+---
+
+### Error `BLTouch not deployed` durante el homing
+
+Klipper intenta medir con el CR-Touch pero la sonda no ha bajado. Causas:
+
+1. **Pin `control_pin` incorrecto** — debe ser `PA1` para la SKR Mini E3 V3
+2. **Tensión insuficiente en el pin de servo** — algunos CR-Touch clónicos necesitan 5V en el servo; verificar que el pin BLTouch de la SKR suministra 5V
+3. **CR-Touch en estado de error** — la luz parpadea en rojo. Ejecutar `BLTOUCH_DEBUG COMMAND=reset` y volver a intentarlo
+4. **Velocidad de homing Z demasiado alta** — reducir `homing_speed` en `[stepper_z]` a 5 mm/s e intentar de nuevo
 
 ---
 
