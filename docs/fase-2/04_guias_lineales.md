@@ -63,7 +63,7 @@ Se sustituyen las 2 barras lisas de 8 mm del eje Y por **dos guías MGN12H de 30
 | 5 | Adaptador carro X → toolhead (impreso) | ABS/ASA | Diseño pendiente / Printables | — |
 | 6 | Soportes cama → carro Y ×2 (impresos) | ABS/ASA | Diseño pendiente / Printables | — |
 | 7 | Grasa de litio (lubricación guías) | Cualquier grasa de litio blanca | [Amazon](https://www.amazon.es/s?k=grasa+litio+blanca) | ~5 € |
-| **Total estimado** | | | | **~35–50 €** |
+| **Total estimado** | | | | **~35–47 €** |
 
 > ⚠️ Investigar en [Printables](https://www.printables.com) y [Thingiverse](https://www.thingiverse.com) si existen adaptadores específicos para la Geeetech A20M antes de diseñar desde cero. Impresoras de tamaño similar (Ender 3, CR-10) tienen muchos diseños adaptables.
 
@@ -96,7 +96,7 @@ Se sustituyen las 2 barras lisas de 8 mm del eje Y por **dos guías MGN12H de 30
 2. Desmontar el carro X, los rodamientos LM8UU y las barras lisas de 8 mm
 3. Limpiar el perfil de aluminio del eje X
 4. Montar la guía MGN12H centrada en el perfil con tornillos M3×8 + T-nut
-5. **Verificar la alineación:** la guía debe ser perfectamente paralela al perfil — usar un nivel o indicador de cuadrante
+5. **Verificar la alineación:** deslizar el carro manualmente de un extremo al otro — debe moverse con resistencia uniforme y sin ningún punto duro. Si hay punto duro, aflojar ligeramente los tornillos del extremo más cercano y volver a apretar con el carro en ese punto
 6. Lubricar el carro MGN12H con grasa de litio (una pequeña cantidad en las bolas)
 7. Instalar el adaptador de toolhead en el carro MGN12H
 8. Remontar el Mini Stealth v2 en el adaptador
@@ -108,7 +108,11 @@ Se sustituyen las 2 barras lisas de 8 mm del eje Y por **dos guías MGN12H de 30
 2. Desmontar los soportes de la cama, los rodamientos LM8UU y las barras lisas de 8 mm
 3. Limpiar el bastidor Y
 4. Montar las dos guías MGN12H, una a cada lado, con tornillos M3×8 + T-nut
-5. **Alineación crítica:** las dos guías deben ser perfectamente paralelas entre sí — medir con calibre en varios puntos
+5. **Alineación de las guías Y — procedimiento:**
+   - Fijar la guía izquierda provisionalmente (tornillos sin apretar del todo)
+   - Fijar la guía derecha midiendo con calibre la distancia entre ambas en tres puntos: frontal, centro y trasero
+   - La diferencia entre las tres mediciones debe ser **< 0.3 mm** antes de apretar definitivamente
+   - Apretar primero los tornillos centrales de cada guía, luego los extremos — esto minimiza la flexión
 6. Lubricar ambos carros
 7. Instalar los soportes de cama impresos en los carros
 8. Remontar la cama caliente sobre los soportes
@@ -121,7 +125,7 @@ Tras instalar las guías no se requieren cambios en `printer.cfg`, pero sí reca
 - [ ] `SCREWS_TILT_CALCULATE` — la nueva cama puede estar en posición ligeramente diferente
 - [ ] `PROBE_CALIBRATE` — el z_offset puede haber cambiado levemente
 - [ ] `BED_MESH_CALIBRATE` — generar un nuevo mesh con la geometría actualizada
-- [ ] Verificar tensión de correas X e Y — las guías MGN12H tienen menos fricción y pueden requerir menos tensión
+- [ ] Verificar tensión de correas X e Y — las guías MGN12H tienen menos fricción y pueden requerir menos tensión. Objetivo: ~50 Hz pulsando la correa en el centro (medir con app de afinador de guitarra o Gates Carbon Drive)
 
 ---
 
