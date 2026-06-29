@@ -8,13 +8,10 @@ Versiones siguiendo [Semantic Versioning](https://semver.org/).
 ## [Unreleased] — Fase 1 en progreso
 
 ### Mejorado
-- `docs/fase-2/04_guias_lineales.md` — Inconsistencia de coste corregida (€35–50 → €35–47, alineado con BOM_fase2); procedimiento concreto de alineación en Y con tres puntos de medición y tolerancia < 0.3 mm; referencia de tensión de correas en Hz (objetivo ~50 Hz); alineación en X cambiada a método práctico (deslizar carro y buscar punto duro)
-- `docs/fase-0/00_especificaciones_base.md` — Checklist de fotos duplicado eliminado (referencia a `photos/README.md`); tabla comparativa de modelos Orange Pi añadida explicando por qué la Zero 3 específicamente vs Orange Pi 3B y 5 (consumo RAM de Klipper, precio, factor de forma)
-- `firmware/klipper/config/printer.cfg` — Sección `[screws_tilt_adjust]` documentada con la fórmula para calcular coordenadas a partir de la posición física de los tornillos y los offsets del CR-Touch; posiciones físicas estimadas de los 4 tornillos de la A20M
-- `firmware/marlin/README.md` — E-steps de 96 steps/mm aclarados como específicos del extrusor Bowden original — no trasladables al Sharkfin
-- `CONTRIBUTING.md` — Política de revisión ajustada para reflejar la realidad de proyecto personal: sin SLA formal, sin "mergeado automático", instrucción de mencionar al autor si hay silencio > 2 semanas
-- `docs/mantenimiento.md` — Tabla de consumibles ampliada con columna de precio orientativo y fila de total (~26 €)
-- `CHANGELOG.md` — Consolidado y actualizado
+- `docs/guia_calibracion.md` — Paso 9 (PA): corregido el procedimiento de la tuning tower — la macro modifica la impresión en curso, no es una pieza separada; pasos detallados incluyendo cuándo cancelar y cómo medir. Paso 4 (PID cama): añadida recomendación de temperatura 100 °C para usuarios de ABS, duración esperada 15–25 min y aviso de esperar la línea `pid_Kp` en consola. Eliminado el separador `---` duplicado al final
+- `docs/troubleshooting.md` — Tensión de correa unificada a ~50 Hz (era 40–50, inconsistente con `04_guias_lineales.md`). Añadida sección `BLTouch not deployed` con 4 causas concretas: pin incorrecto, tensión insuficiente, estado de error con luz roja, velocidad de homing Z demasiado alta
+- `docs/slicer_settings.md` — Perfil TPU completo con aceleración (500/300 mm/s²). Sección de Input Shaping: sustituido "aparece en el log" por el formato exacto de la línea que muestra Klipper (`suggested max_accel <= XXXX`). Temperatura primera capa ABS 0.6 mm: corregida de 260 °C a 255 °C
+- `firmware/klipper/config/printer.cfg` — Notas de calibración (sección 16): orden corregido (G=nivelar tornillos antes de H=z_offset, alineado con `guia_calibracion.md`); nota de PA con los 5 pasos del procedimiento; nota de IS con mención al valor `suggested max_accel` del log; offset CR-Touch con la fórmula explícita
 
 ### Añadido
 - `docs/glosario.md` — Glosario técnico con 40+ definiciones orientado a estudiantes UGR sin experiencia previa en impresión 3D avanzada
