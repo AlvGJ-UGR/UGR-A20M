@@ -31,7 +31,7 @@ Si no se guardó la configuración antes de flashear Klipper, se puede recuperar
 | X steps/mm | 80 |
 | Y steps/mm | 80 |
 | Z steps/mm | 400 |
-| E steps/mm | 96 (Bowden original) |
+| E steps/mm | 96 (extrusor Bowden original — **no usar para el Sharkfin**, calibrar `rotation_distance` desde cero) |
 | PID hotend Kp | 22.20 |
 | PID hotend Ki | 1.08 |
 | PID hotend Kd | 114.00 |
