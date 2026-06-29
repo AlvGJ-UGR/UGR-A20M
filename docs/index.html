@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UGR-A20M — Modernización Geeetech A20M</title>
 <meta name="description" content="Modernización progresiva de una Geeetech A20M con SKR Mini E3 V3, Klipper y extrusión directa Sharkfin. Proyecto educativo UGR.">
+<meta property="og:title" content="UGR-A20M — Modernización Geeetech A20M">
+<meta property="og:description" content="Migración de una Geeetech A20M a electrónica de 32 bits, extrusión directa Sharkfin y firmware Klipper. Proyecto educativo Universidad de Granada.">
+<meta property="og:image" content="https://raw.githubusercontent.com/AlvGJ-UGR/UGR-A20M/main/docs/img/banner-ugr-a20m.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -667,6 +672,104 @@ pre{
   .cmp-table th:nth-child(2),.cmp-table td:nth-child(2){display:none}
   .bom-table th:nth-child(2),.bom-table td:nth-child(2){display:none}
   .ov{grid-template-columns:repeat(2,1fr)}
+/* ── LIVE REPO STATS CARD ── */
+.repo-stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;gap:1px;
+  margin-bottom:1rem;
+}
+.rs-cell{
+  background:var(--surf);padding:.75rem .9rem;
+  display:flex;flex-direction:column;gap:.25rem;
+  transition:background .12s;
+}
+.rs-cell:hover{background:var(--raised)}
+.rs-label{
+  font-family:var(--mono);font-size:9.5px;font-weight:500;
+  color:var(--tx3);text-transform:uppercase;letter-spacing:.09em;
+}
+.rs-value{
+  font-family:var(--mono);font-size:1.15rem;font-weight:600;
+  color:var(--tx);letter-spacing:-.02em;line-height:1.1;
+}
+.rs-value.loading{
+  color:var(--tx3);font-size:.8rem;font-weight:400;
+  animation:rs-pulse 1.4s ease-in-out infinite;
+}
+@keyframes rs-pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.rs-sub{font-size:11px;color:var(--tx3);font-family:var(--mono)}
+.rs-dot-live{
+  display:inline-block;width:6px;height:6px;
+  border-radius:50%;background:var(--green);
+  margin-right:4px;vertical-align:middle;
+  animation:rs-pulse 2s ease-in-out infinite;
+}
+
+/* ── LAST COMMIT STRIP ── */
+.last-commit{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.625rem .9rem;
+  background:var(--surf);border:1px solid var(--line);
+  border-radius:var(--r);font-size:12.5px;
+  margin-bottom:1rem;
+}
+.lc-sha{
+  font-family:var(--mono);font-size:11px;
+  color:var(--teal);flex-shrink:0;
+  text-decoration:none;transition:color .12s;
+}
+.lc-sha:hover{color:var(--tx)}
+.lc-msg{color:var(--tx2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lc-date{font-family:var(--mono);font-size:11px;color:var(--tx3);flex-shrink:0}
+.lc-author{font-family:var(--mono);font-size:11px;color:var(--tx3);flex-shrink:0}
+
+/* ── OPEN ISSUES BADGE ── */
+.issues-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:11px;
+  padding:2px 8px;border-radius:3px;
+  background:var(--green-d);border:1px solid rgba(74,158,85,.3);
+  color:var(--green);
+}
+.issues-badge.has-issues{
+  background:var(--amber-d);border-color:rgba(196,124,32,.3);color:var(--amber);
+}
+code.ic{
+  font-family:var(--mono);font-size:11px;
+  background:var(--raised);border:1px solid var(--line);
+  padding:1px 6px;border-radius:3px;color:var(--tx2);
+  white-space:nowrap;
+}
+
+/* ── KEYBOARD SHORTCUT HINT ── */
+.kbd{
+  font-family:var(--mono);font-size:10px;
+  border:1px solid var(--line-hi);border-radius:3px;
+  padding:1px 5px;color:var(--tx3);
+  background:var(--raised);
+}
+
+/* ── PREFERS REDUCED MOTION ── */
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .prog-fill{transition:none}
+  .btt{transition:opacity .01s}
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+/* ── PRINT ── */
+@media print{
+  .topbar,.sidebar,.mob-drawer,.btt{display:none!important}
+  .layout{display:block}
+  .main{padding:0}
+  .sec{break-inside:avoid;page-break-inside:avoid}
+  .code-panel{display:block!important}
+  .code-tab{display:none}
+  body{background:#fff;color:#000;font-size:11pt}
+  a{color:#000;text-decoration:underline}
+  .reveal{opacity:1;transform:none}
 }
 </style>
 </head>
@@ -689,6 +792,9 @@ pre{
       <li><a href="#changelog" data-sec="changelog">Changelog</a></li>
     </ul>
     <div class="tb-right">
+      <a href="https://AlvGJ-UGR.github.io/UGR-A20M" target="_blank" rel="noopener" class="tb-gh" style="border-right:1px solid var(--line);padding-right:.875rem;margin-right:.25rem">
+        Pages ↗
+      </a>
       <a href="https://github.com/AlvGJ-UGR/UGR-A20M" target="_blank" rel="noopener" class="tb-gh" aria-label="Ver en GitHub">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.341-3.369-1.341-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
         GitHub
@@ -746,7 +852,7 @@ pre{
     <strong>Álvaro González Jiménez</strong>
     <a href="mailto:alvarogj1@correo.ugr.es">alvarogj1@correo.ugr.es</a><br>
     Universidad de Granada · 2025<br>
-    <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a> ·
+    <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/LICENSE" target="_blank" rel="noopener">CC BY-SA 4.0</a> ·
     <a href="https://AlvGJ-UGR.github.io/UGR-A20M" target="_blank" rel="noopener">GitHub Pages ↗</a>
   </div>
 </aside>
@@ -771,13 +877,15 @@ pre{
       documentado para ser reproducible.
     </p>
 
-    <!-- Shields from README -->
-    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem">
-      <img src="https://img.shields.io/badge/Status-Fase_1_en_progreso-yellow.svg" alt="Estado" loading="lazy">
-      <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="Licencia MIT" loading="lazy">
-      <img src="https://img.shields.io/badge/Universidad-Granada-red.svg" alt="UGR" loading="lazy">
-      <img src="https://img.shields.io/badge/Firmware-Klipper-green.svg" alt="Klipper" loading="lazy">
-      <img src="https://img.shields.io/badge/Commits-79-lightgrey.svg" alt="79 commits" loading="lazy">
+    <!-- Shields — valores actualizados en tiempo real por JS -->
+    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;align-items:center">
+      <img id="sh-status" src="https://img.shields.io/badge/Status-Fase_1_en_progreso-yellow.svg" alt="Estado" loading="lazy" style="height:20px">
+      <img id="sh-license" src="https://img.shields.io/badge/License-CC_BY--SA_4.0-blue.svg" alt="CC BY-SA 4.0" loading="lazy" style="height:20px">
+      <img id="sh-ugr" src="https://img.shields.io/badge/Universidad-Granada-red.svg" alt="UGR" loading="lazy" style="height:20px">
+      <img id="sh-firmware" src="https://img.shields.io/badge/Firmware-Klipper-brightgreen.svg" alt="Klipper" loading="lazy" style="height:20px">
+      <img id="sh-commits" src="https://img.shields.io/badge/Commits-...-lightgrey.svg" alt="Commits" loading="lazy" style="height:20px">
+      <img id="sh-contributors" src="https://img.shields.io/badge/Contributors-...-informational.svg" alt="Contributors" loading="lazy" style="height:20px">
+      <img id="sh-issues" src="https://img.shields.io/badge/Issues-...-brightgreen.svg" alt="Issues" loading="lazy" style="height:20px">
     </div>
 
     <div class="tag-row">
@@ -786,7 +894,8 @@ pre{
       <span class="tag g">Fase 0 completada</span>
       <span class="tag">Klipper · 29 macros</span>
       <span class="tag">SKR Mini E3 V3</span>
-      <span class="tag">MIT License</span>
+      <span class="tag">CC BY-SA 4.0</span>
+      <span class="tag">3 contribuidores</span>
     </div>
 
     <!-- Objectives from README -->
@@ -815,6 +924,58 @@ pre{
            alt="Banner del proyecto UGR-A20M"
            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div class="banner-fallback">docs/img/banner-ugr-a20m.png</div>
+    </div>
+
+    <!-- Live repo stats -->
+    <div class="sec-hd" style="margin-bottom:.75rem">
+      <span class="sec-title" style="font-size:.8125rem;font-weight:500;color:var(--tx2)">
+        <span class="rs-dot-live"></span>Estado del repositorio — datos en tiempo real
+      </span>
+      <span id="gh-updated" style="font-family:var(--mono);font-size:10px;color:var(--tx3)">actualizando…</span>
+    </div>
+
+    <div class="repo-stats reveal" id="repo-stats">
+      <div class="rs-cell">
+        <div class="rs-label">Commits</div>
+        <div class="rs-value loading" id="rs-commits">—</div>
+      </div>
+      <div class="rs-cell">
+        <div class="rs-label">Contribuidores</div>
+        <div class="rs-value loading" id="rs-contributors">—</div>
+      </div>
+      <div class="rs-cell">
+        <div class="rs-label">Issues abiertos</div>
+        <div class="rs-value loading" id="rs-issues">—</div>
+      </div>
+      <div class="rs-cell">
+        <div class="rs-label">Forks</div>
+        <div class="rs-value loading" id="rs-forks">—</div>
+      </div>
+      <div class="rs-cell">
+        <div class="rs-label">Stars</div>
+        <div class="rs-value loading" id="rs-stars">—</div>
+      </div>
+      <div class="rs-cell">
+        <div class="rs-label">Tamaño</div>
+        <div class="rs-value loading" id="rs-size">—</div>
+        <div class="rs-sub" id="rs-size-sub"></div>
+      </div>
+      <div class="rs-cell">
+        <div class="rs-label">Último push</div>
+        <div class="rs-value loading" style="font-size:.8rem" id="rs-pushed">—</div>
+      </div>
+      <div class="rs-cell">
+        <div class="rs-label">Rama principal</div>
+        <div class="rs-value loading" style="font-size:.8rem" id="rs-branch">—</div>
+      </div>
+    </div>
+
+    <!-- Last commit strip -->
+    <div class="last-commit reveal" id="last-commit-strip" style="display:none">
+      <a class="lc-sha" id="lc-sha" href="#" target="_blank" rel="noopener"></a>
+      <span class="lc-msg" id="lc-msg"></span>
+      <span class="lc-author" id="lc-author"></span>
+      <span class="lc-date" id="lc-date"></span>
     </div>
 
     <!-- Key params grid -->
@@ -1351,6 +1512,7 @@ pre{
     <div class="bom-controls">
       <input type="search" class="bom-search" id="bom-search"
         placeholder="Filtrar componentes…" aria-label="Filtrar BOM">
+      <span class="kbd" title="Atajo de teclado">k</span>
       <span class="bom-count" id="bom-count">14 componentes</span>
     </div>
 
@@ -1526,43 +1688,46 @@ pre{
     <div class="tree-wrap reveal">
       <div class="tree-label">Estructura del repositorio (actualizada)</div>
       <div class="tree">UGR-A20M/
-├── <span class="t-hi">README.md</span>          <span class="t-dim">· badges, comparativa stock vs objetivo, 17 docs</span>
-├── CHANGELOG.md · CONTRIBUTING.md · SECURITY.md · LICENSE (CC BY-SA 4.0)
+├── <span class="t-hi">README.md</span>          <span class="t-dim">· badges, tabla stock→objetivo, árbol, BOM resumen, 17 docs</span>
+├── CHANGELOG.md · CONTRIBUTING.md · SECURITY.md
+├── LICENSE                <span class="t-dim">· CC BY-SA 4.0</span>
 ├── .gitignore             <span class="t-dim">· slicer, CAD, OS, editores, temporales</span>
 ├── <span class="t-dir">.github/</span>
 │   ├── <span class="t-dir">ISSUE_TEMPLATE/</span>    <span class="t-dim">· bug_report.md · feature_request.md</span>
 │   └── pull_request_template.md
 ├── <span class="t-dir">docs/</span>
-│   ├── <span class="t-hi">guia_calibracion.md</span>       <span class="t-dim">← empezar aquí ⭐</span>
-│   ├── <span class="t-hi">troubleshooting.md</span>        <span class="t-dim">· tablas causa→solución por subsistema</span>
-│   ├── <span class="t-hi">materiales.md</span>             <span class="t-dim">· PLA/PETG/ABS/TPU: preparación y adhesión</span>
-│   ├── <span class="t-hi">slicer_settings.md</span>        <span class="t-dim">· OrcaSlicer · PrusaSlicer · Cura · 0.4/0.6 mm</span>
-│   ├── <span class="t-hi">mantenimiento.md</span>          <span class="t-dim">· calendario preventivo + log de horas</span>
-│   ├── <span class="t-hi">glosario.md</span>               <span class="t-dim">· 40+ definiciones para estudiantes UGR</span>
-│   ├── <span class="t-dir">fase-0/</span>  <span class="t-dim">· 00_especificaciones_base.md (con decisiones de diseño)</span>
+│   ├── <span class="t-hi">guia_calibracion.md</span>         <span class="t-dim">← empezar aquí ⭐ (orden corregido)</span>
+│   ├── <span class="t-hi">troubleshooting.md</span>          <span class="t-dim">· tablas causa→solución por subsistema</span>
+│   ├── <span class="t-hi">materiales.md</span>               <span class="t-dim">· PLA/PETG/ABS/TPU: preparación, adhesión, secado</span>
+│   ├── <span class="t-hi">slicer_settings.md</span>          <span class="t-dim">· OrcaSlicer · PrusaSlicer · Cura · Bambu · ∅0.4/0.6</span>
+│   ├── <span class="t-hi">mantenimiento.md</span>            <span class="t-dim">· calendario preventivo + log de horas</span>
+│   ├── <span class="t-hi">glosario.md</span>                 <span class="t-dim">· 40+ definiciones para estudiantes UGR</span>
+│   ├── <span class="t-dir">fase-0/</span>  <span class="t-dim">· 00_especificaciones_base.md (decisiones de diseño)</span>
 │   ├── <span class="t-dir">fase-1/</span>
-│   │   ├── <span class="t-dir">electronica/</span>  <span class="t-dim">· 01_skr_klipper.md (Armbian, KIAUH, flash)</span>
-│   │   ├── <span class="t-dir">extrusor/</span>     <span class="t-dim">· 02_sharkfin_bmg.md (comparativa Bowden vs DD)</span>
-│   │   └── <span class="t-dir">toolhead/</span>     <span class="t-dim">· 03_mini_stealth_chc_crtouch.md</span>
-│   ├── <span class="t-dir">fase-2/</span>  <span class="t-dim">· 04_guias_lineales.md (justificación, BOM, alineación)</span>
+│   │   ├── <span class="t-dir">electronica/</span>    <span class="t-dim">· 01_skr_klipper.md (Armbian, WiFi, KIAUH, flash)</span>
+│   │   ├── <span class="t-dir">extrusor/</span>      <span class="t-dim">· 02_sharkfin_bmg.md (comparativa Bowden vs DD)</span>
+│   │   └── <span class="t-dir">toolhead/</span>      <span class="t-dim">· 03_mini_stealth_chc_crtouch.md</span>
+│   ├── <span class="t-dir">fase-2/</span>  <span class="t-dim">· 04_guias_lineales.md (BOM, alineación, notas calidad)</span>
 │   ├── <span class="t-dir">fase-3/</span>  <span class="t-dim">· 05_documentacion_final.md (benchmarks, Pandoc, checklist)</span>
 │   ├── <span class="t-dir">img/</span>     <span class="t-dim">·</span> <span class="t-hi">banner-ugr-a20m.png</span>
-│   ├── index.html         <span class="t-dim">· GitHub Pages (11 tarjetas + 8 recursos)</span>
+│   ├── index.html         <span class="t-dim">· GitHub Pages</span>
 │   └── _config.yml        <span class="t-dim">· Jekyll: title, description, url, baseurl</span>
 ├── <span class="t-dir">hardware/</span>
-│   ├── <span class="t-dir">bom/</span>          <span class="t-dim">· BOM_fase1.md · BOM_fase2.md (con coste acumulado)</span>
-│   ├── <span class="t-dir">electronica/</span>  <span class="t-dim">· esquema_conexiones.md ·</span> <span class="t-hi">pinout_skr_mini_e3_v3.md</span>
-│   └── <span class="t-dir">prints/</span>       <span class="t-dim">· README.md (parámetros ASA completados)</span>
+│   ├── <span class="t-dir">bom/</span>
+│   │   ├── BOM_fase1.md   <span class="t-dim">· ~106 € con tornillería y STLs</span>
+│   │   └── <span class="t-hi">BOM_fase2.md</span>   <span class="t-dim">· ~51–71 € guías lineales, notas calidad</span>
+│   ├── <span class="t-dir">electronica/</span>
+│   │   ├── esquema_conexiones.md   <span class="t-dim">· checklist pre-encendido, longitudes cable</span>
+│   │   └── <span class="t-hi">pinout_skr_mini_e3_v3.md</span>  <span class="t-dim">· UART TMC2209, ADXL345, FAN2, sensor</span>
+│   └── <span class="t-dir">prints/</span>   <span class="t-dim">· README.md (parámetros ASA completados)</span>
 ├── <span class="t-dir">firmware/</span>
-│   ├── <span class="t-dir">klipper/config/</span>   <span class="t-dim">·</span> <span class="t-hi">printer.cfg</span> <span class="t-dim">(16 secciones)</span>
-│   ├── <span class="t-dir">klipper/macros/</span>   <span class="t-dim">·</span> <span class="t-hi">macros.cfg</span> <span class="t-dim">(29 macros, 6 categorías)</span>
-│   ├── README.md          <span class="t-dim">· tabla de macros con parámetros</span>
+│   ├── <span class="t-dir">klipper/config/</span>   <span class="t-hi">printer.cfg</span>   <span class="t-dim">(16 secciones)</span>
+│   ├── <span class="t-dir">klipper/macros/</span>   <span class="t-hi">macros.cfg</span>    <span class="t-dim">(29 macros, 6 categorías)</span>
+│   ├── README.md          <span class="t-dim">· tabla 29 macros con parámetros, install paso a paso</span>
 │   └── <span class="t-dir">marlin/</span>           <span class="t-dim">· configuración original (referencia)</span>
 └── <span class="t-dir">photos/</span>
     ├── README.md          <span class="t-dim">· convención de nombres y checklist</span>
-    ├── <span class="t-dir">estado-inicial/</span>
-    ├── <span class="t-dir">fase-1/</span>
-    └── <span class="t-dir">fase-2/</span></div>
+    ├── <span class="t-dir">estado-inicial/</span>  · <span class="t-dir">fase-1/</span>  · <span class="t-dir">fase-2/</span></div>
     </div>
   </section>
 
@@ -1627,77 +1792,62 @@ pre{
       <div class="cl-item">
         <div>
           <div class="cl-ver unreleased">[Unreleased]</div>
-          <div class="cl-date">en desarrollo</div>
+          <div class="cl-date">Fase 1 en progreso</div>
         </div>
         <div class="cl-body">
-          <strong>Añadido:</strong> sección <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">[screws_tilt_adjust]</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">[exclude_object]</code>, <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">[gcode_arcs]</code> y soporte preparado para <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">[filament_switch_sensor]</code> en printer.cfg. Boquilla 0.6 mm documentada en slicer_settings.md. Parámetros ASA completados en hardware/prints.
-          <div class="cl-tags">
-            <span class="chip">firmware</span><span class="chip">docs</span><span class="chip">hardware</span>
+          <strong>Añadido:</strong>
+          <code class="ic">docs/glosario.md</code> (40+ definiciones UGR) ·
+          <code class="ic">docs/materiales.md</code> · <code class="ic">docs/mantenimiento.md</code> ·
+          <code class="ic">docs/troubleshooting.md</code> · <code class="ic">docs/slicer_settings.md</code>
+          (OrcaSlicer, PrusaSlicer, Cura, Bambu, ∅0.6) · <code class="ic">SECURITY.md</code> ·
+          <code class="ic">CONTRIBUTING.md</code> completo · <code class="ic">pinout_skr_mini_e3_v3.md</code> ·
+          templates <code class="ic">.github/</code> (bug_report, feature_request, PR).
+          <br><br>
+          <strong>Mejorado:</strong>
+          <code class="ic">docs/index.html</code> (GitHub Pages con nav sticky, 11 tarjetas, 8 recursos) ·
+          <code class="ic">printer.cfg</code> (16 secciones: <code class="ic">[screws_tilt_adjust]</code>,
+          <code class="ic">[exclude_object]</code>, <code class="ic">[gcode_arcs]</code>,
+          <code class="ic">[filament_switch_sensor]</code> comentado, <code class="ic">kick_start_time</code> en ventiladores) ·
+          <code class="ic">macros.cfg</code> (29 macros en 6 categorías, <code class="ic">safe_z</code> dinámico en END_PRINT) ·
+          <code class="ic">BOM_fase2.md</code> (notas de calidad, coste acumulado) ·
+          <code class="ic">01_skr_klipper.md</code> (reescrito: Armbian, WiFi, KIAUH, make menuconfig, troubleshooting 6 síntomas) ·
+          <code class="ic">02_sharkfin_bmg.md</code> (F300→F150 corregido, comparativa Bowden vs DD) ·
+          <code class="ic">guia_calibracion.md</code> (orden corregido: tornillos antes de z_offset).
+          <br><br>
+          <strong>Eliminado (redundancias):</strong>
+          tabla troubleshooting duplicada en <code class="ic">guia_calibracion.md</code> →
+          apunta a <code class="ic">troubleshooting.md</code> · tablas temperatura/retracción en
+          <code class="ic">materiales.md</code> → apuntan a <code class="ic">slicer_settings.md</code>.
+          <div class="cl-tags" style="margin-top:.5rem">
+            <span class="chip">firmware</span><span class="chip">docs</span><span class="chip">hardware</span><span class="chip">pages</span><span class="chip">seguridad</span><span class="chip">comunidad</span>
           </div>
         </div>
       </div>
 
       <div class="cl-item">
         <div>
-          <div class="cl-ver">[1.4.0]</div>
-          <div class="cl-date">2025</div>
+          <div class="cl-ver">[0.2.0]</div>
+          <div class="cl-date">2025-04-15</div>
         </div>
         <div class="cl-body">
-          <strong>Añadido:</strong> <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">SECURITY.md</code> con advertencias eléctricas, térmicas y de red · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">pinout_skr_mini_e3_v3.md</code> con tabla completa de pines UART, ADXL345 y FAN2 · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">BOM_fase2.md</code> con notas de calidad y coste acumulado · GitHub Pages (<code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">docs/index.html</code> + <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">_config.yml</code>).
-          <div class="cl-tags">
-            <span class="chip">seguridad</span><span class="chip">hardware</span><span class="chip">pages</span>
+          <strong>Añadido:</strong> investigación y selección de componentes —
+          Sharkfin + BMG Clone, CHC V6 Volcano, Mini Stealth v2, SKR Mini E3 V3.0, Orange Pi Zero 3.
+          <div class="cl-tags" style="margin-top:.4rem">
+            <span class="chip">hardware</span><span class="chip">investigación</span>
           </div>
         </div>
       </div>
 
       <div class="cl-item">
         <div>
-          <div class="cl-ver">[1.3.0]</div>
-          <div class="cl-date">2025</div>
+          <div class="cl-ver">[0.1.0]</div>
+          <div class="cl-date">2025-04-10</div>
         </div>
         <div class="cl-body">
-          <strong>Añadido:</strong> <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">mantenimiento.md</code> (calendario por horas) · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">troubleshooting.md</code> (tablas causa→solución) · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">materiales.md</code> · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">glosario.md</code> (40+ definiciones). Templates <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">.github/</code> de issues y PR. <strong>Corregido:</strong> orden de calibración en guia_calibracion.md (tornillos antes de z_offset).
-          <div class="cl-tags">
-            <span class="chip">docs</span><span class="chip">community</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="cl-item">
-        <div>
-          <div class="cl-ver">[1.2.0]</div>
-          <div class="cl-date">2025</div>
-        </div>
-        <div class="cl-body">
-          <strong>Añadido:</strong> 29 macros Klipper en 6 categorías en <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">macros.cfg</code> · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">SET_MATERIAL</code> multi-material · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">safe_z</code> dinámico en END_PRINT · tabla de macros con parámetros en firmware/README.md.
-          <div class="cl-tags">
-            <span class="chip">firmware</span><span class="chip">macros</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="cl-item">
-        <div>
-          <div class="cl-ver">[1.1.0]</div>
-          <div class="cl-date">2025</div>
-        </div>
-        <div class="cl-body">
-          <strong>Añadido:</strong> <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">slicer_settings.md</code> con perfiles para OrcaSlicer, PrusaSlicer y Cura · soporte boquilla 0.4 mm y 0.6 mm · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">banner-ugr-a20m.png</code> · <code style="font-family:var(--mono);font-size:11px;background:var(--raised);padding:1px 5px;border-radius:3px">esquema_conexiones.md</code> con checklist pre-encendido y longitudes de cable.
-          <div class="cl-tags">
-            <span class="chip">docs</span><span class="chip">slicer</span><span class="chip">assets</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="cl-item">
-        <div>
-          <div class="cl-ver">[1.0.0]</div>
-          <div class="cl-date">2025</div>
-        </div>
-        <div class="cl-body">
-          <strong>Primera release completa.</strong> Estructura de fases 0–3, printer.cfg con 16 secciones para SKR Mini E3 V3 + Orange Pi Zero 3, BOM Fase 1 (~106 €), docs/fase-1 (electrónica + extrusor + toolhead), photos/README.md, .gitignore completo.
-          <div class="cl-tags">
-            <span class="chip">release</span><span class="chip">firmware</span><span class="chip">docs</span>
+          <strong>Inicio del proyecto.</strong> Creación del repositorio en GitHub · README inicial con
+          descripción y objetivos · Licencia CC BY-SA 4.0 · Banner del proyecto · Definición inicial de fases.
+          <div class="cl-tags" style="margin-top:.4rem">
+            <span class="chip">release</span><span class="chip">init</span>
           </div>
         </div>
       </div>
@@ -1711,7 +1861,8 @@ pre{
       <strong>Álvaro González Jiménez</strong> ·
       <a href="mailto:alvarogj1@correo.ugr.es">alvarogj1@correo.ugr.es</a><br>
       Universidad de Granada · 2025 ·
-      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      <a href="https://github.com/AlvGJ-UGR/UGR-A20M/blob/main/LICENSE" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+      · <span id="foot-contributors">3</span> contribuidores · <span id="foot-commits">79</span> commits
     </div>
     <div class="foot-links">
       <a href="https://github.com/AlvGJ-UGR/UGR-A20M" target="_blank" rel="noopener">GitHub</a>
@@ -1730,6 +1881,190 @@ pre{
 (function () {
   'use strict';
 
+  var REPO = 'AlvGJ-UGR/UGR-A20M';
+  var API  = 'https://api.github.com/repos/' + REPO;
+  var CACHE_TTL = 5 * 60 * 1000; // 5 min
+
+  /* ── helpers ── */
+  function el(id) { return document.getElementById(id); }
+
+  function setVal(id, val, sub) {
+    var e = el(id);
+    if (!e) return;
+    e.textContent = val;
+    e.classList.remove('loading');
+    if (sub !== undefined) {
+      var s = el(id + '-sub');
+      if (s) s.textContent = sub;
+    }
+  }
+
+  function relativeTime(iso) {
+    var diff = Math.floor((Date.now() - new Date(iso)) / 1000);
+    if (diff < 60)   return 'hace ' + diff + 's';
+    if (diff < 3600) return 'hace ' + Math.floor(diff/60) + 'min';
+    if (diff < 86400)return 'hace ' + Math.floor(diff/3600) + 'h';
+    if (diff < 2592000) return 'hace ' + Math.floor(diff/86400) + 'd';
+    return new Date(iso).toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' });
+  }
+
+  function fmtSize(kb) {
+    if (kb < 1024) return kb + ' KB';
+    return (kb / 1024).toFixed(1) + ' MB';
+  }
+
+  function updateShield(id, label, val, color) {
+    var img = el(id);
+    if (!img) return;
+    var safe = String(val).replace(/-/g, '--').replace(/ /g, '_');
+    img.src = 'https://img.shields.io/badge/' + encodeURIComponent(label) + '-' + encodeURIComponent(safe) + '-' + color + '.svg';
+    img.alt = label + ': ' + val;
+  }
+
+  /* ── sessionStorage cache ── */
+  function cacheGet(key) {
+    try {
+      var raw = sessionStorage.getItem(key);
+      if (!raw) return null;
+      var obj = JSON.parse(raw);
+      if (Date.now() - obj.ts > CACHE_TTL) { sessionStorage.removeItem(key); return null; }
+      return obj.data;
+    } catch(e) { return null; }
+  }
+
+  function cacheSet(key, data) {
+    try { sessionStorage.setItem(key, JSON.stringify({ ts: Date.now(), data: data })); } catch(e) {}
+  }
+
+  /* ── fetch wrapper with cache ── */
+  function ghFetch(url, cacheKey) {
+    var cached = cacheGet(cacheKey);
+    if (cached) return Promise.resolve(cached);
+    return fetch(url, { headers: { 'Accept': 'application/vnd.github.v3+json' } })
+      .then(function(r) {
+        if (!r.ok) throw new Error('GitHub API ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+        cacheSet(cacheKey, data);
+        return data;
+      });
+  }
+
+  /* ── main repo data ── */
+  function loadRepo() {
+    ghFetch(API, 'gh_repo')
+      .then(function(repo) {
+        /* stars, forks, issues, branch, size, pushed */
+        setVal('rs-stars',    repo.stargazers_count);
+        setVal('rs-forks',    repo.forks_count);
+        setVal('rs-issues',   repo.open_issues_count);
+        setVal('rs-branch',   repo.default_branch);
+        setVal('rs-size',     fmtSize(repo.size));
+        setVal('rs-pushed',   relativeTime(repo.pushed_at));
+
+        /* issues badge color */
+        var issuesBadge = el('rs-issues');
+        if (issuesBadge) {
+          issuesBadge.parentElement.querySelector('.rs-label').textContent =
+            'Issues abiertos';
+        }
+
+        /* dynamic shields */
+        updateShield('sh-commits',      'Commits',      '…',                    'lightgrey');
+        updateShield('sh-issues',       'Issues',       repo.open_issues_count, repo.open_issues_count === 0 ? 'brightgreen' : 'yellow');
+        updateShield('sh-contributors', 'Contributors', '…',                    'informational');
+
+        /* updated timestamp */
+        var upd = el('gh-updated');
+        if (upd) upd.textContent = 'actualizado ' + relativeTime(repo.pushed_at);
+      })
+      .catch(function(e) {
+        var upd = el('gh-updated');
+        if (upd) upd.textContent = 'API no disponible';
+        console.warn('GitHub repo API:', e.message);
+      });
+  }
+
+  /* ── commits count (via /commits?per_page=1 + Link header trick) ── */
+  function loadCommits() {
+    /* GitHub doesn't expose total commit count directly.
+       Use /commits?per_page=1 and parse the Link header rel="last" page number. */
+    var cached = cacheGet('gh_commits_count');
+    if (cached !== null) {
+      applyCommits(cached);
+      return;
+    }
+    fetch(API + '/commits?per_page=1', {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    }).then(function(r) {
+      if (!r.ok) throw new Error('commits ' + r.status);
+      var link = r.headers.get('Link') || '';
+      var m = link.match(/page=(\d+)>;\s*rel="last"/);
+      var count = m ? parseInt(m[1], 10) : null;
+      if (!count) {
+        /* fallback: count from json array (only first page) */
+        return r.json().then(function(arr) { return arr.length; });
+      }
+      cacheSet('gh_commits_count', count);
+      applyCommits(count);
+      return null;
+    }).then(function(count) {
+      if (count !== null && count !== undefined) {
+        cacheSet('gh_commits_count', count);
+        applyCommits(count);
+      }
+    }).catch(function(e) { console.warn('commits count:', e.message); });
+  }
+
+  function applyCommits(count) {
+    setVal('rs-commits', count);
+    setVal('foot-commits', count);
+    updateShield('sh-commits', 'Commits', count, 'lightgrey');
+  }
+
+  /* ── contributors ── */
+  function loadContributors() {
+    ghFetch(API + '/contributors?per_page=100&anon=1', 'gh_contributors')
+      .then(function(list) {
+        var count = Array.isArray(list) ? list.length : '?';
+        setVal('rs-contributors', count);
+        setVal('foot-contributors', count);
+        updateShield('sh-contributors', 'Contributors', count, 'informational');
+      })
+      .catch(function(e) { console.warn('contributors:', e.message); });
+  }
+
+  /* ── last commit ── */
+  function loadLastCommit() {
+    ghFetch(API + '/commits?per_page=1', 'gh_last_commit')
+      .then(function(data) {
+        var c = Array.isArray(data) ? data[0] : data;
+        if (!c) return;
+        var sha     = c.sha.slice(0, 7);
+        var msg     = c.commit.message.split('\n')[0];
+        var date    = relativeTime(c.commit.author.date);
+        var author  = c.commit.author.name;
+        var url     = c.html_url;
+
+        var shaEl = el('lc-sha');
+        if (shaEl) { shaEl.textContent = sha; shaEl.href = url; }
+        var msgEl = el('lc-msg'); if (msgEl) msgEl.textContent = msg;
+        var dateEl = el('lc-date'); if (dateEl) dateEl.textContent = date;
+        var authEl = el('lc-author'); if (authEl) authEl.textContent = author;
+
+        var strip = el('last-commit-strip');
+        if (strip) strip.style.display = 'flex';
+      })
+      .catch(function(e) { console.warn('last commit:', e.message); });
+  }
+
+  /* ── kick off all API calls ── */
+  loadRepo();
+  loadCommits();
+  loadContributors();
+  loadLastCommit();
+
   /* ── Scroll reveal ── */
   var revEls = document.querySelectorAll('.reveal');
   var revObs = new IntersectionObserver(function (entries) {
@@ -1738,6 +2073,167 @@ pre{
     });
   }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
   revEls.forEach(function (el) { revObs.observe(el); });
+
+  /* ── Animate progress bars ── */
+  var fills = document.querySelectorAll('.prog-fill[data-width]');
+  var fillObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.getAttribute('data-width') + '%';
+        fillObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fills.forEach(function (el) { fillObs.observe(el); });
+
+  /* ── Code tabs ── */
+  var allCodeTabs   = document.querySelectorAll('.code-tab[data-panel]');
+  var allCodePanels = document.querySelectorAll('.code-panel');
+  allCodeTabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var panelId = tab.getAttribute('data-panel');
+      allCodeTabs.forEach(function (t) { t.classList.remove('on'); t.setAttribute('aria-selected', 'false'); });
+      allCodePanels.forEach(function (p) { p.classList.remove('on'); });
+      tab.classList.add('on');
+      tab.setAttribute('aria-selected', 'true');
+      var panel = document.getElementById(panelId);
+      if (panel) panel.classList.add('on');
+    });
+  });
+
+  /* ── Copy visible code panel ── */
+  var copyBtn = el('copy-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var active = document.querySelector('.code-panel.on pre');
+      if (!active) return;
+      navigator.clipboard.writeText(active.innerText).then(function () {
+        copyBtn.textContent = '✓ copiado'; copyBtn.classList.add('ok');
+        setTimeout(function () { copyBtn.textContent = 'copiar'; copyBtn.classList.remove('ok'); }, 2000);
+      }).catch(function () {
+        copyBtn.textContent = 'error';
+        setTimeout(function () { copyBtn.textContent = 'copiar'; }, 2000);
+      });
+    });
+  }
+
+  /* ── BOM tabs ── */
+  var bomTabBtns = document.querySelectorAll('.bom-tab[data-bom]');
+  var bomPanels  = document.querySelectorAll('.bom-panel');
+  bomTabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.getAttribute('data-bom');
+      bomTabBtns.forEach(function (b) { b.classList.remove('on'); b.setAttribute('aria-selected', 'false'); });
+      bomPanels.forEach(function (p) { p.classList.remove('on'); });
+      btn.classList.add('on');
+      btn.setAttribute('aria-selected', 'true');
+      var panel = document.getElementById(target);
+      if (panel) panel.classList.add('on');
+      var search = document.getElementById('bom-search');
+      if (search) { search.value = ''; filterBOM(''); }
+    });
+  });
+
+  /* ── BOM filter ── */
+  var bomSearch   = el('bom-search');
+  var bomCount    = el('bom-count');
+  var bomNoRes    = el('bom-no-results');
+  var bomTotalRow = el('bom-total-row');
+
+  function filterBOM(q) {
+    var rows = document.querySelectorAll('#bom-body tr:not(.bom-total)');
+    var visible = 0;
+    rows.forEach(function (row) {
+      var name  = (row.getAttribute('data-name') || '').toLowerCase();
+      var match = !q || name.indexOf(q) !== -1;
+      row.classList.toggle('bom-hidden', !match);
+      if (match) visible++;
+    });
+    if (bomCount)    bomCount.textContent = visible + ' componente' + (visible !== 1 ? 's' : '');
+    if (bomTotalRow) bomTotalRow.classList.toggle('bom-hidden', q.length > 0);
+    if (bomNoRes)    bomNoRes.style.display = (visible === 0) ? 'block' : 'none';
+  }
+
+  if (bomSearch) {
+    bomSearch.addEventListener('input', function () { filterBOM(bomSearch.value.trim().toLowerCase()); });
+  }
+
+  /* ── Active nav/sidebar highlight on scroll ── */
+  var sections = document.querySelectorAll('section[id]');
+  var sbLinks  = document.querySelectorAll('.sb-link[data-sec]');
+  var tbLinks  = document.querySelectorAll('.tb-nav a[data-sec]');
+
+  function setActive(secId) {
+    sbLinks.forEach(function (l) { l.classList.toggle('on', l.getAttribute('data-sec') === secId); });
+    tbLinks.forEach(function (l) { l.classList.toggle('on', l.getAttribute('data-sec') === secId); });
+  }
+
+  var raf = null;
+  window.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = null;
+      var y = window.scrollY + 80;
+      var cur = '';
+      sections.forEach(function (s) { if (s.offsetTop <= y) cur = s.id; });
+      setActive(cur || 'overview');
+      var btt = el('btt-btn');
+      if (btt) btt.classList.toggle('show', window.scrollY > 400);
+    });
+  }, { passive: true });
+  setActive('overview');
+
+  /* ── Back to top ── */
+  var bttBtn = el('btt-btn');
+  if (bttBtn) {
+    bttBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* ── Mobile drawer ── */
+  var menuBtn = el('mob-toggle');
+  var drawer  = el('mob-drawer');
+
+  function closeDrawer() {
+    if (!drawer || !menuBtn) return;
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = '☰';
+  }
+
+  if (menuBtn && drawer) {
+    menuBtn.addEventListener('click', function () {
+      var open = drawer.classList.contains('open');
+      if (open) { closeDrawer(); }
+      else {
+        drawer.classList.add('open');
+        drawer.setAttribute('aria-hidden', 'false');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        menuBtn.textContent = '✕';
+      }
+    });
+    drawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeDrawer); });
+  }
+
+  /* ── Keyboard shortcuts ── */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'k' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      var activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) return;
+      var search = el('bom-search');
+      if (search) { e.preventDefault(); search.focus(); search.select(); }
+    }
+    if (e.key === 'Escape') {
+      if (drawer && drawer.classList.contains('open')) { closeDrawer(); }
+      var search = el('bom-search');
+      if (search && document.activeElement === search) { search.blur(); }
+    }
+  });
+
+})();
+</script>
 
   /* ── Animate progress bars ── */
   var fills = document.querySelectorAll('.prog-fill[data-width]');
@@ -1881,6 +2377,23 @@ pre{
     });
     drawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeDrawer); });
   }
+
+  /* ── Keyboard shortcuts ── */
+  document.addEventListener('keydown', function (e) {
+    /* k → focus BOM search */
+    if (e.key === 'k' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      var activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) return;
+      var search = document.getElementById('bom-search');
+      if (search) { e.preventDefault(); search.focus(); search.select(); }
+    }
+    /* Escape → close drawer or blur search */
+    if (e.key === 'Escape') {
+      if (drawer && drawer.classList.contains('open')) { closeDrawer(); }
+      var search = document.getElementById('bom-search');
+      if (search && document.activeElement === search) { search.blur(); }
+    }
+  });
 
 })();
 </script>
