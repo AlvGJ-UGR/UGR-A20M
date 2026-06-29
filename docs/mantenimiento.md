@@ -102,17 +102,18 @@ Calendario de mantenimiento preventivo para mantener la impresora en óptimas co
 
 ## Consumibles y repuestos recomendados tener en stock
 
-| Consumible | Cantidad | Enlace |
-|------------|----------|--------|
-| Boquilla latón 0.4 mm CHC V6 | ×5 | [AliExpress](https://es.aliexpress.com/w/wholesale-v6-nozzle-0.4mm.html) |
-| Boquilla latón 0.6 mm CHC V6 | ×2 | [AliExpress](https://es.aliexpress.com/w/wholesale-v6-nozzle-0.6mm.html) |
-| Tubo PTFE 2×4 mm (50 cm) | ×2 | [AliExpress](https://es.aliexpress.com/w/wholesale-ptfe-tube-2mm.html) |
-| Termistor NTC 100k (Generic 3950) | ×2 | [AliExpress](https://es.aliexpress.com/w/wholesale-ntc-100k-thermistor.html) |
-| Cartucho calefactor 24V 40W | ×2 | [AliExpress](https://es.aliexpress.com/w/wholesale-heater-cartridge-24v-40w.html) |
-| Grasa de litio blanca (Super Lube) | 1 bote | [Amazon ES](https://www.amazon.es/s?k=super+lube+grasa+litio) |
-| Ventilador 2510 24V (hotend) | ×1 | [AliExpress](https://es.aliexpress.com/item/1005006831848917.html) |
-| Ventilador 4010 24V (capa) | ×2 | [AliExpress](https://es.aliexpress.com/item/1005003371996395.html) |
-| Insertos M3 calor ×20 | ×1 bolsa | [AliExpress](https://es.aliexpress.com/item/1005008285787978.html) |
+| Consumible | Cantidad | Precio aprox. | Enlace |
+|------------|----------|--------------|--------|
+| Boquilla latón 0.4 mm CHC V6 | ×5 | ~3 € el pack | [AliExpress](https://es.aliexpress.com/w/wholesale-v6-nozzle-0.4mm.html) |
+| Boquilla latón 0.6 mm CHC V6 | ×2 | ~2 € el pack | [AliExpress](https://es.aliexpress.com/w/wholesale-v6-nozzle-0.6mm.html) |
+| Tubo PTFE 2×4 mm (50 cm) | ×2 | ~1 € c/u | [AliExpress](https://es.aliexpress.com/w/wholesale-ptfe-tube-2mm.html) |
+| Termistor NTC 100k (Generic 3950) | ×2 | ~1 € c/u | [AliExpress](https://es.aliexpress.com/w/wholesale-ntc-100k-thermistor.html) |
+| Cartucho calefactor 24V 40W | ×2 | ~2 € c/u | [AliExpress](https://es.aliexpress.com/w/wholesale-heater-cartridge-24v-40w.html) |
+| Grasa de litio blanca (Super Lube) | 1 bote | ~8 € | [Amazon ES](https://www.amazon.es/s?k=super+lube+grasa+litio) |
+| Ventilador 2510 24V (hotend) | ×1 | ~5 € | [AliExpress](https://es.aliexpress.com/item/1005006831848917.html) |
+| Ventilador 4010 24V (capa) | ×2 | ~3 € el par | [AliExpress](https://es.aliexpress.com/item/1005003371996395.html) |
+| Insertos M3 calor ×20 | ×1 bolsa | ~1 € | [AliExpress](https://es.aliexpress.com/item/1005008285787978.html) |
+| **Total stock de repuestos** | | **~26 €** | |
 
 ---
 
