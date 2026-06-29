@@ -106,11 +106,19 @@ Calibrar a la temperatura más alta que se vaya a usar habitualmente.
 CALIBRATE_PID_BED TEMP=60
 ```
 
-Esperar 10–15 minutos y guardar:
+Calibrar a **60 °C si se imprime principalmente PLA**. Si se usa ABS/ASA habitualmente, calibrar a **100 °C** en su lugar — el comportamiento térmico de la cama a alta temperatura es diferente:
+
+```
+CALIBRATE_PID_BED TEMP=100
+```
+
+El proceso de calibración de la cama dura **15–25 minutos** (más que el hotend por la mayor masa térmica). Esperar a que aparezca la línea `pid_Kp` en la consola antes de guardar:
 
 ```
 SAVE_CONFIG
 ```
+
+> Si se imprime a temperaturas muy diferentes (PLA a 60 °C y ABS a 100 °C frecuentemente), es aceptable calibrar a 80 °C como punto intermedio.
 
 ---
 
@@ -272,7 +280,6 @@ Tras calibrar, la velocidad máxima puede aumentarse hasta 250–300 mm/s depend
 | 9 | Pressure Advance calibrado | ⬜ |
 | 10 | Input Shaping calibrado (opcional — requiere ADXL345) | ⬜ |
 
----
 
 ---
 
