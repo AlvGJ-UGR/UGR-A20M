@@ -46,14 +46,15 @@ Estos pines están físicamente accesibles en la placa pero no están en uso en 
 | Pin MCU | Conector / Pad | Tipo | Uso potencial |
 |---------|---------------|------|---------------|
 | PC15 | EXP / pad libre | GPIO digital | **Sensor de filamento** (ver sección de configuración) |
+| PA8 | FAN2 | PWM 24V | Tercer ventilador — ver sección FAN2 |
 | PA4 | EXP SPI | SPI CS | ADXL345 (acelerómetro Input Shaping) |
 | PA5 | EXP SPI | SPI SCLK | ADXL345 |
 | PA7 | EXP SPI | SPI MOSI | ADXL345 |
 | PA6 | EXP SPI | SPI MISO | ADXL345 |
 | PA2 | UART | TX | Puerto serie auxiliar |
 | PA3 | UART | RX | Puerto serie auxiliar |
-| PC2 | Libre | GPIO | LED de estado, relé, etc. |
-| PC3 | Libre | GPIO | LED de estado, relé, etc. |
+| PC2 | Libre | GPIO 3.3V | LED de estado, relé de 3.3V |
+| PC3 | Libre | GPIO 3.3V | LED de estado, relé de 3.3V |
 
 ---
 
@@ -92,7 +93,16 @@ event_delay: 3.0
 pause_delay: 0.5
 ```
 
-El sensor típico es un microswitch de 3 pines (VCC · GND · SIGNAL). Conectar VCC a 3.3V o 5V del conector EXP, GND a GND y SIGNAL a PC15.
+El sensor típico de filamento es un **microswitch de contacto seco** (NO/NC). Conexión al pin PC15:
+
+```
+Microswitch        SKR Mini E3 V3
+    COM  ─────────  GND (cualquier GND de la placa)
+    NC   ─────────  PC15 (el pull-up interno ^ en switch_pin hace el resto)
+    NO   ─── no conectar
+```
+
+No se necesita alimentación VCC — el pull-up interno del pin PC15 (activado con `^`) mantiene la señal alta cuando el circuito está abierto y la lleva a GND cuando el filamento presiona el microswitch.
 
 ---
 
