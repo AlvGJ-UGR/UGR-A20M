@@ -7,49 +7,51 @@ Versiones siguiendo [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased] — Fase 1 en progreso
 
+### Corregido
+- `docs/fase-1/electronica/01_skr_klipper.md`
+  - Imagen de Armbian especificada exactamente: **Server minimal**, no Desktop (evita confusión y consumo de RAM innecesario)
+  - Aclarado que la compilación de Klipper se hace en la propia Orange Pi, no en un PC externo
+  - Añadida alternativa `make -j1` si la compilación falla por falta de RAM
+  - Checklist: añadida verificación del grupo `dialout` (causa frecuente de fallo de conexión por permisos, no documentada antes)
+  - Checklist: "Klipper no muestra errores" sustituido por instrucción concreta de dónde mirar (pestaña Console/Klippy log en Fluidd)
+- `docs/fase-1/extrusor/02_sharkfin_bmg.md`
+  - Paso 2: añadida verificación del flat del eje del motor NEMA 17 pancake — su ausencia (frecuente en motores baratos) es la causa real de que el engranaje conductor patine sin que sea evidente a simple vista
+  - Procedimiento de calibración: especificado el uso de PLA para la prueba de 100 mm, con nota de que el resultado es válido para todos los materiales
+  - Troubleshooting de sobre/sub-extrusión: añadido el primer paso de diagnóstico (repetir la prueba de 100 mm) antes de recalcular a ciegas; sub-extrusión incluye verificar obstrucción de boquilla antes de tocar `rotation_distance`
+- `firmware/klipper/macros/macros.cfg`
+  - `FILAMENT_RUNOUT`: eliminado `M300` (no existe en Klipper sin buzzer configurado — causaba error silencioso); reemplazado por `action_respond_info`
+  - `CHANGE_FILAMENT`: ahora pasa la temperatura actual del hotend a `UNLOAD_FILAMENT` en lugar de descargar siempre a 200 °C
+  - `NOZZLE_CHANGE`: eliminado el doble `M117` consecutivo (el segundo sobreescribía al primero de inmediato); reemplazado por `action_respond_info` con mensaje completo
+  - `PARK`: corregida la condición de homing de `!= "xyz"` a `"xyz" not in ...` (sintaxis correcta de Jinja2 en Klipper)
+  - `START_PRINT`: añadida comprobación de existencia del perfil mesh `default` antes de cargarlo — evita error de Klipper si aún no se ha generado el mesh
+- `firmware/klipper/config/printer.cfg`
+  - `[bltouch]`: eliminado `z_offset: 0` hardcodeado — Klipper escribe ese valor automáticamente vía `SAVE_CONFIG`; tenerlo a 0 podría hacer que el nozzle chocara con la cama si alguien ejecuta `G28` antes de calibrar
+- `hardware/electronica/pinout_skr_mini_e3_v3.md`
+  - Sección de sensor de filamento: corregida la nota de cableado — los microswitches de contacto seco no necesitan VCC; explicado el papel del pull-up interno `^` del pin PC15
+
 ### Mejorado
-- `docs/guia_calibracion.md` — Paso 9 (PA): corregido el procedimiento de la tuning tower — la macro modifica la impresión en curso, no es una pieza separada; pasos detallados incluyendo cuándo cancelar y cómo medir. Paso 4 (PID cama): añadida recomendación de temperatura 100 °C para usuarios de ABS, duración esperada 15–25 min y aviso de esperar la línea `pid_Kp` en consola. Eliminado el separador `---` duplicado al final
-- `docs/troubleshooting.md` — Tensión de correa unificada a ~50 Hz (era 40–50, inconsistente con `04_guias_lineales.md`). Añadida sección `BLTouch not deployed` con 4 causas concretas: pin incorrecto, tensión insuficiente, estado de error con luz roja, velocidad de homing Z demasiado alta
-- `docs/slicer_settings.md` — Perfil TPU completo con aceleración (500/300 mm/s²). Sección de Input Shaping: sustituido "aparece en el log" por el formato exacto de la línea que muestra Klipper (`suggested max_accel <= XXXX`). Temperatura primera capa ABS 0.6 mm: corregida de 260 °C a 255 °C
-- `firmware/klipper/config/printer.cfg` — Notas de calibración (sección 16): orden corregido (G=nivelar tornillos antes de H=z_offset, alineado con `guia_calibracion.md`); nota de PA con los 5 pasos del procedimiento; nota de IS con mención al valor `suggested max_accel` del log; offset CR-Touch con la fórmula explícita
-
-### Añadido
-- `docs/glosario.md` — Glosario técnico con 40+ definiciones orientado a estudiantes UGR sin experiencia previa en impresión 3D avanzada
-- `docs/materiales.md` — Guía de materiales: cuándo usar cada uno, preparación, adhesión, secado y boquillas; sin duplicar los parámetros del slicer
-- `docs/mantenimiento.md` — Calendario preventivo (antes de imprimir, cada 20 h, 50 h, 200 h, 500 h), consumibles recomendados en stock y log de horas
-- `docs/troubleshooting.md` — Guía centralizada de problemas frecuentes por subsistema con tablas causa→solución
-- `docs/slicer_settings.md` — Perfiles para OrcaSlicer, PrusaSlicer y Cura: PLA, ABS/ASA, PETG, TPU; boquilla 0.6 mm; Bambu Studio
-- `SECURITY.md` — Advertencias de seguridad eléctrica/térmica, seguridad de red para Fluidd y política de reporte de vulnerabilidades
-- `CONTRIBUTING.md` — Flujo de trabajo completo con git (fork web + clone + upstream + rebase), tabla de tipos de commit y convenciones del proyecto
-- `hardware/electronica/pinout_skr_mini_e3_v3.md` — Referencia completa de pines usados y disponibles, UART TMC2209, configuración de ADXL345, sensor de filamento y FAN2
-- `.github/ISSUE_TEMPLATE/bug_report.md` — Template estructurado para reportar errores
-- `.github/ISSUE_TEMPLATE/feature_request.md` — Template para propuestas de mejora
-- `.github/pull_request_template.md` — Template de PR con checklist de convenciones
-
-### Mejorado
-- `docs/index.html` — Página de GitHub Pages con todos los links como URLs absolutas de GitHub, 11 tarjetas de documentación, sección de Recursos externos con 8 tarjetas, nav sticky con backdrop-filter, animaciones de entrada, gradientes radiales, responsive mobile
-- `docs/_config.yml` — Configuración Jekyll completa: title, description, url, baseurl, exclude list
-- `firmware/klipper/config/printer.cfg` — Añadidos `[tmc2209]` para los 4 drivers, `[screws_tilt_adjust]`, `[exclude_object]`, `[gcode_arcs]`, `[filament_switch_sensor]` comentado, `gear_ratio` en extrusor, `kick_start_time` en ventiladores; índice de 16 secciones
-- `firmware/klipper/macros/macros.cfg` — 29 macros en 6 categorías: añadidas `FILAMENT_RUNOUT`, `SET_MATERIAL`, `PREHEAT_TPU`, `PRINT_STATS`, `NOZZLE_CHANGE`, `CALIBRATE_INPUT_SHAPING`; `END_PRINT` con safe_z dinámico; `STATUS` con formato mejorado
-- `firmware/README.md` — Tabla de las 29 macros con parámetros disponibles, instrucciones de instalación paso a paso
-- `hardware/electronica/esquema_conexiones.md` — Reescrito: longitudes de cable para el extrusor, orden de pines JST XH de motores, gestión del segundo conector Bowden libre, advertencia de cama 220V AC, nota sobre calidad del cable USB, checklist pre-encendido expandido
-- `hardware/prints/README.md` — Parámetros ASA completados en todas las piezas de Fase 1 (temperatura, cama, relleno); tabla de parámetros duplicada sustituida por referencia a `slicer_settings.md`
-- `hardware/bom/BOM_fase2.md` — BOM completa Fase 2 con notas de calidad y coste total acumulado
-- `docs/fase-0/00_especificaciones_base.md` — Ampliado con decisiones de diseño: por qué Klipper vs Marlin, por qué SKR Mini E3 V3, por qué Orange Pi Zero 3
-- `docs/fase-1/electronica/01_skr_klipper.md` — Reescrito: Armbian desde cero, WiFi con nmtui, KIAUH, make menuconfig con tabla exacta, flash por SD, verificación post-instalación, troubleshooting de 6 síntomas
-- `docs/fase-1/extrusor/02_sharkfin_bmg.md` — Corregido F300→F150 en calibración; ejemplo numérico de rotation_distance; troubleshooting de 7 síntomas; comparativa Bowden vs direct drive
-- `docs/fase-2/04_guias_lineales.md` — Reescrito: justificación técnica, BOM con links, proceso de instalación con puntos críticos de alineación, notas de calidad para guías de AliExpress, tabla de mejoras esperadas
-- `docs/fase-3/05_documentacion_final.md` — Tabla de benchmarks con metodología, modelos de test con links, comando Pandoc correcto, checklist expandido con estado del firmware
-- `docs/guia_calibracion.md` — Corregido orden de pasos 6 y 7 (nivelar tornillos antes del z_offset); eliminada tabla de troubleshooting duplicada; nota explicando el motivo del orden
-- `README.md` — Badges con colores coherentes y link a GitHub Pages; tabla de specs como comparativa stock vs objetivo; árbol de ficheros completo; tabla de documentación con 17 entradas
-- `LICENSE` — Sustituido texto MIT por **CC BY-SA 4.0** completo con datos del autor y enlace al texto legal
-- `.gitignore` — Ampliado: slicer (gcode, 3mf, prusa), CAD (FreeCAD, Fusion 360), sistema operativo, editores, temporales
-
-### Eliminado (redundancias)
-- Tabla de troubleshooting al final de `guia_calibracion.md` → apunta a `troubleshooting.md`
-- Tablas de parámetros de temperatura/retracción de `materiales.md` → apuntan a `slicer_settings.md`
-- Descripción completa de inversión de `dir_pin` en `troubleshooting.md` → apunta a `guia_calibracion.md`
-- Tabla de parámetros ABS/ASA de `hardware/prints/README.md` → apunta a `slicer_settings.md`
+- `firmware/klipper/config/printer.cfg`
+  - Drivers TMC2209: añadido `interpolate: True` en X/Y/Z e `interpolate: False` en extrusor (sin interpolación en extrusor mejora el control de flujo); comentarios más claros sobre por qué SpreadCycle en Z y E
+- `hardware/electronica/pinout_skr_mini_e3_v3.md`
+  - Pin `PA8` (FAN2) añadido a la tabla de pines disponibles con su tipo correcto (PWM 24V)
+- `docs/materiales.md`
+  - WOOD PLA: boquilla corregida a ≥ 0.5 mm (no 0.4 mm — las partículas de madera obstruyen la boquilla de 0.4 mm)
+  - Typo "structurales" → "estructurales"
+  - Tabla de secado: añadida columna de síntoma de humedad característico por material
+- `docs/glosario.md`
+  - `gear_ratio`: corregida la explicación de la relación 50:17 — la descripción anterior era confusa e incorrecta
+- `hardware/bom/BOM_fase1.md`
+  - Tabla de piezas a imprimir: añadidos pesos estimados por pieza y total (~126 g), especificada la variante `probe-mount left`, notas críticas de impresión por pieza
+- `docs/fase-3/05_documentacion_final.md`
+  - Método de test de velocidad máxima concretado (cubos a velocidades crecientes)
+  - Columna Δ total aclarada con formato de resultado; añadida fila de tiempo de calentamiento
+- `docs/guia_calibracion.md`
+  - Paso 9 (PA): corregido el malentendido — la macro modifica la impresión en curso; procedimiento en 9 pasos con instrucción de cancelar a los 40 mm
+  - Paso 4 (PID cama): temperatura 100 °C para ABS, duración 15–25 min, cómo saber que terminó
+- `docs/troubleshooting.md`
+  - Tensión de correa unificada a ~50 Hz; sección `BLTouch not deployed` con 4 causas
+- `docs/slicer_settings.md`
+  - TPU: añadida aceleración; IS: formato exacto del log de Klipper; ABS 0.6 mm primera capa corregida a 255 °C
 
 ---
 
@@ -63,8 +65,4 @@ Versiones siguiendo [Semantic Versioning](https://semver.org/).
 ## [0.1.0] — 2025-04-10
 
 ### Añadido
-- Creación del repositorio en GitHub
-- README inicial con descripción y objetivos
-- Licencia CC BY-SA 4.0
-- Banner del proyecto
-- Definición inicial de fases
+- Creación del repositorio, README inicial, licencia CC BY-SA 4.0
