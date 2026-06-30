@@ -672,6 +672,8 @@ pre{
   .cmp-table th:nth-child(2),.cmp-table td:nth-child(2){display:none}
   .bom-table th:nth-child(2),.bom-table td:nth-child(2){display:none}
   .ov{grid-template-columns:repeat(2,1fr)}
+}
+
 /* ── LIVE REPO STATS CARD ── */
 .repo-stats{
   display:grid;
@@ -706,6 +708,8 @@ pre{
   margin-right:4px;vertical-align:middle;
   animation:rs-pulse 2s ease-in-out infinite;
 }
+#gh-refresh{transition:transform .3s,color .12s,border-color .12s}
+#gh-refresh:hover{color:var(--tx)!important;border-color:var(--tx3)!important}
 
 /* ── LAST COMMIT STRIP ── */
 .last-commit{
@@ -724,6 +728,52 @@ pre{
 .lc-msg{color:var(--tx2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lc-date{font-family:var(--mono);font-size:11px;color:var(--tx3);flex-shrink:0}
 .lc-author{font-family:var(--mono);font-size:11px;color:var(--tx3);flex-shrink:0}
+
+/* ── COMMIT FEED & ISSUES FEED ── */
+.cf-wrap,.if-wrap{
+  border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;margin-top:1rem;
+}
+.cf-head,.if-head{
+  padding:.45rem .9rem;background:var(--raised);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cf-head a,.if-head a{
+  font-size:10.5px;color:var(--teal);text-decoration:none;transition:color .12s;
+}
+.cf-head a:hover,.if-head a:hover{color:var(--tx)}
+.cf-row{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.5rem .9rem;border-bottom:1px solid var(--line);
+  font-size:12.5px;transition:background .12s;
+}
+.cf-row:last-child{border-bottom:none}
+.cf-row:hover{background:var(--surf)}
+.cf-sha{
+  font-family:var(--mono);font-size:11px;color:var(--teal);
+  flex-shrink:0;text-decoration:none;transition:color .12s;width:50px;
+}
+.cf-sha:hover{color:var(--tx)}
+.cf-msg{flex:1;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cf-meta{font-family:var(--mono);font-size:10.5px;color:var(--tx3);flex-shrink:0}
+.if-row{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.5rem .9rem;border-bottom:1px solid var(--line);
+  font-size:12.5px;transition:background .12s;text-decoration:none;
+}
+.if-row:last-child{border-bottom:none}
+.if-row:hover{background:var(--surf)}
+.if-type{
+  font-family:var(--mono);font-size:9.5px;font-weight:600;
+  padding:2px 6px;border-radius:3px;flex-shrink:0;
+}
+.if-type.issue{background:var(--green-d);color:var(--green)}
+.if-type.pr{background:rgba(74,110,200,.1);color:#6080cc}
+.if-title{flex:1;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.if-date{font-family:var(--mono);font-size:10.5px;color:var(--tx3);flex-shrink:0}
 
 /* ── OPEN ISSUES BADGE ── */
 .issues-badge{
@@ -931,7 +981,11 @@ code.ic{
       <span class="sec-title" style="font-size:.8125rem;font-weight:500;color:var(--tx2)">
         <span class="rs-dot-live"></span>Estado del repositorio — datos en tiempo real
       </span>
-      <span id="gh-updated" style="font-family:var(--mono);font-size:10px;color:var(--tx3)">actualizando…</span>
+      <span style="display:flex;align-items:center;gap:.5rem">
+        <span id="gh-updated" style="font-family:var(--mono);font-size:10px;color:var(--tx3)">actualizando…</span>
+        <button id="gh-refresh" title="Forzar actualización" aria-label="Actualizar datos del repositorio"
+          style="font-family:var(--mono);font-size:10px;color:var(--tx3);background:var(--surf);border:1px solid var(--line-hi);border-radius:3px;padding:1px 7px;cursor:pointer;transition:color .12s,border-color .12s">↻</button>
+      </span>
     </div>
 
     <div class="repo-stats reveal" id="repo-stats">
@@ -976,6 +1030,31 @@ code.ic{
       <span class="lc-msg" id="lc-msg"></span>
       <span class="lc-author" id="lc-author"></span>
       <span class="lc-date" id="lc-date"></span>
+    </div>
+
+    <!-- Live feeds: commits + issues -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:1rem" class="reveal">
+
+      <div id="commit-feed-wrap" style="display:none">
+        <div class="cf-wrap">
+          <div class="cf-head">
+            <span>Últimos commits</span>
+            <a href="https://github.com/AlvGJ-UGR/UGR-A20M/commits/main" target="_blank" rel="noopener">ver todos ↗</a>
+          </div>
+          <div id="commit-feed"></div>
+        </div>
+      </div>
+
+      <div id="issues-feed-wrap" style="display:none">
+        <div class="if-wrap">
+          <div class="if-head">
+            <span>Issues y PRs abiertos</span>
+            <a href="https://github.com/AlvGJ-UGR/UGR-A20M/issues" target="_blank" rel="noopener">ver todos ↗</a>
+          </div>
+          <div id="issues-feed"></div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Key params grid -->
@@ -1881,43 +1960,39 @@ code.ic{
 (function () {
   'use strict';
 
-  var REPO = 'AlvGJ-UGR/UGR-A20M';
-  var API  = 'https://api.github.com/repos/' + REPO;
-  var CACHE_TTL = 5 * 60 * 1000; // 5 min
+  var REPO     = 'AlvGJ-UGR/UGR-A20M';
+  var API      = 'https://api.github.com/repos/' + REPO;
+  var CACHE_TTL = 5 * 60 * 1000;
 
   /* ── helpers ── */
   function el(id) { return document.getElementById(id); }
 
-  function setVal(id, val, sub) {
+  function setVal(id, val) {
     var e = el(id);
     if (!e) return;
     e.textContent = val;
     e.classList.remove('loading');
-    if (sub !== undefined) {
-      var s = el(id + '-sub');
-      if (s) s.textContent = sub;
-    }
   }
 
   function relativeTime(iso) {
     var diff = Math.floor((Date.now() - new Date(iso)) / 1000);
-    if (diff < 60)   return 'hace ' + diff + 's';
-    if (diff < 3600) return 'hace ' + Math.floor(diff/60) + 'min';
-    if (diff < 86400)return 'hace ' + Math.floor(diff/3600) + 'h';
-    if (diff < 2592000) return 'hace ' + Math.floor(diff/86400) + 'd';
-    return new Date(iso).toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' });
+    if (diff < 60)      return 'hace ' + diff + 's';
+    if (diff < 3600)    return 'hace ' + Math.floor(diff / 60) + ' min';
+    if (diff < 86400)   return 'hace ' + Math.floor(diff / 3600) + ' h';
+    if (diff < 2592000) return 'hace ' + Math.floor(diff / 86400) + ' d';
+    return new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
   function fmtSize(kb) {
-    if (kb < 1024) return kb + ' KB';
-    return (kb / 1024).toFixed(1) + ' MB';
+    return kb < 1024 ? kb + ' KB' : (kb / 1024).toFixed(1) + ' MB';
   }
 
   function updateShield(id, label, val, color) {
     var img = el(id);
     if (!img) return;
     var safe = String(val).replace(/-/g, '--').replace(/ /g, '_');
-    img.src = 'https://img.shields.io/badge/' + encodeURIComponent(label) + '-' + encodeURIComponent(safe) + '-' + color + '.svg';
+    img.src = 'https://img.shields.io/badge/' +
+      encodeURIComponent(label) + '-' + encodeURIComponent(safe) + '-' + color + '.svg';
     img.alt = label + ': ' + val;
   }
 
@@ -1929,92 +2004,94 @@ code.ic{
       var obj = JSON.parse(raw);
       if (Date.now() - obj.ts > CACHE_TTL) { sessionStorage.removeItem(key); return null; }
       return obj.data;
-    } catch(e) { return null; }
+    } catch (e) { return null; }
   }
 
   function cacheSet(key, data) {
-    try { sessionStorage.setItem(key, JSON.stringify({ ts: Date.now(), data: data })); } catch(e) {}
+    try { sessionStorage.setItem(key, JSON.stringify({ ts: Date.now(), data: data })); } catch (e) {}
   }
 
-  /* ── fetch wrapper with cache ── */
   function ghFetch(url, cacheKey) {
     var cached = cacheGet(cacheKey);
-    if (cached) return Promise.resolve(cached);
+    if (cached !== null) return Promise.resolve(cached);
     return fetch(url, { headers: { 'Accept': 'application/vnd.github.v3+json' } })
-      .then(function(r) {
+      .then(function (r) {
+        if (r.status === 403 || r.status === 429) {
+          var remaining = r.headers.get('X-RateLimit-Remaining');
+          if (remaining === '0') {
+            var resetHeader = r.headers.get('X-RateLimit-Reset');
+            var resetMsg = resetHeader
+              ? 'disponible de nuevo ' + relativeTime(new Date(parseInt(resetHeader, 10) * 1000).toISOString())
+              : 'inténtalo más tarde';
+            throw new Error('RATE_LIMIT:' + resetMsg);
+          }
+        }
         if (!r.ok) throw new Error('GitHub API ' + r.status);
         return r.json();
       })
-      .then(function(data) {
-        cacheSet(cacheKey, data);
-        return data;
-      });
+      .then(function (data) { cacheSet(cacheKey, data); return data; });
   }
 
-  /* ── main repo data ── */
+  var rateLimited = false;
+  function flagRateLimit(msg) {
+    if (rateLimited) return;
+    rateLimited = true;
+    var upd = el('gh-updated');
+    if (upd) upd.textContent = '⏳ límite de la API de GitHub alcanzado · ' + msg;
+    document.querySelectorAll('.rs-value.loading').forEach(function (e) {
+      e.textContent = '—'; e.classList.remove('loading');
+    });
+  }
+
+  /* ── GitHub API: repo metadata ── */
   function loadRepo() {
-    ghFetch(API, 'gh_repo')
-      .then(function(repo) {
-        /* stars, forks, issues, branch, size, pushed */
-        setVal('rs-stars',    repo.stargazers_count);
-        setVal('rs-forks',    repo.forks_count);
-        setVal('rs-issues',   repo.open_issues_count);
-        setVal('rs-branch',   repo.default_branch);
-        setVal('rs-size',     fmtSize(repo.size));
-        setVal('rs-pushed',   relativeTime(repo.pushed_at));
+    ghFetch(API, 'gh_repo').then(function (repo) {
+      setVal('rs-stars',   repo.stargazers_count);
+      setVal('rs-forks',   repo.forks_count);
+      setVal('rs-issues',  repo.open_issues_count);
+      setVal('rs-branch',  repo.default_branch);
+      setVal('rs-size',    fmtSize(repo.size));
+      setVal('rs-pushed',  relativeTime(repo.pushed_at));
 
-        /* issues badge color */
-        var issuesBadge = el('rs-issues');
-        if (issuesBadge) {
-          issuesBadge.parentElement.querySelector('.rs-label').textContent =
-            'Issues abiertos';
-        }
+      updateShield('sh-issues', 'Issues',
+        repo.open_issues_count,
+        repo.open_issues_count === 0 ? 'brightgreen' : 'yellow');
 
-        /* dynamic shields */
-        updateShield('sh-commits',      'Commits',      '…',                    'lightgrey');
-        updateShield('sh-issues',       'Issues',       repo.open_issues_count, repo.open_issues_count === 0 ? 'brightgreen' : 'yellow');
-        updateShield('sh-contributors', 'Contributors', '…',                    'informational');
-
-        /* updated timestamp */
-        var upd = el('gh-updated');
-        if (upd) upd.textContent = 'actualizado ' + relativeTime(repo.pushed_at);
-      })
-      .catch(function(e) {
-        var upd = el('gh-updated');
-        if (upd) upd.textContent = 'API no disponible';
-        console.warn('GitHub repo API:', e.message);
-      });
+      var upd = el('gh-updated');
+      if (upd) upd.textContent = 'actualizado ' + relativeTime(repo.pushed_at);
+    }).catch(function (e) {
+      if (String(e.message).indexOf('RATE_LIMIT:') === 0) {
+        flagRateLimit(e.message.split('RATE_LIMIT:')[1]);
+        return;
+      }
+      var upd = el('gh-updated');
+      if (upd) upd.textContent = 'API no disponible';
+    });
   }
 
-  /* ── commits count (via /commits?per_page=1 + Link header trick) ── */
+  /* ── GitHub API: total commit count via Link header ── */
   function loadCommits() {
-    /* GitHub doesn't expose total commit count directly.
-       Use /commits?per_page=1 and parse the Link header rel="last" page number. */
     var cached = cacheGet('gh_commits_count');
-    if (cached !== null) {
-      applyCommits(cached);
-      return;
-    }
+    if (cached !== null) { applyCommits(cached); return; }
+
     fetch(API + '/commits?per_page=1', {
       headers: { 'Accept': 'application/vnd.github.v3+json' }
-    }).then(function(r) {
+    }).then(function (r) {
       if (!r.ok) throw new Error('commits ' + r.status);
       var link = r.headers.get('Link') || '';
       var m = link.match(/page=(\d+)>;\s*rel="last"/);
-      var count = m ? parseInt(m[1], 10) : null;
-      if (!count) {
-        /* fallback: count from json array (only first page) */
-        return r.json().then(function(arr) { return arr.length; });
-      }
-      cacheSet('gh_commits_count', count);
-      applyCommits(count);
-      return null;
-    }).then(function(count) {
-      if (count !== null && count !== undefined) {
+      if (m) {
+        var count = parseInt(m[1], 10);
         cacheSet('gh_commits_count', count);
         applyCommits(count);
+      } else {
+        return r.json().then(function (arr) {
+          var count = Array.isArray(arr) ? arr.length : 0;
+          cacheSet('gh_commits_count', count);
+          applyCommits(count);
+        });
       }
-    }).catch(function(e) { console.warn('commits count:', e.message); });
+    }).catch(function (e) { console.warn('commits:', e.message); });
   }
 
   function applyCommits(count) {
@@ -2023,47 +2100,132 @@ code.ic{
     updateShield('sh-commits', 'Commits', count, 'lightgrey');
   }
 
-  /* ── contributors ── */
+  /* ── GitHub API: contributors ── */
   function loadContributors() {
     ghFetch(API + '/contributors?per_page=100&anon=1', 'gh_contributors')
-      .then(function(list) {
+      .then(function (list) {
         var count = Array.isArray(list) ? list.length : '?';
         setVal('rs-contributors', count);
         setVal('foot-contributors', count);
         updateShield('sh-contributors', 'Contributors', count, 'informational');
       })
-      .catch(function(e) { console.warn('contributors:', e.message); });
+      .catch(function (e) { console.warn('contributors:', e.message); });
   }
 
-  /* ── last commit ── */
+  /* ── GitHub API: last commit ── */
   function loadLastCommit() {
     ghFetch(API + '/commits?per_page=1', 'gh_last_commit')
-      .then(function(data) {
+      .then(function (data) {
         var c = Array.isArray(data) ? data[0] : data;
         if (!c) return;
-        var sha     = c.sha.slice(0, 7);
-        var msg     = c.commit.message.split('\n')[0];
-        var date    = relativeTime(c.commit.author.date);
-        var author  = c.commit.author.name;
-        var url     = c.html_url;
-
-        var shaEl = el('lc-sha');
-        if (shaEl) { shaEl.textContent = sha; shaEl.href = url; }
-        var msgEl = el('lc-msg'); if (msgEl) msgEl.textContent = msg;
-        var dateEl = el('lc-date'); if (dateEl) dateEl.textContent = date;
-        var authEl = el('lc-author'); if (authEl) authEl.textContent = author;
-
-        var strip = el('last-commit-strip');
-        if (strip) strip.style.display = 'flex';
+        var shaEl  = el('lc-sha');
+        var msgEl  = el('lc-msg');
+        var dateEl = el('lc-date');
+        var authEl = el('lc-author');
+        var strip  = el('last-commit-strip');
+        if (shaEl)  { shaEl.textContent = c.sha.slice(0, 7); shaEl.href = c.html_url; }
+        if (msgEl)  msgEl.textContent  = c.commit.message.split('\n')[0];
+        if (dateEl) dateEl.textContent = relativeTime(c.commit.author.date);
+        if (authEl) authEl.textContent = c.commit.author.name;
+        if (strip)  strip.style.display = 'flex';
       })
-      .catch(function(e) { console.warn('last commit:', e.message); });
+      .catch(function (e) { console.warn('last commit:', e.message); });
   }
 
-  /* ── kick off all API calls ── */
-  loadRepo();
-  loadCommits();
-  loadContributors();
-  loadLastCommit();
+  /* ── GitHub API: recent commits feed ── */
+  function loadCommitFeed() {
+    ghFetch(API + '/commits?per_page=5', 'gh_commit_feed')
+      .then(function (data) {
+        var feed = el('commit-feed');
+        if (!feed || !Array.isArray(data)) return;
+        feed.innerHTML = '';
+        data.forEach(function (c) {
+          var row = document.createElement('div');
+          row.className = 'cf-row';
+          var sha = c.sha.slice(0, 7);
+          var msg = c.commit.message.split('\n')[0];
+          var date = relativeTime(c.commit.author.date);
+          var author = c.commit.author.name;
+          row.innerHTML =
+            '<a class="cf-sha" href="' + c.html_url + '" target="_blank" rel="noopener">' + sha + '</a>' +
+            '<span class="cf-msg">' + escHtml(msg) + '</span>' +
+            '<span class="cf-meta">' + escHtml(author) + ' · ' + date + '</span>';
+          feed.appendChild(row);
+        });
+        var wrap = el('commit-feed-wrap');
+        if (wrap) wrap.style.display = 'block';
+      })
+      .catch(function (e) { console.warn('commit feed:', e.message); });
+  }
+
+  /* ── GitHub API: open issues/PRs feed ── */
+  function loadIssuesFeed() {
+    ghFetch(API + '/issues?state=open&per_page=5', 'gh_issues_feed')
+      .then(function (data) {
+        var feed = el('issues-feed');
+        if (!feed || !Array.isArray(data)) return;
+        if (data.length === 0) {
+          feed.innerHTML = '<div style="font-size:12.5px;color:var(--tx3);padding:.5rem 0">No hay issues abiertos ✓</div>';
+        } else {
+          feed.innerHTML = '';
+          data.forEach(function (issue) {
+            var row = document.createElement('a');
+            row.className = 'if-row';
+            row.href = issue.html_url;
+            row.target = '_blank';
+            row.rel = 'noopener';
+            var isPR = !!issue.pull_request;
+            row.innerHTML =
+              '<span class="if-type ' + (isPR ? 'pr' : 'issue') + '">' + (isPR ? 'PR' : '#' + issue.number) + '</span>' +
+              '<span class="if-title">' + escHtml(issue.title) + '</span>' +
+              '<span class="if-date">' + relativeTime(issue.created_at) + '</span>';
+            feed.appendChild(row);
+          });
+        }
+        var wrap = el('issues-feed-wrap');
+        if (wrap) wrap.style.display = 'block';
+      })
+      .catch(function (e) { console.warn('issues feed:', e.message); });
+  }
+
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ── load everything ── */
+  function loadAllGhData() {
+    rateLimited = false;
+    loadRepo();
+    loadCommits();
+    loadContributors();
+    loadLastCommit();
+    loadCommitFeed();
+    loadIssuesFeed();
+  }
+
+  function clearGhCache() {
+    ['gh_repo','gh_commits_count','gh_contributors','gh_last_commit','gh_commit_feed','gh_issues_feed']
+      .forEach(function (k) { try { sessionStorage.removeItem(k); } catch (e) {} });
+  }
+
+  loadAllGhData();
+
+  var refreshBtn = el('gh-refresh');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', function () {
+      refreshBtn.style.transform = 'rotate(180deg)';
+      setTimeout(function () { refreshBtn.style.transform = ''; }, 300);
+      document.querySelectorAll('.rs-value').forEach(function (e) { e.classList.add('loading'); e.textContent = '—'; });
+      var upd = el('gh-updated');
+      if (upd) upd.textContent = 'actualizando…';
+      clearGhCache();
+      loadAllGhData();
+    });
+  }
 
   /* ── Scroll reveal ── */
   var revEls = document.querySelectorAll('.reveal');
@@ -2072,7 +2234,7 @@ code.ic{
       if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); }
     });
   }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-  revEls.forEach(function (el) { revObs.observe(el); });
+  revEls.forEach(function (e) { revObs.observe(e); });
 
   /* ── Animate progress bars ── */
   var fills = document.querySelectorAll('.prog-fill[data-width]');
@@ -2084,24 +2246,23 @@ code.ic{
       }
     });
   }, { threshold: 0.1 });
-  fills.forEach(function (el) { fillObs.observe(el); });
+  fills.forEach(function (e) { fillObs.observe(e); });
 
   /* ── Code tabs ── */
   var allCodeTabs   = document.querySelectorAll('.code-tab[data-panel]');
   var allCodePanels = document.querySelectorAll('.code-panel');
   allCodeTabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
-      var panelId = tab.getAttribute('data-panel');
+      var pid = tab.getAttribute('data-panel');
       allCodeTabs.forEach(function (t) { t.classList.remove('on'); t.setAttribute('aria-selected', 'false'); });
       allCodePanels.forEach(function (p) { p.classList.remove('on'); });
-      tab.classList.add('on');
-      tab.setAttribute('aria-selected', 'true');
-      var panel = document.getElementById(panelId);
+      tab.classList.add('on'); tab.setAttribute('aria-selected', 'true');
+      var panel = document.getElementById(pid);
       if (panel) panel.classList.add('on');
     });
   });
 
-  /* ── Copy visible code panel ── */
+  /* ── Copy code ── */
   var copyBtn = el('copy-btn');
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
@@ -2125,11 +2286,10 @@ code.ic{
       var target = btn.getAttribute('data-bom');
       bomTabBtns.forEach(function (b) { b.classList.remove('on'); b.setAttribute('aria-selected', 'false'); });
       bomPanels.forEach(function (p) { p.classList.remove('on'); });
-      btn.classList.add('on');
-      btn.setAttribute('aria-selected', 'true');
+      btn.classList.add('on'); btn.setAttribute('aria-selected', 'true');
       var panel = document.getElementById(target);
       if (panel) panel.classList.add('on');
-      var search = document.getElementById('bom-search');
+      var search = el('bom-search');
       if (search) { search.value = ''; filterBOM(''); }
     });
   });
@@ -2158,7 +2318,7 @@ code.ic{
     bomSearch.addEventListener('input', function () { filterBOM(bomSearch.value.trim().toLowerCase()); });
   }
 
-  /* ── Active nav/sidebar highlight on scroll ── */
+  /* ── Active nav/sidebar ── */
   var sections = document.querySelectorAll('section[id]');
   var sbLinks  = document.querySelectorAll('.sb-link[data-sec]');
   var tbLinks  = document.querySelectorAll('.tb-nav a[data-sec]');
@@ -2185,11 +2345,7 @@ code.ic{
 
   /* ── Back to top ── */
   var bttBtn = el('btt-btn');
-  if (bttBtn) {
-    bttBtn.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+  if (bttBtn) bttBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
   /* ── Mobile drawer ── */
   var menuBtn = el('mob-toggle');
@@ -2205,8 +2361,7 @@ code.ic{
 
   if (menuBtn && drawer) {
     menuBtn.addEventListener('click', function () {
-      var open = drawer.classList.contains('open');
-      if (open) { closeDrawer(); }
+      if (drawer.classList.contains('open')) { closeDrawer(); }
       else {
         drawer.classList.add('open');
         drawer.setAttribute('aria-hidden', 'false');
@@ -2228,169 +2383,6 @@ code.ic{
     if (e.key === 'Escape') {
       if (drawer && drawer.classList.contains('open')) { closeDrawer(); }
       var search = el('bom-search');
-      if (search && document.activeElement === search) { search.blur(); }
-    }
-  });
-
-})();
-</script>
-
-  /* ── Animate progress bars ── */
-  var fills = document.querySelectorAll('.prog-fill[data-width]');
-  var fillObs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) {
-        e.target.style.width = e.target.getAttribute('data-width') + '%';
-        fillObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  fills.forEach(function (el) { fillObs.observe(el); });
-
-  /* ── Code tabs ── */
-  var allCodeTabs   = document.querySelectorAll('.code-tab[data-panel]');
-  var allCodePanels = document.querySelectorAll('.code-panel');
-  allCodeTabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      var panelId = tab.getAttribute('data-panel');
-      allCodeTabs.forEach(function (t) { t.classList.remove('on'); t.setAttribute('aria-selected', 'false'); });
-      allCodePanels.forEach(function (p) { p.classList.remove('on'); });
-      tab.classList.add('on');
-      tab.setAttribute('aria-selected', 'true');
-      var panel = document.getElementById(panelId);
-      if (panel) panel.classList.add('on');
-    });
-  });
-
-  /* ── Copy visible code panel ── */
-  var copyBtn = document.getElementById('copy-btn');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', function () {
-      var active = document.querySelector('.code-panel.on pre');
-      if (!active) return;
-      navigator.clipboard.writeText(active.innerText).then(function () {
-        copyBtn.textContent = '✓ copiado'; copyBtn.classList.add('ok');
-        setTimeout(function () { copyBtn.textContent = 'copiar'; copyBtn.classList.remove('ok'); }, 2000);
-      }).catch(function () {
-        copyBtn.textContent = 'error';
-        setTimeout(function () { copyBtn.textContent = 'copiar'; }, 2000);
-      });
-    });
-  }
-
-  /* ── BOM tabs ── */
-  var bomTabBtns = document.querySelectorAll('.bom-tab[data-bom]');
-  var bomPanels  = document.querySelectorAll('.bom-panel');
-  bomTabBtns.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var target = btn.getAttribute('data-bom');
-      bomTabBtns.forEach(function (b) { b.classList.remove('on'); b.setAttribute('aria-selected', 'false'); });
-      bomPanels.forEach(function (p) { p.classList.remove('on'); });
-      btn.classList.add('on');
-      btn.setAttribute('aria-selected', 'true');
-      var panel = document.getElementById(target);
-      if (panel) panel.classList.add('on');
-      var search = document.getElementById('bom-search');
-      if (search) { search.value = ''; filterBOM(''); }
-    });
-  });
-
-  /* ── BOM filter ── */
-  var bomSearch   = document.getElementById('bom-search');
-  var bomCount    = document.getElementById('bom-count');
-  var bomNoRes    = document.getElementById('bom-no-results');
-  var bomTotalRow = document.getElementById('bom-total-row');
-
-  function filterBOM(q) {
-    var rows = document.querySelectorAll('#bom-body tr:not(.bom-total)');
-    var visible = 0;
-    rows.forEach(function (row) {
-      var name  = (row.getAttribute('data-name') || '').toLowerCase();
-      var match = !q || name.indexOf(q) !== -1;
-      row.classList.toggle('bom-hidden', !match);
-      if (match) visible++;
-    });
-    if (bomCount)    bomCount.textContent = visible + ' componente' + (visible !== 1 ? 's' : '');
-    if (bomTotalRow) bomTotalRow.classList.toggle('bom-hidden', q.length > 0);
-    if (bomNoRes)    bomNoRes.style.display = (visible === 0) ? 'block' : 'none';
-  }
-
-  if (bomSearch) {
-    bomSearch.addEventListener('input', function () { filterBOM(bomSearch.value.trim().toLowerCase()); });
-  }
-
-  /* ── Active nav/sidebar highlight on scroll ── */
-  var sections = document.querySelectorAll('section[id]');
-  var sbLinks  = document.querySelectorAll('.sb-link[data-sec]');
-  var tbLinks  = document.querySelectorAll('.tb-nav a[data-sec]');
-
-  function setActive(secId) {
-    sbLinks.forEach(function (l) { l.classList.toggle('on', l.getAttribute('data-sec') === secId); });
-    tbLinks.forEach(function (l) { l.classList.toggle('on', l.getAttribute('data-sec') === secId); });
-  }
-
-  var raf = null;
-  window.addEventListener('scroll', function () {
-    if (raf) return;
-    raf = requestAnimationFrame(function () {
-      raf = null;
-      var y = window.scrollY + 80;
-      var cur = '';
-      sections.forEach(function (s) { if (s.offsetTop <= y) cur = s.id; });
-      setActive(cur || 'overview');
-
-      /* back-to-top visibility */
-      var btt = document.getElementById('btt-btn');
-      if (btt) btt.classList.toggle('show', window.scrollY > 400);
-    });
-  }, { passive: true });
-  setActive('overview');
-
-  /* ── Back to top ── */
-  var bttBtn = document.getElementById('btt-btn');
-  if (bttBtn) {
-    bttBtn.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  /* ── Mobile drawer ── */
-  var menuBtn = document.getElementById('mob-toggle');
-  var drawer  = document.getElementById('mob-drawer');
-
-  if (menuBtn && drawer) {
-    function closeDrawer() {
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden', 'true');
-      menuBtn.setAttribute('aria-expanded', 'false');
-      menuBtn.textContent = '☰';
-    }
-    menuBtn.addEventListener('click', function () {
-      var open = drawer.classList.contains('open');
-      if (open) { closeDrawer(); }
-      else {
-        drawer.classList.add('open');
-        drawer.setAttribute('aria-hidden', 'false');
-        menuBtn.setAttribute('aria-expanded', 'true');
-        menuBtn.textContent = '✕';
-      }
-    });
-    drawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeDrawer); });
-  }
-
-  /* ── Keyboard shortcuts ── */
-  document.addEventListener('keydown', function (e) {
-    /* k → focus BOM search */
-    if (e.key === 'k' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-      var activeEl = document.activeElement;
-      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) return;
-      var search = document.getElementById('bom-search');
-      if (search) { e.preventDefault(); search.focus(); search.select(); }
-    }
-    /* Escape → close drawer or blur search */
-    if (e.key === 'Escape') {
-      if (drawer && drawer.classList.contains('open')) { closeDrawer(); }
-      var search = document.getElementById('bom-search');
       if (search && document.activeElement === search) { search.blur(); }
     }
   });
