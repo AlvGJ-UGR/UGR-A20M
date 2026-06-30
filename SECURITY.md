@@ -7,6 +7,7 @@ Este proyecto implica manipulación de electrónica de 24V DC y componentes a al
 ### Electricidad
 - **Desconectar siempre** la impresora de la red eléctrica antes de manipular la electrónica, cables o conectores.
 - La fuente de alimentación trabaja a **24V DC** y la cama caliente puede llegar a **200W**. Un cortocircuito puede dañar la placa o iniciar un incendio.
+- La cama consume ~6–8 A, cerca del límite del MOSFET integrado de la SKR Mini E3 V3. **Verificar periódicamente** que el conector HB y el cable de la cama no se calientan de forma anómala durante la impresión — ver [`docs/troubleshooting.md`](docs/troubleshooting.md). Si ocurre, instalar un MOSFET externo de potencia.
 - Verificar la polaridad de todos los conectores antes de alimentar el sistema.
 - No trabajar con la impresora encendida salvo cuando sea estrictamente necesario (como al verificar la dirección de los motores desde Fluidd).
 
