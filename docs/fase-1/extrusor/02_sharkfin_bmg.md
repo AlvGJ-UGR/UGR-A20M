@@ -64,9 +64,10 @@ Hay 5 insertos en el cuerpo Sharkfin: 2 para fijar el motor, 2 para fijar al too
 
 El kit BMG incluye dos engranajes, dos ejes, rodamientos y una tuerca de tensión.
 
-1. Instalar el engranaje **conductor** (el pequeño, con ranura para el filamento) en el eje del motor — usar la llave incluida para fijarlo
-2. Instalar el engranaje **conducido** en su eje con los rodamientos a presión
-3. Verificar que ambos engranajes engranan correctamente antes de continuar
+1. **Antes de montar**, verificar que el eje del motor NEMA 17 pancake tiene un **flat** (cara plana mecanizada). Algunos motores baratos de AliExpress no lo traen de fábrica — sin flat, el tornillo de fijación del engranaje no agarra y el engranaje patina sobre el eje. Si falta el flat, devolver el motor o limarlo manualmente con cuidado
+2. Instalar el engranaje **conductor** (el pequeño, con ranura para el filamento) en el eje del motor, alineando el tornillo prisionero con el flat — usar la llave Allen incluida para fijarlo con firmeza
+3. Instalar el engranaje **conducido** en su eje con los rodamientos a presión
+4. Verificar que ambos engranajes engranan correctamente antes de continuar
 
 ### Paso 3 — Instalar el motor NEMA 17
 
@@ -91,6 +92,8 @@ La `rotation_distance` determina cuánto filamento mueve el extrusor por cada vu
 > Este proceso también está documentado en [`docs/guia_calibracion.md`](../../guia_calibracion.md) — Paso 2.
 
 ### Procedimiento
+
+> Usar **PLA** para esta calibración — es el material más predecible y fácil de marcar con rotulador. Una vez calibrado el `rotation_distance`, es válido para todos los materiales (no depende del tipo de filamento, solo de la geometría del extrusor).
 
 1. Calentar el hotend a 200 °C desde Fluidd
 2. Cargar filamento hasta que salga un hilo continuo por la boquilla
@@ -142,8 +145,8 @@ rotation_distance: 21.54
 | Filamento no entra al extrusor | Arandela M5 omitida o mal alineada | Verificar posición de la arandela; realinear |
 | Extrusor patina (click-click) | Tensión del latch insuficiente | Aumentar tensión del tornillo del latch |
 | Extrusor patina al alta velocidad | `run_current` bajo en TMC2209 | Subir `run_current` en `[tmc2209 extruder]` de 0.65 a 0.70–0.75 |
-| Sobre-extrusión constante | `rotation_distance` demasiado bajo | Recalibrar con el procedimiento anterior |
-| Sub-extrusión constante | `rotation_distance` demasiado alto | Recalibrar con el procedimiento anterior |
+| Sobre-extrusión constante | `rotation_distance` demasiado bajo | Repetir la prueba de 100 mm del procedimiento de calibración; si el error es > 1%, recalcular y actualizar |
+| Sub-extrusión constante | `rotation_distance` demasiado alto | Misma prueba de 100 mm; verificar también que la boquilla no esté parcialmente obstruida (hacer cold pull) antes de tocar `rotation_distance` |
 | Motor extrusor muy caliente (> 60 °C) | `run_current` demasiado alto | Reducir `run_current` a 0.60 |
 | Engranajes ruidan | Engranaje conductor mal fijado al eje del motor, sucio o mal alineado | Verificar que el tornillo de fijación del engranaje conductor está apretado contra el plano del eje (flat); limpiar con aire comprimido; verificar alineación motor-cuerpo |
 
