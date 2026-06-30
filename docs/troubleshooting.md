@@ -92,6 +92,21 @@ Klipper cancela el calentamiento si la temperatura no sube al ritmo esperado. Ca
 
 ---
 
+### Conector HB o cable de la cama se calienta de forma notable
+
+⚠️ **Esto es un riesgo de seguridad eléctrica, no solo de rendimiento.**
+
+La cama de la A20M consume ~6–8 A a 24V, cerca del límite del MOSFET integrado en la SKR Mini E3 V3. Si el conector HB, el cable o el propio conector Molex se calientan apreciablemente (más templado que el resto de la placa) durante una impresión:
+
+1. **Detener la impresión inmediatamente** y dejar enfriar
+2. Verificar que el conector Molex está bien insertado y no hay un mal contacto (resistencia de contacto = calor)
+3. Si el calentamiento persiste tras verificar la conexión, **instalar un MOSFET externo de potencia** entre la PSU y la cama — es la solución recomendada de forma preventiva para cualquier cama de más de 150 W, independientemente de si se ha detectado el problema o no
+4. No continuar usando la cama conectada directamente al HB de la SKR si el calentamiento es claramente perceptible al tacto
+
+Ver advertencia detallada en [`hardware/electronica/esquema_conexiones.md`](../hardware/electronica/esquema_conexiones.md).
+
+---
+
 ## 🔩 Motores y movimiento
 
 ### Motor X/Y/Z se mueve en dirección contraria
