@@ -36,7 +36,7 @@ Sustituir la placa original **GT2560 v3 de 8 bits** y su firmware Marlin por una
 
 1. Descargar la imagen **Armbian** para Orange Pi Zero 3:  
    → [armbian.com/orange-pi-zero3](https://www.armbian.com/orange-pi-zero3/)  
-   Elegir **Armbian Bookworm** (basado en Debian 12) — versión **minimal**.
+   Elegir exactamente: **Armbian Bookworm — Server image — minimal** (sin entorno gráfico). La versión Desktop incluye paquetes innecesarios que consumen RAM sin aportar nada para Klipper headless.
 
 2. Grabar en la microSD con [Balena Etcher](https://etcher.balena.io/) o desde terminal:
    ```bash
@@ -111,6 +111,8 @@ Desde el menú de KIAUH, instalar en este orden:
 
 ### Parte 3 — Compilar y flashear Klipper en la SKR Mini E3 V3
 
+> La compilación se hace **en la propia Orange Pi** (donde ya está instalado Klipper desde la Parte 2), no en un PC externo. El repositorio `~/klipper` ya existe tras la instalación con KIAUH.
+
 #### 3.1 Compilar el firmware
 
 ```bash
@@ -129,11 +131,13 @@ Seleccionar exactamente estas opciones:
     Communication interface        ---> USB (on PA11/PA12)
 ```
 
-Salir y guardar. Compilar:
+Salir y guardar. Compilar (la Orange Pi Zero 3 tiene 4 núcleos):
 
 ```bash
 make -j4
 ```
+
+> Si la compilación falla por falta de memoria (RAM insuficiente con 1 GB), usar `make -j1` — tardará más (~5 min) pero sin riesgo de quedarse sin memoria.
 
 El firmware generado estará en `~/klipper/out/klipper.bin`.
 
@@ -243,8 +247,9 @@ Si Klipper arranca sin errores, aparecerá el dashboard con las temperaturas y c
 
 Completar en orden antes de hacer el primer homing:
 
+- [ ] El usuario de Klipper pertenece al grupo `dialout` (acceso al puerto serie): `groups $USER` debe incluir `dialout`. Si no, ejecutar `sudo usermod -aG dialout $USER` y reiniciar sesión SSH
 - [ ] Fluidd accesible desde el navegador
-- [ ] Klipper no muestra errores en el log (`FIRMWARE_RESTART` si aparece alguno)
+- [ ] Klipper no muestra errores: en Fluidd, pestaña **Console** o **Klippy log** — no debe haber líneas en rojo al arrancar
 - [ ] Temperatura del hotend coherente (~25 °C ambiente) en TH0
 - [ ] Temperatura de la cama coherente (~25 °C ambiente) en THB
 - [ ] `QUERY_ENDSTOPS` → X e Y aparecen como `open`
