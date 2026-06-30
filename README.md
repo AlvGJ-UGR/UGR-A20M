@@ -1,6 +1,7 @@
 # Proyecto UGR-A20M
 
 [![Estado](https://img.shields.io/badge/Estado-Fase_1_en_progreso-f0a500?style=flat-square)](https://github.com/AlvGJ-UGR/UGR-A20M)
+[![Docs](https://img.shields.io/badge/Documentación-Completa-3ecf8e?style=flat-square)](CHANGELOG.md)
 [![Licencia](https://img.shields.io/badge/Licencia-CC_BY--SA_4.0-0ea5e9?style=flat-square)](LICENSE)
 [![UGR](https://img.shields.io/badge/Universidad_de_Granada-2025-e8505b?style=flat-square)](https://www.ugr.es)
 [![Klipper](https://img.shields.io/badge/Firmware-Klipper-3ecf8e?style=flat-square)](https://www.klipper3d.org/)
@@ -29,6 +30,8 @@ Una Geeetech A20M con placa de 8 bits, sistema Bowden y drivers A4988 se transfo
 | **1c** | Toolhead: Mini Stealth v2 + CHC V6 Volcano + CR-Touch | 🟡 En progreso |
 | **2** | Guías lineales MGN12H en X e Y | 🔜 Planificada |
 | **3** | Benchmarks, informe UGR y publicación final | 🔜 Planificada |
+
+> **Documentación vs. montaje físico:** la documentación de la Fase 1 está completa y revisada (config de Klipper, BOM, guías de montaje paso a paso, troubleshooting). El estado "🟡 En progreso" refleja el montaje físico real de la máquina, que avanza de forma independiente. Ver [`CHANGELOG.md`](CHANGELOG.md) para el detalle de qué está listo en cada apartado.
 
 ---
 
