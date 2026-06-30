@@ -124,8 +124,10 @@ BLTOUCH_DEBUG COMMAND=self_test   # test de auto-diagnóstico
 
 | Conector | Dispositivo | Tensión | Potencia | Tipo de conector |
 |----------|------------|---------|---------|-----------------|
-| HE0 | Cartucho calefactor hotend (CHC V6) | 24V | ~40 W | Molex 2 pines |
-| HB | Cama caliente | 24V | ~150–200 W | Molex 2 pines |
+| HE0 | Cartucho calefactor hotend (CHC V6) | 24V | ~40 W (~1.7 A) | Molex 2 pines |
+| HB | Cama caliente | 24V | ~150–200 W (~6.3–8.3 A) | Molex 2 pines |
+
+> ⚠️ **Amperaje de la cama cerca del límite del MOSFET.** El MOSFET de la cama en la SKR Mini E3 V3 soporta hasta ~11 A según la revisión de la placa, pero con la cama original de la A20M (~200W ≈ 8.3 A) el margen es ajustado. Verificar que el conector HB no se calienta tras los primeros minutos de uso continuado; si se calienta de forma notable, instalar un MOSFET externo de potencia entre la PSU y la cama (recomendado para cualquier cama > 150 W de forma preventiva).
 
 > ⚠️ La Geeetech A20M existe en versiones con cama de 24V DC y 220V AC. **Verificar la etiqueta de la cama** antes de conectar. Este proyecto usa exclusivamente la versión de 24V DC. Si la cama es de 220V AC, NO conectar al HB de la SKR — requiere un SSR (Solid State Relay) externo, lo que está fuera del alcance de este proyecto.
 
@@ -153,7 +155,7 @@ Usar los termistores originales de la A20M para la cama. El termistor del CHC V6
 
 La SKR Mini E3 V3 soporta hasta **1 A por pin de ventilador**. Los dos ventiladores 4010 en paralelo consumen 0.30 A en total — dentro del límite.
 
-**Conexión en paralelo de los dos 4010:** conectar ambos ventiladores a un mismo conector JST de 2 pines mediante un cable en Y, o conectar uno al pin FAN1 y extender el cable del segundo desde los mismos pines.
+**Conexión en paralelo de los dos 4010:** el conector FAN1 de la SKR tiene 2 pines (+ y −). Usar un cable en Y con conector JST hembra de 2 pines en el lado de la placa y dos conectores JST macho de 2 pines en el lado de los ventiladores, respetando la polaridad en ambos (+ con +, − con −). No conectar un ventilador al conector FAN1 y "extender" el segundo desde los mismos pines sin un splitter — el contacto directo sobre el pin ya ocupado es poco fiable y puede causar falsos contactos.
 
 ---
 
