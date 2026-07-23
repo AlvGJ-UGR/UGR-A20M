@@ -10,7 +10,7 @@
 
 | # | Componente | Especificación | Enlace | Precio aprox. |
 |---|------------|---------------|--------|--------------|
-| 1 | Placa base | BTT SKR Mini E3 V3.0 (STM32G0B1, 32-bit, TMC2209 integrados) | [AliExpress](https://es.aliexpress.com/item/1005007912548824.html) | ~25 € |
+| 1 | Placa base | BTT SKR Mini E3 V3.0 (STM32G0B1, 32-bit, TMC2209 integrados) | [AliExpress]([https://es.aliexpress.com/item/1005007912548824.html](https://es.aliexpress.com/item/1005003521537547.html?isdl=y&aff_fsk=_DdG0l5v&src=Globerada&aff_platform=aff_feeds&gatewayAdapt=glo2esp&aff_short_key=_DdG0l5v&pdp_npi=4%40dis%21EUR%2132.08%2127.59%21%21%21%21%21%40%2112000057683004771%21afff%21%21%21&dp=globerada_css-6a61e1ff7e486)) | ~25 € |
 | 2 | SBC | Orange Pi Zero 3 — 1 GB RAM (Klipper host) | [AliExpress](https://es.aliexpress.com/item/1005006047845950.html) | ~25 € |
 | 3 | MicroSD | SanDisk 32 GB, mínimo 16 GB, Class 10 | [Amazon ES](https://www.amazon.es/SanDisk-Tarjeta-microSDXC-Adaptador-Rendimiento/dp/B0B7NXBM6P) | ~8 € |
 
